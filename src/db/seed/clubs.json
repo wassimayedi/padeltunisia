@@ -1,0 +1,1118 @@
+[
+  {
+    "slug": "padel-house",
+    "name": "Padel House",
+    "region": "Grand Tunis",
+    "city": "Ariana",
+    "area": null,
+    "address": "676 Avenue Jaafer, Sidi Amor, Ariana",
+    "courts": 3,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 22 383 383"
+    ],
+    "website": "https://ballejaune.com/club/padelhouse",
+    "facebook": "https://www.facebook.com/Padel.House.TN",
+    "instagram": "https://www.instagram.com/padel_house_tunisia/",
+    "openingHours": "Tous les jours 08:00–02:00",
+    "logoUrl": "/clubs/padel-house.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/ariana/clubs/padel-house"
+  },
+  {
+    "slug": "padel-connection",
+    "name": "Padel Connection",
+    "region": "Grand Tunis",
+    "city": "Ariana",
+    "area": "Borj Louzir",
+    "address": "06 Rue Sanhaja, Borj Louzir, Ariana",
+    "courts": 5,
+    "courtTypes": [
+      "indoor",
+      "outdoor"
+    ],
+    "phones": [
+      "+216 29 460 000"
+    ],
+    "website": null,
+    "facebook": "https://www.facebook.com/profile.php?id=61555327124927",
+    "instagram": null,
+    "openingHours": "Tous les jours 06:00–00:00",
+    "logoUrl": "/clubs/padel-connection.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/ariana/clubs/padel-connection"
+  },
+  {
+    "slug": "lob-legends-club",
+    "name": "LOB Legends Club",
+    "region": "Grand Tunis",
+    "city": "Ben Arous",
+    "area": null,
+    "address": "19 Rue Mercure, Ben Arous",
+    "courts": 4,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 24 041 133"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/lob_legends/",
+    "openingHours": "Tous les jours 06:30–02:00",
+    "logoUrl": "/clubs/lob-legends-club.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/ben-arous/clubs/lob-legends-club"
+  },
+  {
+    "slug": "padel-club-sidi-bou",
+    "name": "Padel Club Sidi Bou",
+    "region": "Grand Tunis",
+    "city": "Carthage",
+    "area": "Sidi Bou Saïd",
+    "address": "Av. 14 Janvier, Sidi Bou Saïd, Carthage",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 55 122 765"
+    ],
+    "website": null,
+    "facebook": "https://www.facebook.com/PadelClubSidiBou/",
+    "instagram": "https://www.instagram.com/padelclub_sidibou",
+    "openingHours": "Tous les jours 06:00–00:00",
+    "logoUrl": "/clubs/padel-club-sidi-bou.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/carthage/clubs/padel-club-sidi-bou"
+  },
+  {
+    "slug": "restart-padel",
+    "name": "Restart Padel",
+    "region": "Grand Tunis",
+    "city": "Cebalat Ben Ammar",
+    "area": null,
+    "address": "Jardins d'El Menzah, Cebalat Ben Ammar",
+    "courts": 3,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 25 444 777"
+    ],
+    "website": "https://restartpadel.tn/reserve",
+    "facebook": null,
+    "instagram": null,
+    "openingHours": "Tous les jours 07:30–00:00",
+    "logoUrl": null,
+    "sourceUrl": "https://padelmesh.com/fr/tn/cebalat-ben-ammar/clubs/re-serve-padel"
+  },
+  {
+    "slug": "padel-in-mourouj",
+    "name": "Padel in Mourouj",
+    "region": "Grand Tunis",
+    "city": "El Mourouj",
+    "area": null,
+    "address": "C36, El Mourouj",
+    "courts": 2,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 25 444 423",
+      "+216 22 161 116"
+    ],
+    "website": null,
+    "facebook": "https://www.facebook.com/p/Padel-in-Mourouj-61579937671529/",
+    "instagram": "https://www.instagram.com/padelinmourouj/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": null,
+    "sourceUrl": "https://padelmesh.com/fr/tn/el-mourouj/clubs/padel-in-mourouj"
+  },
+  {
+    "slug": "euphoria-padel-ezzahra",
+    "name": "Euphoria Padel Ezzahra",
+    "region": "Grand Tunis",
+    "city": "Ezzahra",
+    "area": null,
+    "address": "GP1 Km 13, Ezzahra 2034",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 53 847 847"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/euphoriapadelezzahra/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": "/clubs/euphoria-padel-ezzahra.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/ez-zahra/clubs/euphoria-padel-ezzahra"
+  },
+  {
+    "slug": "padel-gammarth-le-club",
+    "name": "Padel Gammarth (Le Club)",
+    "region": "Grand Tunis",
+    "city": "Gammarth",
+    "area": null,
+    "address": "Zone touristique Cap Gammarth, Gammarth 2070",
+    "courts": 5,
+    "courtTypes": [
+      "indoor",
+      "outdoor"
+    ],
+    "phones": [
+      "+216 71 912 212"
+    ],
+    "website": "https://www.leclub.tn/",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padel_gammarth/",
+    "openingHours": "Lun–ven 07:00–22:00 · sam–dim 07:00–20:00",
+    "logoUrl": "/clubs/padel-gammarth-le-club.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/gammarth/clubs/le-club-de-gammarth"
+  },
+  {
+    "slug": "padelite-tunisia",
+    "name": "Padelite Tunisia",
+    "region": "Grand Tunis",
+    "city": "La Goulette",
+    "area": "Lac 3",
+    "address": "48 Rue Sokrat, Zone Lac III, La Goulette 1053",
+    "courts": 3,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 53 600 400"
+    ],
+    "website": null,
+    "facebook": "https://www.facebook.com/people/Padelite-Tunisia/61576730237883/",
+    "instagram": "https://www.instagram.com/padelitetunisia/",
+    "openingHours": "Tous les jours 07:00–00:00",
+    "logoUrl": "/clubs/padelite-tunisia.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/la-goulette/clubs/padelite-tunisia"
+  },
+  {
+    "slug": "padel-marsa",
+    "name": "Padel Marsa",
+    "region": "Grand Tunis",
+    "city": "La Marsa",
+    "area": null,
+    "address": "Site archéologique de Carthage, Marsa 2070",
+    "courts": 4,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 25 239 239",
+      "+216 24 000 050"
+    ],
+    "website": "https://www.padel-marsa.com/",
+    "facebook": "https://www.facebook.com/padelmarsatunisie",
+    "instagram": "https://www.instagram.com/padelmarsa",
+    "openingHours": "Tous les jours 07:00–00:00",
+    "logoUrl": "/clubs/padel-marsa.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/la-marsa/clubs/padel-marsa"
+  },
+  {
+    "slug": "arena-padel-premium",
+    "name": "Arena Padel Premium",
+    "region": "Grand Tunis",
+    "city": "La Soukra",
+    "area": null,
+    "address": "Rue du Parc, 2036 La Soukra",
+    "courts": 5,
+    "courtTypes": [
+      "outdoor",
+      "covered"
+    ],
+    "phones": [
+      "+216 28 588 084",
+      "+216 28 810 818"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/arena_padel_premium/",
+    "openingHours": "Lun–ven 06:00–22:00 · sam 07:00–18:00 · dim 08:00–15:00",
+    "logoUrl": "/clubs/arena-padel-premium.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/la-soukra/clubs/arena-gym-premium"
+  },
+  {
+    "slug": "padel-indoor-la-soukra",
+    "name": "Padel Indoor La Soukra",
+    "region": "Grand Tunis",
+    "city": "La Soukra",
+    "area": null,
+    "address": "Avenue de l'UMA, La Soukra 2036",
+    "courts": 2,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 24 722 000"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padel_indoor_lasoukra/",
+    "openingHours": null,
+    "logoUrl": "/clubs/padel-indoor-la-soukra.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/la-soukra/clubs/padel-indoor-la-soukra"
+  },
+  {
+    "slug": "padel-up-soukra",
+    "name": "Padel Up Soukra",
+    "region": "Grand Tunis",
+    "city": "La Soukra",
+    "area": null,
+    "address": "Avenue 13 Août, La Soukra",
+    "courts": 1,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 94 078 514"
+    ],
+    "website": "https://www.padelup.tn/",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padel.up1969/",
+    "openingHours": "Tous les jours 08:00–21:30",
+    "logoUrl": "/clubs/padel-up-soukra.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/la-soukra/clubs/padel-up-soukra"
+  },
+  {
+    "slug": "padel-megrine",
+    "name": "Padel Megrine",
+    "region": "Grand Tunis",
+    "city": "Mégrine",
+    "area": null,
+    "address": "Rue de Skhira (en face usine Unilever), Mégrine 2033",
+    "courts": 3,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 98 702 060"
+    ],
+    "website": "https://ballejaune.com/club/padelmegrine",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padelmegrine/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": "/clubs/padel-megrine.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/megrine/clubs/padel-megrine"
+  },
+  {
+    "slug": "slim-padel",
+    "name": "Slim Padel",
+    "region": "Grand Tunis",
+    "city": "Tunis",
+    "area": null,
+    "address": "Av. principale, Tunis 1053",
+    "courts": null,
+    "courtTypes": [],
+    "phones": [
+      "+216 23 149 000"
+    ],
+    "website": null,
+    "facebook": "https://www.facebook.com/SlimPadel",
+    "instagram": "https://www.instagram.com/slimpadel/",
+    "openingHours": "Tous les jours 07:30–00:00",
+    "logoUrl": "/clubs/slim-padel.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/tunis/clubs/slim-padel"
+  },
+  {
+    "slug": "padel-club-central",
+    "name": "Padel Club Central",
+    "region": "Grand Tunis",
+    "city": "Tunis",
+    "area": "Charguia 1",
+    "address": "58 Rue de l'Industrie, Charguia 1, Tunis",
+    "courts": 4,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 55 193 612"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padel.club.central/",
+    "openingHours": "Tous les jours 09:30–00:30",
+    "logoUrl": "/clubs/padel-club-central.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/tunis/clubs/padel-club-central"
+  },
+  {
+    "slug": "skypadel",
+    "name": "SkyPadel",
+    "region": "Grand Tunis",
+    "city": "Tunis",
+    "area": "Charguia 1",
+    "address": "Rue de l'Éolienne 571 & 597, Charguia 1, 2035 Cité El Khadra, Tunis",
+    "courts": 5,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 48 352 535"
+    ],
+    "website": "https://skypadel.tn/reserver",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/sky.padel_",
+    "openingHours": "Tous les jours 06:30–00:30",
+    "logoUrl": "/clubs/skypadel.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/tunis/clubs/skypadel"
+  },
+  {
+    "slug": "padel-society",
+    "name": "Padel Society",
+    "region": "Grand Tunis",
+    "city": "Tunis",
+    "area": "Charguia",
+    "address": "7 Rue de l'Artisanat, Tunis 2035",
+    "courts": 10,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 98 707 707"
+    ],
+    "website": "https://www.clubpadelsociety.com/",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padel_society_tunis/",
+    "openingHours": "Tous les jours 08:00–00:00",
+    "logoUrl": "/clubs/padel-society.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/tunis/clubs/padel-society"
+  },
+  {
+    "slug": "padel-olympysky",
+    "name": "Padel Olympysky",
+    "region": "Grand Tunis",
+    "city": "Tunis",
+    "area": "Lac 2",
+    "address": "Boulevard du Lac du Nord, Les Berges du Lac 2, Tunis 1053",
+    "courts": 3,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 29 623 010"
+    ],
+    "website": "https://olympysky.com/",
+    "facebook": null,
+    "instagram": null,
+    "openingHours": "Lun–ven 06:30–22:00 · sam–dim 08:00–16:00",
+    "logoUrl": "/clubs/padel-olympysky.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/tunis/clubs/padel-olympysky"
+  },
+  {
+    "slug": "padel-country-club",
+    "name": "Padel Country Club",
+    "region": "Grand Tunis",
+    "city": "Tunis",
+    "area": "Lac",
+    "address": "300 Rue du Lac Léman, Tunis",
+    "courts": 4,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 20 808 366"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padelcountry_club/",
+    "openingHours": "24h/24 (ven 09:00–17:00)",
+    "logoUrl": "/clubs/padel-country-club.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/tunis/clubs/padel-country-club-tunis"
+  },
+  {
+    "slug": "sassi-padel-sassi-stadium",
+    "name": "Sassi Padel (Sassi Stadium)",
+    "region": "Grand Tunis",
+    "city": "Tunis",
+    "area": "Sidi Hassine",
+    "address": "Sidi Hassine 1095, Tunis",
+    "courts": 3,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 98 289 000"
+    ],
+    "website": "https://sassistadium.com/home/padel?activityId=243071",
+    "facebook": "https://www.facebook.com/Sassi.Stadium",
+    "instagram": "https://www.instagram.com/sassi_stadium/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": "/clubs/sassi-padel-sassi-stadium.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/tunis/clubs/sassi-padel"
+  },
+  {
+    "slug": "just-padel",
+    "name": "Just Padel",
+    "region": "Sfax",
+    "city": "Sfax",
+    "area": "Route de Gabès",
+    "address": "Route de Gabès Km 7, Sfax",
+    "courts": 4,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 51 902 000"
+    ],
+    "website": "https://www.justpadel.tn/",
+    "facebook": "https://www.facebook.com/people/Just-Padel/61567722583260/",
+    "instagram": "https://www.instagram.com/justpadelsfax",
+    "openingHours": "Tous les jours 09:00–00:00",
+    "logoUrl": "/clubs/just-padel.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/sfax/clubs/just-padel-sfax"
+  },
+  {
+    "slug": "le-padel-by-atlas-world-sfax",
+    "name": "Le Padel by Atlas World Sfax",
+    "region": "Sfax",
+    "city": "Sfax",
+    "area": "Route de Gabès",
+    "address": "Km 4 Route de Gabès, Sfax 3052",
+    "courts": 2,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 23 003 004"
+    ],
+    "website": "https://www.atlasworldsfax.com/padelsfax",
+    "facebook": "https://www.facebook.com/padelsfax/",
+    "instagram": "https://www.instagram.com/le_padel_sfax/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": "/clubs/le-padel-by-atlas-world-sfax.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/sfax/clubs/le-padel-sfax"
+  },
+  {
+    "slug": "sfax-padel-indoor",
+    "name": "Sfax Padel Indoor",
+    "region": "Sfax",
+    "city": "Sfax",
+    "area": "Route de Gabès",
+    "address": "Route de Gabès Km 1,5, Sfax 3003",
+    "courts": 4,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 20 445 000"
+    ],
+    "website": "https://ballejaune.com/club/Sfax-padel",
+    "facebook": "https://www.facebook.com/sfax.padel.indoor/",
+    "instagram": "https://www.instagram.com/sfaxpadelindoor/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": "/clubs/sfax-padel-indoor.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/sfax/clubs/sfax-padel-indoor"
+  },
+  {
+    "slug": "vamos-sport",
+    "name": "Vamos Sport",
+    "region": "Sfax",
+    "city": "Sfax",
+    "area": "Route de Teniour",
+    "address": "Route de Teniour Km 8, Sfax",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 98 510 150",
+      "+216 20 388 735"
+    ],
+    "website": "https://www.vamossport.net/",
+    "facebook": "https://www.facebook.com/people/Vamos/61567060381941/",
+    "instagram": "https://www.instagram.com/vamos.sport/",
+    "openingHours": "Lun–ven 08:00–22:00 · sam–dim 08:00–23:00",
+    "logoUrl": "/clubs/vamos-sport.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/sfax/clubs/vamos"
+  },
+  {
+    "slug": "eleven-padel-club",
+    "name": "Eleven Padel Club",
+    "region": "Sfax",
+    "city": "Sfax",
+    "area": "Sakiet Ezzit",
+    "address": "Km 11, Route de Tunis, Sakiet Ezzit, Sfax",
+    "courts": 4,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 24 202 707"
+    ],
+    "website": "https://elevenpadelclub.tn/online-booking/",
+    "facebook": "https://www.facebook.com/p/Eleven-Padel-Club-61572317035244/",
+    "instagram": "https://www.instagram.com/eleven_padel_club/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": "/clubs/eleven-padel-club.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/sfax/clubs/eleven-padel-club"
+  },
+  {
+    "slug": "casa-del-padel-sfax",
+    "name": "Casa Del Padel Sfax",
+    "region": "Sfax",
+    "city": "Sfax",
+    "area": "Sidi Mansour",
+    "address": "Route de Sidi Mansour Km 6, Sfax",
+    "courts": 4,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 58 444 440"
+    ],
+    "website": "https://casadelpadel.tn/",
+    "facebook": "https://www.facebook.com/profile.php?id=61559890747854",
+    "instagram": "https://www.instagram.com/casa_del_padel",
+    "openingHours": "Tous les jours 15:00–23:30",
+    "logoUrl": "/clubs/casa-del-padel-sfax.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/sfax/clubs/casa-del-padel-sfax"
+  },
+  {
+    "slug": "miami-padel-club",
+    "name": "Miami Padel Club",
+    "region": "Sfax",
+    "city": "Sfax",
+    "area": "Sidi Mansour",
+    "address": "Route de Sidi Mansour Km 2, 3061 Sfax",
+    "courts": 3,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 97 794 444"
+    ],
+    "website": null,
+    "facebook": "https://www.facebook.com/p/MIAMI-PADEL-CLUB-61590878284415/",
+    "instagram": "https://www.instagram.com/miami_padel_club/",
+    "openingHours": "Tous les jours 09:00–01:00/01:30",
+    "logoUrl": "/clubs/miami-padel-club.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/sfax/clubs/miami-padel-club"
+  },
+  {
+    "slug": "stars-padel-club",
+    "name": "Stars Padel Club",
+    "region": "Sousse",
+    "city": "Akouda",
+    "area": null,
+    "address": "P1, Akouda, 4022 Sousse",
+    "courts": null,
+    "courtTypes": [],
+    "phones": [
+      "+216 23 684 001"
+    ],
+    "website": "https://ballejaune.com/club/spcsousse",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/stars_padel_club/",
+    "openingHours": "Tous les jours 08:00–00:30",
+    "logoUrl": "/clubs/stars-padel-club.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/akouda/clubs/stars-padel-club"
+  },
+  {
+    "slug": "kantaoui-padel",
+    "name": "Kantaoui Padel",
+    "region": "Sousse",
+    "city": "Hammam Sousse",
+    "area": null,
+    "address": "Hôtel Marhaba Palace, Hammam Sousse 4089",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 51 254 066"
+    ],
+    "website": "https://padup.net/establishment/search/detail?clubName=KANTAOUI%20PADEL&clubId=395550",
+    "facebook": "https://www.facebook.com/kantaouipadel/",
+    "instagram": "https://www.instagram.com/kantaouipadel/",
+    "openingHours": "Tous les jours 07:00–23:00",
+    "logoUrl": "/clubs/kantaoui-padel.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/hammam-sousse/clubs/kantaoui-padel"
+  },
+  {
+    "slug": "padelios-arena",
+    "name": "Padelios Arena",
+    "region": "Sousse",
+    "city": "Hammam Sousse",
+    "area": null,
+    "address": "Rond-point Sidi, Boulevard de l'Environnement, Hammam Sousse 4089",
+    "courts": 4,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 28 225 050"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padeliosarena/",
+    "openingHours": "Tous les jours 06:00–00:00",
+    "logoUrl": "/clubs/padelios-arena.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/hammam-sousse/clubs/padelios-arena"
+  },
+  {
+    "slug": "seabel-padel-tennis-club",
+    "name": "Seabel Padel & Tennis Club",
+    "region": "Sousse",
+    "city": "Hammam Sousse",
+    "area": "El Kantaoui",
+    "address": "Hôtel Seabel Alhambra Beach Golf & Spa, Port El Kantaoui, Hammam Sousse 4089",
+    "courts": 3,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 54 811 800",
+      "+216 92 491 596"
+    ],
+    "website": "https://www.seabelhotels.com/fr/seabel-alhambra-beach-golf-spa/padel-tennis-club/",
+    "facebook": "https://www.facebook.com/p/Seabel-Padel-Club-61556260584962/",
+    "instagram": "https://www.instagram.com/seabel_padel_club/",
+    "openingHours": "Tous les jours 07:00–23:00",
+    "logoUrl": "/clubs/seabel-padel-tennis-club.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/hammam-sousse/clubs/seabel-padel-tennis-club"
+  },
+  {
+    "slug": "padel-club-of-sousse",
+    "name": "Padel Club of Sousse",
+    "region": "Sousse",
+    "city": "Kalaa Kebira",
+    "area": null,
+    "address": "Zaarna Est, Kalaa Kebira 4060",
+    "courts": 4,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 53 536 070"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padelclubofsousse/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": "/clubs/padel-club-of-sousse.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/kalaa-kebira/clubs/padel-club-of-sousse"
+  },
+  {
+    "slug": "padelium-marhaba",
+    "name": "Padelium Marhaba",
+    "region": "Sousse",
+    "city": "Sousse",
+    "area": null,
+    "address": "2011 Av. 14 Janvier, Sousse",
+    "courts": 3,
+    "courtTypes": [
+      "covered"
+    ],
+    "phones": [
+      "+216 51 108 108"
+    ],
+    "website": "http://www.padeliummarhaba.tn/",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padelium_marhaba_sousse/",
+    "openingHours": "Tous les jours 06:30–00:30",
+    "logoUrl": "/clubs/padelium-marhaba.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/sousse/clubs/padelium-marhaba"
+  },
+  {
+    "slug": "padel-x",
+    "name": "Padel X",
+    "region": "Sousse",
+    "city": "Sousse",
+    "area": "Port",
+    "address": "B.P 350 Port, Sousse 4089",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 54 815 715",
+      "+216 97 125 015"
+    ],
+    "website": null,
+    "facebook": "https://www.facebook.com/Padelx.tn",
+    "instagram": "https://www.instagram.com/padelx.tn/",
+    "openingHours": "Tous les jours 08:00–00:00",
+    "logoUrl": "/clubs/padel-x.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/sousse/clubs/padel-x-sousse"
+  },
+  {
+    "slug": "padel-up-monastir",
+    "name": "Padel Up Monastir",
+    "region": "Monastir",
+    "city": "Monastir",
+    "area": "Cité El Agba",
+    "address": "Cité El Agba, Monastir",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 57 185 750"
+    ],
+    "website": "https://padelupmonastir-tn.matchpoint.com.es/PadelUpMonastir/HomePadelUpMonastir.aspx",
+    "facebook": "https://www.facebook.com/people/Padel-Up-Monastir/61566180876767/",
+    "instagram": "https://www.instagram.com/padelupmonastir/",
+    "openingHours": "Tous les jours 05:00–03:00",
+    "logoUrl": "/clubs/padel-up-monastir.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/monastir/clubs/padel-up-monastir"
+  },
+  {
+    "slug": "royal-padel-monastir",
+    "name": "Royal Padel Monastir",
+    "region": "Monastir",
+    "city": "Monastir",
+    "area": "Sahline",
+    "address": "Route de Masjed Aissa, Sahline, Monastir",
+    "courts": 2,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 29 274 040"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/royalpadel.monastir/",
+    "openingHours": "Lun–sam 24h/24 · dim 08:00–00:00",
+    "logoUrl": "/clubs/royal-padel-monastir.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/monastir/clubs/royal-padel-monastir"
+  },
+  {
+    "slug": "el-rulo-padel-club",
+    "name": "El Rulo Padel Club",
+    "region": "Monastir",
+    "city": "Monastir",
+    "area": "Skanès",
+    "address": "Hôtel Neptunia Skanès, Monastir 5000",
+    "courts": 3,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 21 378 999"
+    ],
+    "website": "https://elrulopadel.padup.net/",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/elrulo_padel_club/",
+    "openingHours": "Tous les jours 08:00–01:00",
+    "logoUrl": "/clubs/el-rulo-padel-club.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/monastir/clubs/el-rulo-padel-club"
+  },
+  {
+    "slug": "padel-club-rivage-monastir",
+    "name": "Padel Club Rivage Monastir",
+    "region": "Monastir",
+    "city": "Monastir",
+    "area": "Skanès",
+    "address": "Zone Touristique, Skanès 5000, Monastir",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 58 044 400"
+    ],
+    "website": "https://ballejaune.com/club/padelclubrivage/",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padel_club_rivage/",
+    "openingHours": null,
+    "logoUrl": "/clubs/padel-club-rivage-monastir.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/monastir/clubs/padel-club-rivage-monastir"
+  },
+  {
+    "slug": "b9-padel-club-mahdia",
+    "name": "B9 Padel Club Mahdia",
+    "region": "Mahdia",
+    "city": "Mahdia",
+    "area": null,
+    "address": "Mahdia (Plus Code G274+2FC)",
+    "courts": null,
+    "courtTypes": [],
+    "phones": [
+      "+216 95 036 536",
+      "+216 28 069 999"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/b9_padel_mahdia/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": "/clubs/b9-padel-club-mahdia.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/mahdia/clubs/b9-padel-club-mahdia"
+  },
+  {
+    "slug": "padel-factory",
+    "name": "Padel Factory",
+    "region": "Nabeul / Cap Bon",
+    "city": "Dar Chaabane",
+    "area": null,
+    "address": "Dar Chaabane El Fehri 8011, Nabeul",
+    "courts": 2,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 54 314 314"
+    ],
+    "website": "https://ballejaune.com/club/padelfactory",
+    "facebook": "https://www.facebook.com/profile.php?id=61572865807825",
+    "instagram": null,
+    "openingHours": "Tous les jours 08:00–00:00",
+    "logoUrl": "/clubs/padel-factory.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/dar-chaabane/clubs/padel-factory-dar-chaabane"
+  },
+  {
+    "slug": "mrad-padel-mrads-fitness-park",
+    "name": "Mrad Padel (Mrad's Fitness Park)",
+    "region": "Nabeul / Cap Bon",
+    "city": "Hammamet",
+    "area": null,
+    "address": "Avenue 3 Août 1903, Hammamet",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 22 385 385",
+      "+216 90 152 640"
+    ],
+    "website": null,
+    "facebook": "https://www.facebook.com/p/Mrad-Padel-61575817288911/",
+    "instagram": "https://www.instagram.com/mrad.padel/",
+    "openingHours": "Lun–ven 07:30–22:00 · sam 07:30–20:00 · dim 08:00–13:00",
+    "logoUrl": "/clubs/mrad-padel-mrads-fitness-park.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/hammamet/clubs/mrad-s-fitness-park-mrad-padel"
+  },
+  {
+    "slug": "one-padel-hammamet",
+    "name": "One Padel Hammamet",
+    "region": "Nabeul / Cap Bon",
+    "city": "Hammamet",
+    "area": null,
+    "address": "Bd de l'Environnement, Route Touristique, Hammamet 8050",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 72 322 622"
+    ],
+    "website": "https://openresa.com/club/onepadel/pages/reservation-tarification",
+    "facebook": "https://www.facebook.com/people/ONE-PADEL/61575190812546/",
+    "instagram": "https://www.instagram.com/one.padel.tn/",
+    "openingHours": null,
+    "logoUrl": null,
+    "sourceUrl": "https://padelmesh.com/fr/tn/hammamet/clubs/one-padel"
+  },
+  {
+    "slug": "go-play-padel",
+    "name": "Go Play Padel",
+    "region": "Nabeul / Cap Bon",
+    "city": "Hammamet",
+    "area": "Bir Bou Rekba",
+    "address": "Bir Bou Rekba, Hammamet",
+    "courts": 1,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 22 888 848"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/goplaypadelhammamet/",
+    "openingHours": "24h/24, 7j/7",
+    "logoUrl": "/clubs/go-play-padel.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/hammamet/clubs/go-play-padel"
+  },
+  {
+    "slug": "padel-club-hammamet",
+    "name": "Padel Club Hammamet",
+    "region": "Nabeul / Cap Bon",
+    "city": "Hammamet",
+    "area": "Hammamet Sud",
+    "address": "119 C28, Hammamet Sud",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 20 126 944"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padel_club_hammamet/",
+    "openingHours": "Tous les jours 06:00–00:00",
+    "logoUrl": "/clubs/padel-club-hammamet.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/hammamet/clubs/padel-club-hammamet"
+  },
+  {
+    "slug": "padel-club-kelibia",
+    "name": "Padel Club Kélibia",
+    "region": "Nabeul / Cap Bon",
+    "city": "Kélibia",
+    "area": null,
+    "address": "Avenue Ali Belhouane, Kélibia 8090",
+    "courts": 2,
+    "courtTypes": [
+      "covered"
+    ],
+    "phones": [
+      "+216 26 852 150"
+    ],
+    "website": "http://padelkelibia.com/",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/padelclubkelibia/",
+    "openingHours": "Lun–ven 07:30–00:00 · sam–dim 08:00–00:00",
+    "logoUrl": "/clubs/padel-club-kelibia.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/kelibia/clubs/padel-club-kelibia"
+  },
+  {
+    "slug": "opadel",
+    "name": "O'Padel",
+    "region": "Nabeul / Cap Bon",
+    "city": "Nabeul",
+    "area": null,
+    "address": "Av. du Grand Maghreb, Zone industrielle, 8000 Nabeul",
+    "courts": 2,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 25 291 291"
+    ],
+    "website": "https://openresa.com/club/Opadel",
+    "facebook": null,
+    "instagram": "https://www.instagram.com/opadel.nabeul/",
+    "openingHours": "Tous les jours 09:00–01:00",
+    "logoUrl": "/clubs/opadel.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/nabeul/clubs/o-padel"
+  },
+  {
+    "slug": "bourgo-arena",
+    "name": "Bourgo Arena",
+    "region": "Djerba (Médenine)",
+    "city": "Djerba",
+    "area": "Midoun",
+    "address": "Route Midoun–Houmt Souk, Ouled Amor, Djerba",
+    "courts": 2,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [
+      "+216 29 239 570"
+    ],
+    "website": "https://sportreserve.app/reserver",
+    "facebook": "https://www.facebook.com/profile.php?id=61576659545700",
+    "instagram": "https://www.instagram.com/bourgo_arena_djerba/",
+    "openingHours": "Tous les jours 07:00–23:00",
+    "logoUrl": "/clubs/bourgo-arena.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/djerba/clubs/bourgo-arena"
+  },
+  {
+    "slug": "padel-djerba-country-club",
+    "name": "Padel Djerba Country Club",
+    "region": "Djerba (Médenine)",
+    "city": "Djerba",
+    "area": "Midoun",
+    "address": "Djerba Midoun",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 56 043 536"
+    ],
+    "website": "https://djerbacountryclub.com/",
+    "facebook": null,
+    "instagram": null,
+    "openingHours": "Tous les jours 06:00–02:00",
+    "logoUrl": null,
+    "sourceUrl": "https://padelmesh.com/fr/tn/djerba/clubs/padel-djerba-country-club"
+  },
+  {
+    "slug": "planet-sports-djerba",
+    "name": "Planet Sports Djerba",
+    "region": "Djerba (Médenine)",
+    "city": "Djerba",
+    "area": "Oued Amghar",
+    "address": "Houmet Larbah Erriadh, Oued Amghar, Djerba",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 29 612 809"
+    ],
+    "website": "https://www.planetsportsdjerba.com/reservation",
+    "facebook": "https://www.facebook.com/PSDjerba",
+    "instagram": "https://www.instagram.com/planet_sport_djerba/",
+    "openingHours": "Tous les jours 10:00–00:00",
+    "logoUrl": "/clubs/planet-sports-djerba.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/djerba/clubs/padel-wadez"
+  },
+  {
+    "slug": "club-padel-djerba",
+    "name": "Club Padel Djerba",
+    "region": "Djerba (Médenine)",
+    "city": "Djerba",
+    "area": "Sidi Salem",
+    "address": "Route de la plage Sidi Salem, Djerba 4186",
+    "courts": 2,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 54 000 056"
+    ],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/ClubPadelDjerba",
+    "openingHours": "Tous les jours 07:00–00:00",
+    "logoUrl": "/clubs/club-padel-djerba.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/djerba/clubs/club-padel-djerba"
+  },
+  {
+    "slug": "padel-park-sky",
+    "name": "Padel Park Sky",
+    "region": "Gabès",
+    "city": "Gabès",
+    "area": null,
+    "address": "Rue de la Corniche, Gabès 6000",
+    "courts": 3,
+    "courtTypes": [
+      "outdoor"
+    ],
+    "phones": [
+      "+216 22 070 722"
+    ],
+    "website": null,
+    "facebook": "https://www.facebook.com/Leskycafelounge/",
+    "instagram": "https://www.instagram.com/padel.park.sky/",
+    "openingHours": null,
+    "logoUrl": "/clubs/padel-park-sky.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/gabes/clubs/padel-park-sky"
+  },
+  {
+    "slug": "padel-club-gabes-la-vingtaine",
+    "name": "Padel Club Gabès La Vingtaine",
+    "region": "Gabès",
+    "city": "Gabès",
+    "area": "El Manara",
+    "address": "Avenue Abou Kacem Chebbi, El Manara, Gabès",
+    "courts": 2,
+    "courtTypes": [
+      "indoor"
+    ],
+    "phones": [],
+    "website": null,
+    "facebook": null,
+    "instagram": "https://www.instagram.com/la_vingtaine_padel_club/",
+    "openingHours": "Tous les jours 08:00–22:30",
+    "logoUrl": "/clubs/padel-club-gabes-la-vingtaine.webp",
+    "sourceUrl": "https://padelmesh.com/fr/tn/gabes/clubs/padel-club-gabes-la-vingtaine"
+  }
+]

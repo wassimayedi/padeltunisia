@@ -1,0 +1,73 @@
+# HTTPS is handled by Cloudflare (proxied DNS record); the app serves plain HTTP on port 80.
+# On the server: docker compose up -d --build   (reads POSTGRES_PASSWORD from .env)
+# Local dev, database only: docker compose up -d db
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: padel
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: padeltunisia
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # Loopback only: reachable from this machine (dev, backups), never from the internet.
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U padel -d padeltunisia"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Daily compressed dump into ./backups, 14 days kept. Copy that folder off the server too.
+  backup:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./backups:/backups
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint:
+      - sh
+      - -c
+      - |
+        while true; do
+          f=/backups/padeltunisia-$$(date +%F).sql.gz
+          pg_dump -h db -U padel -d padeltunisia | gzip > "$$f.tmp" && mv "$$f.tmp" "$$f" && echo "backup written: $$f"
+          find /backups -name 'padeltunisia-*.sql.gz' -mtime +14 -delete
+          sleep 86400
+        done
+
+  # Runs pending migrations and seeds missing clubs, then exits.
+  migrate:
+    build:
+      context: .
+      target: build
+    command: ["sh", "-c", "bun scripts/migrate.ts && bun scripts/seed.ts"]
+    environment:
+      DATABASE_URL: postgres://padel:${POSTGRES_PASSWORD}@db:5432/padeltunisia
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      args:
+        VITE_SITE_URL: ${VITE_SITE_URL:-https://padeltunisia.tn}
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://padel:${POSTGRES_PASSWORD}@db:5432/padeltunisia
+    ports:
+      - "80:3000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata:
