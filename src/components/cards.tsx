@@ -28,7 +28,7 @@ export function ClubCard({ club }: { club: ClubSummary }) {
   const kind = courtTypesLabel(club.courtTypes);
   return (
     <Link data-reveal to="/clubs/$slug" params={{ slug: club.slug }} className="group relative flex min-w-0 flex-col overflow-hidden rounded-3xl border bg-card p-5 transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lift">
-      <ClubLogo club={club} className="mb-4 h-16 w-16 rounded-lg border text-xl" />
+      <ClubLogo club={club} className="mb-4 h-16 w-16 rounded-lg text-xl" />
       <h3 className="text-xl font-bold">{club.name}</h3>
       <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="h-4 w-4 shrink-0" />{club.area ? `${club.city} · ${club.area}` : club.city}</p>
       {club.courts != null && (

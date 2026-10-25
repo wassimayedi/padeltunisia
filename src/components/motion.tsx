@@ -46,18 +46,26 @@ export function Reveal({ children, className, as: Tag = "div" }: { children: Rea
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
+      (window as { __motionReady?: boolean }).__motionReady = true;
       ctx = gsap.context(() => {
         const items = el.querySelectorAll("[data-reveal]");
-        gsap.from(items.length ? items : el, {
-          y: 40,
-          autoAlpha: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.08,
-          // Drop GSAP's inline transform/opacity afterwards so CSS hover effects work again.
-          clearProps: "all",
-          scrollTrigger: { trigger: el, start: "top 85%", once: true },
-        });
+        // fromTo, not from: items may start hidden by CSS (html.motion), so the end state
+        // must be explicit rather than read from the current style.
+        gsap.fromTo(
+          items.length ? items : el,
+          { y: 40, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            stagger: 0.08,
+            // Drop GSAP's inline transforms afterwards so CSS hover effects work again;
+            // the inline opacity/visibility stay, overriding the CSS starting state.
+            clearProps: "transform,translate,rotate,scale",
+            scrollTrigger: { trigger: el, start: "top 85%", once: true },
+          },
+        );
       }, el);
     })();
     return () => {
@@ -67,7 +75,7 @@ export function Reveal({ children, className, as: Tag = "div" }: { children: Rea
   }, []);
   return (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    <Tag ref={ref as any} className={className}>
+    <Tag ref={ref as any} className={className} data-reveal-root>
       {children}
     </Tag>
   );

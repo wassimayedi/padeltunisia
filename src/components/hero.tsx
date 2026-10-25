@@ -19,19 +19,17 @@ export function Hero({ stats, cityGroups }: { stats: { clubs: number; courts: nu
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
+      (window as { __motionReady?: boolean }).__motionReady = true;
       ctx = gsap.context(() => {
+        // fromTo: these elements start hidden/scaled by CSS (html.motion) until now.
         const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
-        tl.from("[data-hero-img]", { scale: 1.25, duration: 2.2 })
-          .from("[data-word]", { yPercent: 110, duration: 1.1, stagger: 0.07 }, 0.2)
-          .from("[data-hero-fade]", { y: 24, autoAlpha: 0, duration: 0.9, stagger: 0.1 }, 0.6);
-        // Ball rally across the court
-        gsap.timeline({ repeat: -1, delay: 1 })
-          .to("[data-ball]", { x: "62vw", y: "-18vh", duration: 1.1, ease: "power1.inOut" })
-          .to("[data-ball]", { x: "18vw", y: "8vh", duration: 1.1, ease: "power1.inOut" })
-          .to("[data-ball]", { x: "0vw", y: "0vh", duration: 1.1, ease: "power1.inOut" });
+        tl.fromTo("[data-hero-img]", { scale: 1.25 }, { scale: 1, duration: 2.2 })
+          .fromTo("[data-word]", { yPercent: 110, autoAlpha: 1 }, { yPercent: 0, autoAlpha: 1, duration: 1.1, stagger: 0.07 }, 0.2)
+          .fromTo("[data-hero-fade]", { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.1 }, 0.6);
         gsap.to("[data-hero-img]", { yPercent: 18, ease: "none", scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: true } });
         el.querySelectorAll<HTMLElement>("[data-count]").forEach((n) => {
           const o = { v: 0 };
+          n.textContent = "0";
           gsap.to(o, { v: Number(n.dataset["count"]), duration: 2, delay: 0.8, ease: "power2.out", onUpdate: () => (n.textContent = Math.round(o.v).toString()) });
         });
       }, el);
@@ -49,7 +47,6 @@ export function Hero({ stats, cityGroups }: { stats: { clubs: number; courts: nu
     <section ref={root} className="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden text-court-foreground">
       <img data-hero-img src={court} alt="Terrain de padel bleu entouré de vitres" fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover" />
       <div className="court-overlay absolute inset-0 -z-10" />
-      <span data-ball aria-hidden className="pointer-events-none absolute bottom-[38%] left-[12%] h-5 w-5 rounded-full bg-lime shadow-glow" />
       <div className="mx-auto w-full max-w-6xl px-4 pb-10 pt-28 sm:pb-16">
         {/* <p data-hero-fade className="mb-4 inline-flex items-center gap-2 rounded-full bg-background/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] backdrop-blur">
           <span className="h-2 w-2 rounded-full bg-lime" /> Annuaire n°1 du padel

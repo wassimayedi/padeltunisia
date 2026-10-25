@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Mail, Menu, Phone, X } from "lucide-react";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, SITE_NAME } from "@/lib/site";
+import { CONSENT_REOPEN_EVENT } from "@/lib/consent";
 
 const nav = [
   { to: "/clubs", label: "Clubs" },
@@ -49,7 +50,8 @@ export function SiteHeader() {
   );
 }
 
-export function SiteFooter() {
+/** `analytics`: GA is on, so offer a way to change the consent choice. */
+export function SiteFooter({ analytics = false }: { analytics?: boolean }) {
   return (
     <footer className="mt-24 bg-navy text-primary-foreground">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
@@ -68,6 +70,11 @@ export function SiteFooter() {
           <Link to="/contact" className="text-primary-foreground/80 hover:text-lime">Contact</Link>
           <Link to="/mentions-legales" className="text-primary-foreground/80 hover:text-lime">Mentions légales</Link>
           <Link to="/confidentialite" className="text-primary-foreground/80 hover:text-lime">Confidentialité</Link>
+          {analytics && (
+            <button type="button" onClick={() => window.dispatchEvent(new Event(CONSENT_REOPEN_EVENT))} className="text-left text-primary-foreground/80 hover:text-lime">
+              Gérer les cookies
+            </button>
+          )}
         </nav>
         <div className="grid content-start gap-2 text-sm">
           <p className="mb-1 text-xs font-bold uppercase tracking-wider text-lime">Contact</p>

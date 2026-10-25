@@ -12,8 +12,18 @@ import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { absoluteUrl, CONTACT_EMAIL, CONTACT_PHONE_TEL, SITE_NAME } from "@/lib/site";
+import { getPublicConfig } from "@/functions/config";
+import { gtagBootScript } from "@/lib/consent";
+import { ConsentBanner } from "@/components/consent-banner";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { SmoothScroll } from "@/components/motion";
+
+// Runs before first paint: animated elements start hidden (see styles.css) instead of
+// flashing visible → hidden → animated. If GSAP still hasn't started 3s after the page has
+// fully loaded (blocked or failed script), the class is dropped so content shows anyway.
+// Counting from "load" rather than from now keeps slow networks from tripping it early.
+// Skipped for reduced motion.
+const MOTION_BOOT = `(function(){try{if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;var d=document.documentElement;d.classList.add("motion");addEventListener("load",function(){setTimeout(function(){if(!window.__motionReady)d.classList.remove("motion")},3000)})}catch(e){}})()`;
 
 function NotFoundComponent() {
   return (
@@ -60,7 +70,10 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  loader: () => getPublicConfig(),
+  // Settings don't change between navigations: load once.
+  staleTime: Infinity,
+  head: ({ loaderData }) => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
@@ -85,6 +98,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Manrope:wght@400;500;600;700&display=swap" },
     ],
     scripts: [
+      ...(loaderData?.gaId
+        ? [{ children: gtagBootScript(loaderData.gaId) }, { src: `https://www.googletagmanager.com/gtag/js?id=${loaderData.gaId}`, async: true }]
+        : []),
       {
         type: "application/ld+json",
         children: JSON.stringify([
@@ -110,8 +126,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="fr">
+    // The motion script below adds a class to <html> before hydration.
+    <html lang="fr" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: MOTION_BOOT }} />
         <HeadContent />
       </head>
       <body>
@@ -124,6 +142,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { gaId } = Route.useLoaderData();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -132,7 +151,8 @@ function RootComponent() {
       <main>
         <Outlet />
       </main>
-      <SiteFooter />
+      <SiteFooter analytics={!!gaId} />
+      {gaId && <ConsentBanner />}
     </QueryClientProvider>
   );
 }

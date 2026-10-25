@@ -301,7 +301,8 @@ function ClubPage() {
           </section>
 
           <p className="px-2 text-xs text-muted-foreground">
-            Fiche mise à jour le {updated}. Les informations peuvent changer : vérifiez auprès du club avant de vous déplacer.
+            Fiche mise à jour le {updated}. Les informations peuvent changer : vérifiez auprès du club avant de vous déplacer.{" "}
+            <Link to="/contact" search={{ sujet: "club", club: c.name }} className="font-semibold text-court underline">Signaler une erreur</Link>
           </p>
         </aside>
       </div>

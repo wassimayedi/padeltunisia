@@ -234,7 +234,10 @@ function EventPage() {
             </Link>
           )}
 
-          {e.source && <p className="px-2 text-xs text-muted-foreground">Source : {e.source}. Vérifiez les détails auprès de l'organisateur.</p>}
+          <p className="px-2 text-xs text-muted-foreground">
+            {e.source && <>Source : {e.source}. Vérifiez les détails auprès de l'organisateur.{" "}</>}
+            <Link to="/contact" search={{ sujet: "tournoi", club: e.club?.name ?? "" }} className="font-semibold text-court underline">Signaler une erreur</Link>
+          </p>
         </aside>
       </div>
 

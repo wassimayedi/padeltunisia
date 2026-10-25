@@ -63,6 +63,8 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: postgres://padel:${POSTGRES_PASSWORD}@db:5432/padeltunisia
+      # Google Analytics 4 measurement ID (G-…); read at runtime, leave empty to disable.
+      GA_ID: ${GA_ID:-}
     ports:
       - "80:3000"
     depends_on:

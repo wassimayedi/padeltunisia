@@ -153,3 +153,29 @@ export const magazine = pgTable(
 
 export type MagazineArticle = typeof magazine.$inferSelect;
 export type NewMagazineArticle = typeof magazine.$inferInsert;
+
+export const contactTopic = pgEnum("contact_topic", ["club", "tournoi", "partenariat", "autre"]);
+export const contactStatus = pgEnum("contact_status", ["new", "read", "done"]);
+
+/** Messages sent through the /contact form. Triage them by updating `status`. */
+export const contactMessages = pgTable(
+  "contact_messages",
+  {
+    id: serial("id").primaryKey(),
+    topic: contactTopic("topic").notNull(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone"),
+    /** Club or company the sender writes for. */
+    organization: text("organization"),
+    message: text("message").notNull(),
+    status: contactStatus("status").notNull().default("new"),
+    /** SHA-256 of the sender's IP, only for rate limiting; the IP itself is never stored. */
+    ipHash: text("ip_hash"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("contact_messages_status_idx").on(t.status, t.createdAt), index("contact_messages_ip_hash_idx").on(t.ipHash, t.createdAt)],
+);
+
+export type ContactMessage = typeof contactMessages.$inferSelect;
+export type ContactTopic = (typeof contactTopic.enumValues)[number];

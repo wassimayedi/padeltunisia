@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, stripSearchParams, useNavigate } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { PageHero } from "@/components/site-chrome";
@@ -14,6 +14,8 @@ const schema = z.object({
 
 export const Route = createFileRoute("/clubs/")({
   validateSearch: zodValidator(schema),
+  // Keep empty filters out of the URL: /clubs, not /clubs?q=&city= (which also redirected).
+  search: { middlewares: [stripSearchParams({ q: "", city: "" })] },
   head: () => ({
     meta: [
       { title: "Clubs de padel en Tunisie — Annuaire par ville | PadelTunisia" },

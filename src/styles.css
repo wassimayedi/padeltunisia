@@ -99,6 +99,13 @@
   .marquee { animation: none; }
 }
 
+/* Starting state of GSAP entrances, applied before JS loads (html.motion is set by an
+   inline head script) so server-rendered content doesn't flash before animating in. */
+html.motion [data-reveal-root] [data-reveal],
+html.motion [data-hero-fade],
+html.motion [data-word] { visibility: hidden; }
+html.motion [data-hero-img] { transform: scale(1.25); }
+
 /* Magazine article body (HTML rendered from Markdown on the server). */
 .article-body {
   font-size: 1.125rem;

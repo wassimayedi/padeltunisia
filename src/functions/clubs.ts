@@ -1,7 +1,7 @@
 // Server functions for club data. Handlers run only on the server; the client
 // bundle gets RPC stubs, so the database import never reaches the browser.
 import { createServerFn } from "@tanstack/react-start";
-import { and, asc, count, desc, eq, ne, sql, sum } from "drizzle-orm";
+import { and, asc, count, desc, eq, isNotNull, ne, sql, sum } from "drizzle-orm";
 import { z } from "zod";
 
 import { clubs } from "@/db/schema";
@@ -40,15 +40,17 @@ export const getClubDirectory = createServerFn().handler(async () => {
 });
 
 export const getHomeClubs = createServerFn().handler(async () => {
-  const [featured, [totals], groups] = await Promise.all([
+  const [featured, [totals], groups, logos] = await Promise.all([
     // Largest venues first until clubs can be featured editorially.
     db().select(summary).from(clubs).orderBy(sql`${clubs.courts} desc nulls last`, asc(clubs.name)).limit(6) as Promise<ClubSummary[]>,
     db()
       .select({ clubs: count(), courts: sum(clubs.courts).mapWith(Number), cities: sql<number>`count(distinct ${clubs.city})`.mapWith(Number) })
       .from(clubs),
     cityGroups(),
+    // Clubs with a logo, for the scrolling band.
+    db().select({ slug: clubs.slug, name: clubs.name, logoUrl: clubs.logoUrl }).from(clubs).where(isNotNull(clubs.logoUrl)).orderBy(asc(clubs.name)),
   ]);
-  return { featured, stats: totals!, cityGroups: groups };
+  return { featured, stats: totals!, cityGroups: groups, logos: logos as { slug: string; name: string; logoUrl: string }[] };
 });
 
 export const getClub = createServerFn()

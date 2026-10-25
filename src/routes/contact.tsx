@@ -1,9 +1,21 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, stripSearchParams } from "@tanstack/react-router";
 import { Mail, MessageCircle, Phone } from "lucide-react";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { z } from "zod";
+import { ContactForm } from "@/components/contact-form";
 import { PageHero } from "@/components/site-chrome";
 import { absoluteUrl, CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, SITE_NAME } from "@/lib/site";
 
+// ?sujet=club&club=Padel%20House pre-fills the form (e.g. from "Signaler une erreur" on a club page).
+const search = z.object({
+  sujet: fallback(z.enum(["club", "tournoi", "partenariat", "autre"]), "autre").default("autre"),
+  club: fallback(z.string().max(120), "").default(""),
+});
+
 export const Route = createFileRoute("/contact")({
+  validateSearch: zodValidator(search),
+  // Keep defaults out of the URL: /contact, not /contact?sujet=autre&club=.
+  search: { middlewares: [stripSearchParams({ sujet: "autre", club: "" })] },
   head: () => ({
     meta: [
       { title: `Contact | ${SITE_NAME}` },
@@ -22,6 +34,7 @@ const reasons = [
 ];
 
 function ContactPage() {
+  const { sujet, club } = Route.useSearch();
   const channels = [
     { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL, hint: "E-mail", Icon: Mail },
     { href: `tel:${CONTACT_PHONE_TEL}`, label: CONTACT_PHONE, hint: "Téléphone", Icon: Phone },
@@ -31,14 +44,17 @@ function ContactPage() {
     <>
       <PageHero eyebrow="Contact" title="Nous contacter" intro="Une question, une correction ou un tournoi à annoncer ? Écrivez-nous, on répond rapidement." />
       <div className="mx-auto grid max-w-6xl gap-8 px-4 pt-12 lg:grid-cols-[1fr_380px]">
-        <section className="grid gap-4">
-          {reasons.map((r) => (
-            <div key={r.title} className="rounded-3xl border bg-card p-6">
-              <h2 className="text-lg font-bold">{r.title}</h2>
-              <p className="mt-2 text-muted-foreground">{r.text}</p>
-            </div>
-          ))}
-        </section>
+        <div className="grid gap-6">
+          <ContactForm topic={sujet} organization={club} />
+          <section className="grid gap-4 sm:grid-cols-3">
+            {reasons.map((r) => (
+              <div key={r.title} className="rounded-3xl border bg-card p-5">
+                <h2 className="font-bold leading-snug">{r.title}</h2>
+                <p className="mt-2 text-sm text-muted-foreground">{r.text}</p>
+              </div>
+            ))}
+          </section>
+        </div>
         <aside className="rounded-3xl border bg-card p-6 lg:sticky lg:top-24 lg:self-start">
           <h2 className="text-lg font-bold">Coordonnées</h2>
           <ul className="mt-4 grid gap-2">

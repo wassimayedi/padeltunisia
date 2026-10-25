@@ -48,6 +48,16 @@ docker compose up -d --build
 
 To deploy an update, pull the new code and run the same command again. Database data persists in the `pgdata` volume.
 
+### Contact messages
+
+The `/contact` form stores messages in the `contact_messages` table (status `new` → `read` → `done`). Read them with `npm run db:studio`, or on the server:
+
+```sh
+docker compose exec db psql -U padel -d padeltunisia -c "select id, created_at, topic, name, email, phone, organization, message from contact_messages where status = 'new' order by created_at"
+```
+
+Spam protection: hidden honeypot field, 3-second minimum fill time, and at most 5 messages per hour per IP (stored only as a salted SHA-256 hash). The privacy page promises deletion after 12 months.
+
 ### Backups
 
 The `backup` service writes `backups/padeltunisia-YYYY-MM-DD.sql.gz` every day and keeps 14 days. Copy that folder off the server (e.g. a nightly `rsync` or `rclone` to another machine or cloud storage): a backup on the same disk doesn't survive a lost server.
