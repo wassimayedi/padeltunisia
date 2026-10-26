@@ -87,6 +87,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#13295c" },
       { title: "PadelTunisia — Clubs, tournois et actualités du padel en Tunisie" },
       { name: "description", content: "Annuaire des clubs de padel en Tunisie, actualités, événements et guides." },
+      // Lets Google show large image previews (Discover, results). Child routes that set
+      // their own robots tag (noindex pages) replace this one.
+      { name: "robots", content: "max-image-preview:large" },
       { property: "og:site_name", content: "PadelTunisia" },
       { property: "og:locale", content: "fr_TN" },
       { property: "og:type", content: "website" },
