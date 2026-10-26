@@ -4,7 +4,7 @@ import { PageHero } from "@/components/site-chrome";
 import { EventCard } from "@/components/cards";
 import { getEvents } from "@/functions/events";
 import { eventPlace, monthLabel, type EventSummary } from "@/lib/events";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, pageTitle } from "@/lib/site";
 
 function eventJsonLd(e: EventSummary) {
   return {
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/evenements/")({
   loader: () => getEvents(),
   head: ({ loaderData }) => ({
     meta: [
-      { title: "Tournois de padel 2026 — Tunisie & international | PadelTunisia" },
+      { title: pageTitle("Tournois de padel 2026 — Tunisie & international") },
       { name: "description", content: "Calendrier des tournois de padel : étapes FTT et P25 en Tunisie, circuit FIP, Premier Padel, Coupe du monde. Dates, lieux et niveaux." },
       { property: "og:title", content: "Calendrier des tournois de padel — PadelTunisia" },
       { property: "og:description", content: "Les tournois de padel en Tunisie et les grands rendez-vous internationaux." },

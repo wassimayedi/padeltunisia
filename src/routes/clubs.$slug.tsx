@@ -3,7 +3,7 @@ import { ArrowUpRight, CalendarCheck, ChevronDown, ChevronRight, Clock, Facebook
 import type { Club } from "@/db/schema";
 import { getClub } from "@/functions/clubs";
 import { citySlug, courtTypesLabel, hoursRows, openingHoursSpec } from "@/lib/clubs";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, pageTitle } from "@/lib/site";
 import { Reveal } from "@/components/motion";
 import { ClubCard, ClubLogo, EventCard, NewsCard } from "@/components/cards";
 
@@ -45,7 +45,7 @@ export const Route = createFileRoute("/clubs/$slug")({
     const c = loaderData?.club;
     if (!c) return { meta: [{ title: "Club introuvable | PadelTunisia" }, { name: "robots", content: "noindex" }] };
     const url = absoluteUrl(`/clubs/${params.slug}`);
-    const title = `${c.name} — Padel à ${c.city} : terrains, horaires, réservation | PadelTunisia`;
+    const title = pageTitle(`${c.name} — Padel à ${c.city}`);
     const desc = (c.description ?? summary(c)).slice(0, 158);
     const place = c.lat != null && c.lng != null ? `${c.lat},${c.lng}` : `${c.name}, ${c.address}, Tunisie`;
     const hours = c.openingHours ? openingHoursSpec(c.openingHours) : null;

@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -18,6 +19,9 @@ export default defineConfig(({ command }) => ({
     ],
   },
   plugins: [
+    // Dev only, and must come first: TanStack Devtools + source inspector
+    // (Shift+Alt+Cmd/Ctrl, then click an element to open it in the editor).
+    ...(command === "serve" ? [devtools()] : []),
     tailwindcss(),
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
     tanstackStart({
@@ -30,7 +34,8 @@ export default defineConfig(({ command }) => ({
     }),
     // Nitro produces the deployable server bundle; its preset is auto-detected from the
     // host (Vercel, Netlify, Cloudflare…) or set with NITRO_PRESET, and defaults to Node.
-    ...(command === "build" ? [nitro()] : []),
+    // Pre-compressed JS/CSS (.br/.gz), served as-is: fast even without a CDN in front.
+    ...(command === "build" ? [nitro({ compressPublicAssets: { gzip: true, brotli: true } })] : []),
     viteReact(),
   ],
 }));

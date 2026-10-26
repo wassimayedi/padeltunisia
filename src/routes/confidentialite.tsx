@@ -21,7 +21,7 @@ function PrivacyPage() {
         <h2>En bref</h2>
         <p>
           {SITE_NAME} ne demande ni inscription ni compte, et ne dépose aucun cookie publicitaire. Nous ne vendons ni ne partageons de données personnelles. Seule la
-          mesure d'audience (Google Analytics) utilise des cookies, et uniquement si vous l'acceptez.
+          mesure d'audience (Google Analytics) utilise des cookies.
         </p>
 
         <h2>Données techniques</h2>
@@ -30,14 +30,12 @@ function PrivacyPage() {
           Ils servent uniquement à faire fonctionner le site, à le protéger contre les abus et à corriger les erreurs, et sont conservés pour une durée limitée.
         </p>
 
-        <h2>Mesure d'audience (Google Analytics)</h2>
+        <h2>Mesure d'audience</h2>
         <p>
-          Avec votre accord, nous utilisons Google Analytics 4 pour savoir quelles pages sont consultées, depuis quel type d'appareil et par quel canal les visiteurs
-          arrivent. Ces statistiques servent uniquement à améliorer le site. Les signaux publicitaires sont désactivés.
-        </p>
-        <p>
-          Tant que vous n'avez pas accepté, aucun cookie Google Analytics n'est déposé : Google ne reçoit que des signaux anonymes sans identifiant (« Consent Mode »). Vous
-          pouvez changer d'avis à tout moment via le lien « Gérer les cookies » en bas de chaque page. Votre choix est enregistré dans votre navigateur.
+          Pour connaître la fréquentation du site, nous utilisons Google Analytics 4 : pages consultées, type d'appareil et canal d'arrivée. Ces statistiques servent
+          uniquement à améliorer le site ; les signaux publicitaires sont désactivés. Google Analytics dépose des cookies de mesure (<code>_ga</code>) conservés jusqu'à
+          14 mois. Vous pouvez les bloquer dans les réglages de votre navigateur ou avec le{" "}
+          <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">module de désactivation de Google Analytics</a>.
         </p>
         <p>
           Les données sont traitées par Google Ireland Ltd et peuvent être transférées aux États-Unis ; voir la{" "}

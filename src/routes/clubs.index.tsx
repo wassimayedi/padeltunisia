@@ -6,6 +6,7 @@ import { ClubSearch } from "@/components/club-search";
 import { ClubCard } from "@/components/cards";
 import { getClubDirectory } from "@/functions/clubs";
 import { citySlug, filterClubs, MIN_CLUBS_FOR_CITY_PAGE } from "@/lib/clubs";
+import { absoluteUrl, pageTitle } from "@/lib/site";
 
 const schema = z.object({
   q: fallback(z.string(), "").default(""),
@@ -18,12 +19,12 @@ export const Route = createFileRoute("/clubs/")({
   search: { middlewares: [stripSearchParams({ q: "", city: "" })] },
   head: () => ({
     meta: [
-      { title: "Clubs de padel en Tunisie — Annuaire par ville | PadelTunisia" },
+      { title: pageTitle("Clubs de padel en Tunisie — Annuaire par ville") },
       { name: "description", content: "Plus de 50 clubs de padel en Tunisie : Grand Tunis, Sfax, Sousse, Monastir, Hammamet, Djerba, Gabès… Recherchez par nom ou par ville." },
       { property: "og:title", content: "Clubs de padel en Tunisie" },
       { property: "og:description", content: "L'annuaire complet des clubs de padel tunisiens, par ville." },
     ],
-    links: [{ rel: "canonical", href: "/clubs" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/clubs") }],
   }),
   loader: () => getClubDirectory(),
   // Typing in the search only changes URL params; keep the loaded directory instead of refetching per keystroke.

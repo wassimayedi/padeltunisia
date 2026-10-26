@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import court from "@/assets/padel-court.png";
+import court from "@/assets/padel-court.webp";
+import courtSmall from "@/assets/padel-court-828.webp";
 import { ClubSearch } from "./club-search";
 import type { CityGroup } from "@/lib/clubs";
 
@@ -41,13 +42,13 @@ export function Hero({ stats, cityGroups }: { stats: { clubs: number; courts: nu
   }, []);
 
   const go = (v: { q: string; city: string }) => setS(v);
-  const title = ["Trouvez", "votre", "terrain", "de", "padel", "en", "Tunisie."];
+  const title = ["Découvrez", "votre", "portail", "du", "padel", "en", "Tunisie."];
 
   return (
-    <section ref={root} className="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden text-court-foreground">
-      <img data-hero-img src={court} alt="Terrain de padel bleu entouré de vitres" fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover" />
+    <section ref={root} className="relative isolate flex min-h-[92svh] flex-col justify-center overflow-hidden md:justify-end text-court-foreground">
+      <img data-hero-img src={court} srcSet={`${courtSmall} 828w, ${court} 1672w`} sizes="100vw" alt="Terrain de padel bleu entouré de vitres" fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover" />
       <div className="court-overlay absolute inset-0 -z-10" />
-      <div className="mx-auto w-full max-w-6xl px-4 pb-10 pt-28 sm:pb-16">
+      <div className="mx-auto w-full max-w-6xl px-4 py-12 md:pb-16 md:pt-28">
         {/* <p data-hero-fade className="mb-4 inline-flex items-center gap-2 rounded-full bg-background/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] backdrop-blur">
           <span className="h-2 w-2 rounded-full bg-lime" /> Annuaire n°1 du padel
         </p> */}

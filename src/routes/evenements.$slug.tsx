@@ -3,7 +3,7 @@ import { ArrowUpRight, CalendarCheck, CalendarDays, ChevronRight, Clock, Externa
 import { ClubLogo, EventCard, NewsCard } from "@/components/cards";
 import { getEvent } from "@/functions/events";
 import { circuitName, dateRange, dateRangeLong, durationDays, eventPlace } from "@/lib/events";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, pageTitle } from "@/lib/site";
 
 type EventData = NonNullable<Awaited<ReturnType<typeof getEvent>>>["event"];
 
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/evenements/$slug")({
     if (!e) return { meta: [{ title: "Tournoi introuvable | PadelTunisia" }, { name: "robots", content: "noindex" }] };
     const url = absoluteUrl(`/evenements/${params.slug}`);
     const where = e.club?.name ?? e.venue ?? "lieu à confirmer";
-    const title = `${e.title} — ${dateRange(e.startDate, e.endDate)}, ${where} | PadelTunisia`;
+    const title = pageTitle(`${e.title} — ${dateRange(e.startDate, e.endDate)}`);
     const description = (e.description ?? summary(e)).slice(0, 158);
     const image = e.posterUrl ? absoluteUrl(e.posterUrl) : e.club?.logoUrl ? absoluteUrl(e.club.logoUrl) : undefined;
     return {

@@ -1,5 +1,5 @@
 - Clubs, events, news and magazine articles live in Postgres (Drizzle schema in src/db/schema.ts). Pages load them through server functions in src/functions/ called from route loaders, so they stay SSR-rendered for SEO. Never import src/server/ (DB client) from client code.
-- Schema changes: edit src/db/schema.ts, then `npm run db:generate` and commit the SQL in drizzle/. Migrations run automatically on deploy (the `migrate` compose service).
+- Schema changes: edit src/db/schema.ts, then `npm run db:generate` and commit the SQL in drizzle/. Migrations are not automatic: run `npm run db:migrate` (then `npm run db:seed`) after deploying.
 - Magazine articles are Markdown in the `magazine` table, rendered to HTML on the server (server/magazine.ts). Rows with a future `published_on` stay hidden until that day (scheduled publishing).
 - DB helpers shared by several server functions go in src/server/ (e.g. server/events.ts), not in src/functions/, whose plain exports would reach the client bundle.
 - GSAP/Lenis are dynamically imported inside effects to keep them off the SSR path and initial bundle.

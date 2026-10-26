@@ -41,11 +41,12 @@ export function ClubCard({ club }: { club: ClubSummary }) {
   );
 }
 
-export function ArticleCard({ a }: { a: ArticleSummary }) {
+/** `eager`: the card is above the fold and likely the page's largest paint, so it loads first and skips the reveal animation. */
+export function ArticleCard({ a, eager = false }: { a: ArticleSummary; eager?: boolean }) {
   return (
-    <Link data-reveal to="/articles/$slug" params={{ slug: a.slug }} className="group flex flex-col overflow-hidden rounded-3xl border bg-card transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lift">
+    <Link data-reveal={eager ? undefined : true} to="/articles/$slug" params={{ slug: a.slug }} className="group flex flex-col overflow-hidden rounded-3xl border bg-card transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lift">
       <div className="relative aspect-[1200/630] overflow-hidden bg-court">
-        {a.imageUrl && <img src={a.imageUrl} alt={a.imageAlt ?? ""} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />}
+        {a.imageUrl && <img src={a.imageUrl} alt={a.imageAlt ?? ""} loading={eager ? "eager" : "lazy"} fetchPriority={eager ? "high" : "auto"} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />}
         <span className="absolute left-3 top-3 rounded-full bg-lime px-3 py-1 text-xs font-bold text-navy shadow-sm">{a.category}</span>
       </div>
       <div className="flex flex-1 flex-col p-6">

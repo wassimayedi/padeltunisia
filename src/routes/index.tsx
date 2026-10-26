@@ -7,7 +7,7 @@ import { getHomeClubs } from "@/functions/clubs";
 import { getEvents } from "@/functions/events";
 import { getArticles } from "@/functions/magazine";
 import { getNews } from "@/functions/news";
-import { CONTACT_EMAIL, CONTACT_PHONE_TEL } from "@/lib/site";
+import { absoluteUrl, CONTACT_EMAIL, CONTACT_PHONE_TEL } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "PadelTunisia — Le padel en Tunisie" },
       { property: "og:description", content: "Annuaire des clubs, événements et actualités du padel tunisien et international." },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/") }],
   }),
   loader: async () => {
     const [clubs, upcoming, news, articles] = await Promise.all([

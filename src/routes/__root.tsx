@@ -6,23 +6,30 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  ClientOnly,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { type ReactNode } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import displayFont from "@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2?url";
+import bodyFont from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
 import { absoluteUrl, CONTACT_EMAIL, CONTACT_PHONE_TEL, SITE_NAME } from "@/lib/site";
-import { getPublicConfig } from "@/functions/config";
-import { gtagBootScript } from "@/lib/consent";
-import { ConsentBanner } from "@/components/consent-banner";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { SmoothScroll } from "@/components/motion";
+import { getPublicConfig } from "@/functions/config";
 
 // Runs before first paint: animated elements start hidden (see styles.css) instead of
 // flashing visible → hidden → animated. If GSAP still hasn't started 3s after the page has
 // fully loaded (blocked or failed script), the class is dropped so content shows anyway.
 // Counting from "load" rather than from now keeps slow networks from tripping it early.
 // Skipped for reduced motion.
+// GA4 with no consent banner: audience measurement only, advertising signals off.
+const gtagBoot = (gaId: string) =>
+  `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}` +
+  `gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"granted"});` +
+  `gtag("js",new Date());gtag("config",${JSON.stringify(gaId)});`;
+
 const MOTION_BOOT = `(function(){try{if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;var d=document.documentElement;d.classList.add("motion");addEventListener("load",function(){setTimeout(function(){if(!window.__motionReady)d.classList.remove("motion")},3000)})}catch(e){}})()`;
 
 function NotFoundComponent() {
@@ -93,13 +100,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Manrope:wght@400;500;600;700&display=swap" },
+      // Latin subsets of the self-hosted fonts (see styles.css), fetched alongside the CSS.
+      { rel: "preload", href: displayFont, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+      { rel: "preload", href: bodyFont, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
     ],
     scripts: [
       ...(loaderData?.gaId
-        ? [{ children: gtagBootScript(loaderData.gaId) }, { src: `https://www.googletagmanager.com/gtag/js?id=${loaderData.gaId}`, async: true }]
+        ? [{ children: gtagBoot(loaderData.gaId) }, { src: `https://www.googletagmanager.com/gtag/js?id=${loaderData.gaId}`, async: true }]
         : []),
       {
         type: "application/ld+json",
@@ -140,9 +147,11 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+// Loaded in development only; the import is dropped from production builds.
+const Devtools = import.meta.env.DEV ? lazy(() => import("@/components/devtools")) : null;
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const { gaId } = Route.useLoaderData();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -151,8 +160,14 @@ function RootComponent() {
       <main>
         <Outlet />
       </main>
-      <SiteFooter analytics={!!gaId} />
-      {gaId && <ConsentBanner />}
+      <SiteFooter />
+      {Devtools && (
+        <ClientOnly>
+          <Suspense fallback={null}>
+            <Devtools />
+          </Suspense>
+        </ClientOnly>
+      )}
     </QueryClientProvider>
   );
 }

@@ -42,7 +42,7 @@ function NewsPage() {
       <section className="mx-auto mt-12 max-w-6xl px-4">
         <h2 className="mb-6 text-2xl font-bold sm:text-3xl">Le magazine</h2>
         <Reveal className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((a) => <ArticleCard key={a.slug} a={a} />)}
+          {articles.map((a, i) => <ArticleCard key={a.slug} a={a} eager={i === 0} />)}
         </Reveal>
       </section>
 

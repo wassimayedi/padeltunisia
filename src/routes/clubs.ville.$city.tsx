@@ -4,7 +4,7 @@ import { ClubCard, EventCard } from "@/components/cards";
 import { Reveal } from "@/components/motion";
 import { getCity } from "@/functions/clubs";
 import { citySlug, MIN_CLUBS_FOR_CITY_PAGE } from "@/lib/clubs";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, pageTitle } from "@/lib/site";
 
 type CityData = NonNullable<Awaited<ReturnType<typeof getCity>>>;
 
@@ -51,7 +51,7 @@ export const Route = createFileRoute("/clubs/ville/$city")({
     if (!d) return { meta: [{ title: "Ville introuvable | PadelTunisia" }, { name: "robots", content: "noindex" }] };
     const url = absoluteUrl(`/clubs/ville/${params.city}`);
     const { courts } = stats(d);
-    const title = `Padel à ${d.city} : ${plural(d.clubs.length, "club")}${courts ? `, ${plural(courts, "terrain")}` : ""} | PadelTunisia`;
+    const title = pageTitle(`Padel à ${d.city} : ${plural(d.clubs.length, "club")}${courts ? `, ${plural(courts, "terrain")}` : ""}`);
     const description = `${intro(d)} Adresses, horaires, téléphones et tournois à ${d.city}.`.slice(0, 158);
     return {
       meta: [

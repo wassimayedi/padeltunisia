@@ -4,7 +4,7 @@ import { ArticleCard } from "@/components/cards";
 import { Reveal } from "@/components/motion";
 import { getArticle } from "@/functions/magazine";
 import { articleDate } from "@/lib/magazine";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, pageTitle } from "@/lib/site";
 
 export const Route = createFileRoute("/articles/$slug")({
   loader: async ({ params }) => {
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/articles/$slug")({
     const modified = new Date(a.updatedAt).toISOString();
     return {
       meta: [
-        { title: `${title} | PadelTunisia` },
+        { title: pageTitle(title) },
         { name: "description", content: description },
         { property: "og:type", content: "article" },
         { property: "og:title", content: title },

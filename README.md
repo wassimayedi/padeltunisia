@@ -9,7 +9,7 @@ git clone <this-repository-url>
 cd padeltunisia
 npm install
 cp .env.example .env        # then set a password in both lines
-docker compose up -d db     # Postgres on localhost:5432
+docker compose up -d padeltunisia-db   # Postgres on localhost:5433
 npm run db:migrate          # create tables
 npm run db:seed             # load clubs, events and news
 npm run dev
@@ -38,34 +38,39 @@ The server bundle is produced by [Nitro](https://nitro.build). The deploy target
 
 ### Docker
 
-`docker-compose.yml` runs Postgres, applies migrations and the seed, then serves the app over plain HTTP on port 80. HTTPS is handled by Cloudflare: the domain's DNS record points at the server with the proxy (orange cloud) enabled, and SSL/TLS mode is set to **Flexible**.
+`docker-compose.yml` runs Postgres (`padeltunisia-db`, host port 5433) and serves the app over plain HTTP on port 3006. Cloudflare can't proxy straight to port 3006, so put a reverse proxy on the server (nginx, Caddy, Traefik…) that forwards the domain to `localhost:3006`, or use a Cloudflare Tunnel pointing at `http://localhost:3006`.
 
 On the server, create a `.env` with a strong `POSTGRES_PASSWORD`, then:
 
 ```sh
 docker compose up -d --build
+npm run db:migrate && npm run db:seed   # first deploy, and after any schema change
 ```
 
-To deploy an update, pull the new code and run the same command again. Database data persists in the `pgdata` volume.
+Migrations aren't applied automatically: run `npm run db:migrate` (from the project folder, with `DATABASE_URL` pointing at `localhost:5433`) whenever a deploy adds files in `drizzle/`. To deploy an update, pull the new code and run the same commands again. Database data persists in the `pgdata` volume.
 
 ### Contact messages
 
 The `/contact` form stores messages in the `contact_messages` table (status `new` → `read` → `done`). Read them with `npm run db:studio`, or on the server:
 
 ```sh
-docker compose exec db psql -U padel -d padeltunisia -c "select id, created_at, topic, name, email, phone, organization, message from contact_messages where status = 'new' order by created_at"
+docker compose exec padeltunisia-db psql -U padel -d padeltunisia -c "select id, created_at, topic, name, email, phone, organization, message from contact_messages where status = 'new' order by created_at"
 ```
 
 Spam protection: hidden honeypot field, 3-second minimum fill time, and at most 5 messages per hour per IP (stored only as a salted SHA-256 hash). The privacy page promises deletion after 12 months.
 
 ### Backups
 
-The `backup` service writes `backups/padeltunisia-YYYY-MM-DD.sql.gz` every day and keeps 14 days. Copy that folder off the server (e.g. a nightly `rsync` or `rclone` to another machine or cloud storage): a backup on the same disk doesn't survive a lost server.
+No automatic backups. Take a dump by hand when needed:
+
+```sh
+mkdir -p backups && docker compose exec -T padeltunisia-db pg_dump -U padel -d padeltunisia | gzip > backups/padeltunisia-$(date +%F).sql.gz
+```
 
 Restore a dump:
 
 ```sh
-gunzip -c backups/padeltunisia-2026-10-25.sql.gz | docker compose exec -T db psql -U padel -d padeltunisia
+gunzip -c backups/padeltunisia-2026-10-25.sql.gz | docker compose exec -T padeltunisia-db psql -U padel -d padeltunisia
 ```
 
 ### SEO & caching
