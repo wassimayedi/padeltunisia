@@ -16,6 +16,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Trouvez un club de padel à Tunis, Sousse, Hammamet, Djerba… Actualités, tournois tunisiens et internationaux, guides pour progresser." },
       { property: "og:title", content: "PadelTunisia — Le padel en Tunisie" },
       { property: "og:description", content: "Annuaire des clubs, événements et actualités du padel tunisien et international." },
+      // Bing Webmaster Tools ownership check: keep it, removing it cancels the verification.
+      { name: "msvalidate.01", content: "56A9CACFBC0FEE251ADCFFEDD628EE1D" },
     ],
     links: [{ rel: "canonical", href: absoluteUrl("/") }],
   }),
