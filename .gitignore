@@ -37,3 +37,6 @@ dist-ssr
 
 # Database dumps (manual pg_dump)
 backups/
+
+# Images added by the MCP tools (scripts/mcp), served at /uploads/…; mounted into the app container
+uploads/

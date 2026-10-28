@@ -15,7 +15,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node --env-file-if-exists=.env scripts/migrate.ts",
     "db:seed": "node --env-file-if-exists=.env scripts/seed.ts",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "mcp": "node --env-file-if-exists=.env scripts/mcp/index.ts"
   },
   "overrides": {
     "rolldown": "1.2.1"
@@ -84,6 +85,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
+    "@fontsource/bricolage-grotesque": "5.3.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
     "@tanstack/devtools-vite": "0.8.5",
     "@tanstack/react-devtools": "0.10.13",
     "@tanstack/react-router-devtools": "1.167.2",
@@ -104,6 +107,8 @@
     "jsdom": "^20.0.3",
     "nitro": "3.0.260603-beta",
     "prettier": "^3.7.3",
+    "satori": "0.63.2",
+    "sharp": "0.35.5",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "8.1.5",

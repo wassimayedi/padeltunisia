@@ -32,6 +32,10 @@ services:
       DATABASE_URL: postgres://padel:${POSTGRES_PASSWORD}@padeltunisia-db:5432/padeltunisia
       # Google Analytics 4 measurement ID (G-…); read at runtime, leave empty to disable.
       GA_ID: ${GA_ID:-}
+      UPLOADS_DIR: /app/uploads
+    # Images added by the MCP tools on the host (scripts/mcp), served at /uploads/….
+    volumes:
+      - ./uploads:/app/uploads:ro
     ports:
       - "3006:3000"
     depends_on:

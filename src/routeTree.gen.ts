@@ -22,6 +22,7 @@ import { Route as ClubsIndexRouteImport } from './routes/clubs.index'
 import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
 import { Route as EvenementsIndexRouteImport } from './routes/evenements.index'
 import { Route as EvenementsSlugRouteImport } from './routes/evenements.$slug'
+import { Route as UploadsSplatRouteImport } from './routes/uploads.$'
 import { Route as ClubsVilleCityRouteImport } from './routes/clubs.ville.$city'
 
 const IndexRoute = IndexRouteImport.update({
@@ -89,6 +90,11 @@ const EvenementsSlugRoute = EvenementsSlugRouteImport.update({
   path: '/evenements/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UploadsSplatRoute = UploadsSplatRouteImport.update({
+  id: '/uploads/$',
+  path: '/uploads/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClubsVilleCityRoute = ClubsVilleCityRouteImport.update({
   id: '/clubs/ville/$city',
   path: '/clubs/ville/$city',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
+  '/uploads/$': typeof UploadsSplatRoute
   '/articles/': typeof ArticlesIndexRoute
   '/clubs/': typeof ClubsIndexRoute
   '/evenements/': typeof EvenementsIndexRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
+  '/uploads/$': typeof UploadsSplatRoute
   '/articles': typeof ArticlesIndexRoute
   '/clubs': typeof ClubsIndexRoute
   '/evenements': typeof EvenementsIndexRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
+  '/uploads/$': typeof UploadsSplatRoute
   '/articles/': typeof ArticlesIndexRoute
   '/clubs/': typeof ClubsIndexRoute
   '/evenements/': typeof EvenementsIndexRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/clubs/$slug'
     | '/evenements/$slug'
+    | '/uploads/$'
     | '/articles/'
     | '/clubs/'
     | '/evenements/'
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/clubs/$slug'
     | '/evenements/$slug'
+    | '/uploads/$'
     | '/articles'
     | '/clubs'
     | '/evenements'
@@ -189,6 +200,7 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/clubs/$slug'
     | '/evenements/$slug'
+    | '/uploads/$'
     | '/articles/'
     | '/clubs/'
     | '/evenements/'
@@ -206,6 +218,7 @@ export interface RootRouteChildren {
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   ClubsSlugRoute: typeof ClubsSlugRoute
   EvenementsSlugRoute: typeof EvenementsSlugRoute
+  UploadsSplatRoute: typeof UploadsSplatRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
   ClubsIndexRoute: typeof ClubsIndexRoute
   EvenementsIndexRoute: typeof EvenementsIndexRoute
@@ -305,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EvenementsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/uploads/$': {
+      id: '/uploads/$'
+      path: '/uploads/$'
+      fullPath: '/uploads/$'
+      preLoaderRoute: typeof UploadsSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/clubs/ville/$city': {
       id: '/clubs/ville/$city'
       path: '/clubs/ville/$city'
@@ -326,6 +346,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesSlugRoute: ArticlesSlugRoute,
   ClubsSlugRoute: ClubsSlugRoute,
   EvenementsSlugRoute: EvenementsSlugRoute,
+  UploadsSplatRoute: UploadsSplatRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
   ClubsIndexRoute: ClubsIndexRoute,
   EvenementsIndexRoute: EvenementsIndexRoute,
