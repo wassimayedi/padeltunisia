@@ -7,9 +7,11 @@
 # and CLAUDE_CODE_OAUTH_TOKEN (from `claude setup-token`, so runs use the Claude subscription) in
 # scripts/daily-content/.env.local, which is not committed; see env.example.
 # Crontab example (07:00 Africa/Tunis):
-#   0 7 * * * PATH=$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin /path/to/padeltunisia/scripts/daily-content/run.sh
+#   0 7 * * * /path/to/padeltunisia/scripts/daily-content/run.sh
 set -eu
 cd "$(dirname "$0")/../.."
+# Where the Claude Code installer puts `claude`; cron and fresh shells don't have it in PATH.
+PATH="$HOME/.local/bin:$PATH"
 
 if [ -f scripts/daily-content/.env.local ]; then
   set -a
