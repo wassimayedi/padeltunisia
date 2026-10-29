@@ -1,7 +1,7 @@
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, SITE_NAME } from "@/lib/site";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Mail, Menu, Phone, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const nav = [
   { to: "/clubs", label: "Clubs" },
@@ -10,29 +10,46 @@ const nav = [
   { to: "/guide", label: "Guide du padel" },
 ] as const;
 
-export function Logo() {
+/**
+ * `light`: white letters, for the header over the home page's hero photo. The O is a separate layer
+ * (same 400×64 canvas) so it can drop in like a ball on load and spin on hover (styles.css).
+ */
+export function Logo({ light = false }: { light?: boolean }) {
   return (
-    <Link to="/" className="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight">
-      <img src="/logo.webp" alt="" width={28} height={28} className="h-7 w-7" />
-      <span>Padel<span className="text-court">Tunisia</span></span>
+    <Link to="/" className="group relative flex items-center">
+      <img src={light ? "/connect-letters-white.webp" : "/connect-letters.webp"} alt="Connect" width={150} height={24} className="logo-letters h-6 w-auto" />
+      <img src="/connect-ball.webp" alt="" aria-hidden="true" width={150} height={24} className="logo-ball absolute left-0 h-6 w-auto" />
     </Link>
   );
 }
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const isHome = useRouterState({ select: (s) => s.location.pathname === "/" });
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // On the home page the header overlays the hero (pulled over it by -mb-16) and stays transparent
+  // until the page scrolls or the mobile menu opens.
+  const overHero = isHome && !scrolled && !open;
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-lg">
+    <header className={`sticky top-0 z-50 transition-colors duration-300 ${isHome ? "-mb-16" : ""} ${overHero ? "border-b border-transparent bg-transparent" : "border-b bg-background/80 backdrop-blur-lg"}`}>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Logo />
+        <Logo light={overHero} />
         <nav className="hidden gap-1 md:flex" aria-label="Navigation principale">
           {nav.map((n) => (
-            <Link key={n.to} to={n.to} className="rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground" }}>
+            <Link key={n.to} to={n.to} className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${overHero ? "text-white/85 hover:text-white" : "text-muted-foreground hover:text-foreground"}`} activeProps={{ className: overHero ? "bg-white/15 text-white" : "bg-secondary text-foreground" }}>
               {n.label}
             </Link>
           ))}
         </nav>
-        <button className="grid h-10 w-10 place-items-center rounded-full bg-secondary md:hidden" onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
+        <button className={`grid h-10 w-10 place-items-center rounded-full md:hidden ${overHero ? "bg-white/15 text-white" : "bg-secondary"}`} onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
@@ -54,7 +71,8 @@ export function SiteFooter() {
     <footer className="mt-24 bg-navy text-primary-foreground">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-display text-2xl font-extrabold">Padel<span className="text-lime">Tunisia</span></p>
+          <img src="/connect-white.webp" alt="Connect" width={150} height={24} loading="lazy" className="mb-1 h-6 w-auto" />
+          <p className="font-display text-xl font-extrabold">Padel<span className="text-lime">Tunisia</span></p>
           <p className="mt-3 text-sm text-primary-foreground/70">L'annuaire et le média du padel en Tunisie : clubs, actualités, tournois et guides.</p>
         </div>
         <nav aria-label="Pied de page" className="grid content-start gap-2 text-sm">

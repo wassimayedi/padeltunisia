@@ -98,8 +98,32 @@
 }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
+/* Header logo (Logo in site-chrome.tsx): the O drops in and bounces like a ball while the letters
+   are revealed left to right; on hover the O lifts. 20.72% is the O's centre on the logo canvas. */
+.logo-ball {
+  transform-origin: 20.72% 50%;
+  animation: logo-ball-drop 1.1s cubic-bezier(0.3, 0, 0.3, 1) both;
+  transition: translate 0.25s ease-out, scale 0.25s ease-out;
+}
+.group:hover .logo-ball { translate: 0 -18%; scale: 1.08; }
+@keyframes logo-ball-drop {
+  0% { transform: translateY(-140%); opacity: 0; }
+  15% { opacity: 1; }
+  45% { transform: translateY(0); }
+  62% { transform: translateY(-35%); }
+  78% { transform: translateY(0); }
+  89% { transform: translateY(-10%); }
+  100% { transform: translateY(0); }
+}
+.logo-letters { animation: logo-letters-in 0.7s 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@keyframes logo-letters-in {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee { animation: none; }
+  .logo-ball, .logo-letters { animation: none; transition: none; }
 }
 
 /* Starting state of GSAP entrances, applied before JS loads (html.motion is set by an
