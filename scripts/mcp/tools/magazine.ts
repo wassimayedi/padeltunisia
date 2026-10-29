@@ -51,10 +51,12 @@ export const magazineTools = [
       publishedOn: day,
     },
     handler: async (article) => {
-      // The cover is written only once the row is in, so a duplicate slug leaves no stray file.
+      // The cover is written before the row, so a failed write never leaves an article pointing to a
+      // missing file (on a duplicate slug it stays as an unused file, which is harmless).
       const cover = article.imageUrl
         ? null
         : await toWebp(await renderCover(article), "magazine", article.slug);
+      if (cover) await saveImage(cover);
       const [row] = await db
         .insert(magazine)
         .values(
@@ -73,7 +75,6 @@ export const magazineTools = [
           publishedOn: magazine.publishedOn,
         });
       if (!row) return fail(`An article with slug "${article.slug}" already exists`);
-      if (cover) await saveImage(cover);
       return reply({ ...row, page: `${siteUrl}/articles/${row.slug}` });
     },
   }),

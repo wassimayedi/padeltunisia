@@ -20,7 +20,15 @@ export const Route = createFileRoute("/uploads/$")({
             },
           });
         } catch {
-          return new Response("Not found", { status: 404 });
+          // A row pointing to a file that was never saved shows the default image instead of a
+          // broken one; cached briefly so the real file takes over once it is there.
+          return new Response(null, {
+            status: 302,
+            headers: {
+              location: "/og-default.png",
+              "cache-control": "public, max-age=300",
+            },
+          });
         }
       },
     },

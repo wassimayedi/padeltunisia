@@ -1,5 +1,7 @@
 # The app serves plain HTTP on port 3006; put a reverse proxy (or Cloudflare Tunnel) in front for HTTPS.
 # On the server: docker compose up -d --build   (reads POSTGRES_PASSWORD from .env)
+# Run `mkdir -p uploads` first: if it is missing, Docker creates it owned by root and the daily
+# content job (scripts/daily-content, run as your user) can't save images into it.
 # Migrations and seed are run by hand: npm run db:migrate && npm run db:seed
 # Local dev, database only: docker compose up -d padeltunisia-db
 services:

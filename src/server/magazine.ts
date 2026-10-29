@@ -9,6 +9,9 @@ import { db } from "@/server/db";
 // Articles with a future publication date stay hidden until that day.
 const isPublished = lte(magazine.publishedOn, sql`current_date`);
 
+// Shown (cards, article page, og:image) for articles saved without a cover.
+const defaultImage = "/og-default.png";
+
 const summaryColumns = {
   slug: magazine.slug,
   title: magazine.title,
@@ -22,6 +25,7 @@ const summaryColumns = {
 
 const toSummary = ({ content, ...a }: { content: string } & Omit<ArticleSummary, "readingMinutes">): ArticleSummary => ({
   ...a,
+  imageUrl: a.imageUrl ?? defaultImage,
   readingMinutes: readingMinutes(content),
 });
 
@@ -46,5 +50,5 @@ export async function publishedArticle(slug: string) {
   const [article] = await db().select().from(magazine).where(and(eq(magazine.slug, slug), isPublished)).limit(1);
   if (!article) return null;
   const { content, ...rest } = article;
-  return { ...rest, html: render(content), readingMinutes: readingMinutes(content) };
+  return { ...rest, imageUrl: rest.imageUrl ?? defaultImage, html: render(content), readingMinutes: readingMinutes(content) };
 }
