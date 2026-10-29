@@ -45,4 +45,4 @@ mcp=mcp__padeltunisia
 # Events first, so news and the article can link to them.
 task events "${mcp}__find_events,${mcp}__find_clubs,${mcp}__save_image,${mcp}__add_event"
 task news "${mcp}__recent_news,${mcp}__find_events,${mcp}__find_clubs,${mcp}__save_image,${mcp}__add_news"
-task magazine "${mcp}__recent_articles,${mcp}__recent_news,${mcp}__find_events,${mcp}__add_magazine_article"
+task magazine "${mcp}__recent_articles,${mcp}__recent_news,${mcp}__find_events,${mcp}__find_clubs,${mcp}__add_magazine_article"
