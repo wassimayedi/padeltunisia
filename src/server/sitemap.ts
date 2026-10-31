@@ -22,6 +22,7 @@ export async function sitemapXml() {
   const entries: Entry[] = [
     { path: "/", lastmod: newest([...clubRows, ...eventRows]) },
     { path: "/clubs", lastmod: newest(clubRows) },
+    { path: "/terrains" },
     { path: "/evenements", lastmod: newest(eventRows) },
     { path: "/articles", lastmod: articleRows.map((a) => a.publishedOn).sort().at(-1) },
     { path: "/guide" },

@@ -1,14 +1,15 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import court from "@/assets/padel-court.webp";
 import courtSmall from "@/assets/padel-court-828.webp";
-import { ClubSearch } from "./club-search";
+import { FreeCourtSearch } from "./free-court-search";
 import type { CityGroup } from "@/lib/clubs";
 
-export function Hero({ stats, cityGroups }: { stats: { clubs: number; courts: number; cities: number }; cityGroups: CityGroup[] }) {
+export function Hero({ stats, freeCourtCities }: { stats: { clubs: number; courts: number; cities: number }; freeCourtCities: CityGroup[] }) {
   const root = useRef<HTMLElement>(null);
   const navigate = useNavigate();
-  const [s, setS] = useState({ q: "", city: "" });
+  // The search finds clubs with a free court at a given day and time; the directory is one click away.
+  const [slot, setSlot] = useState({ day: 0, time: "19:00", city: "" });
 
   useEffect(() => {
     const el = root.current;
@@ -41,7 +42,6 @@ export function Hero({ stats, cityGroups }: { stats: { clubs: number; courts: nu
     };
   }, []);
 
-  const go = (v: { q: string; city: string }) => setS(v);
   const title = ["Découvrez", "votre", "portail", "du", "padel", "en", "Tunisie."];
 
   return (
@@ -67,10 +67,15 @@ export function Hero({ stats, cityGroups }: { stats: { clubs: number; courts: nu
           Clubs, tournois, actualités et guides : tout le padel tunisien et international au même endroit.
         </p>
         <div data-hero-fade className="mt-8 max-w-2xl">
-          <ClubSearch q={s.q} city={s.city} cityGroups={cityGroups} onChange={go} />
-          <button onClick={() => navigate({ to: "/clubs", search: { q: s.q, city: s.city } })} className="mt-3 h-12 w-full rounded-2xl bg-lime px-6 font-bold text-navy transition-transform active:scale-95 sm:w-auto">
-            Rechercher un club →
-          </button>
+          <FreeCourtSearch value={slot} cityGroups={freeCourtCities} onChange={setSlot} />
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+            <button onClick={() => navigate({ to: "/terrains", search: slot })} className="h-12 rounded-2xl bg-lime px-6 font-bold text-navy transition-transform active:scale-95">
+              Voir les terrains libres →
+            </button>
+            <Link to="/clubs" search={{ q: "", city: "" }} className="inline-flex h-12 items-center justify-center rounded-2xl bg-background/15 px-6 font-bold backdrop-blur transition-colors hover:bg-background/25">
+              Voir tous les clubs
+            </Link>
+          </div>
         </div>
         <dl data-hero-fade className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-court-foreground/20 pt-6">
           {[["Clubs", stats.clubs], ["Terrains", stats.courts], ["Villes", stats.cities]].map(([l, v]) => (

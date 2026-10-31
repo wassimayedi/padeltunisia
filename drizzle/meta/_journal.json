@@ -43,6 +43,34 @@
       "when": 1792910693765,
       "tag": "0005_contact_messages",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793393625312,
+      "tag": "0006_club_availability",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793442128848,
+      "tag": "0007_club_plannings",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793442471524,
+      "tag": "0008_club_websites",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793442966786,
+      "tag": "0009_padel_society_planning",
+      "breakpoints": true
     }
   ]
 }

@@ -1,12 +1,13 @@
 // Server functions for club data. Handlers run only on the server; the client
 // bundle gets RPC stubs, so the database import never reaches the browser.
 import { createServerFn } from "@tanstack/react-start";
-import { and, asc, count, desc, eq, isNotNull, ne, sql, sum } from "drizzle-orm";
+import { and, asc, count, desc, eq, getTableColumns, isNotNull, ne, sql, sum } from "drizzle-orm";
 import { z } from "zod";
 
 import { clubs } from "@/db/schema";
 import { citySlug, type CityGroup, type ClubSummary } from "@/lib/clubs";
 import { db } from "@/server/db";
+import { availabilityCityGroups } from "@/server/availability";
 import { upcomingEvents } from "@/server/events";
 import { latestNews } from "@/server/news";
 
@@ -40,23 +41,31 @@ export const getClubDirectory = createServerFn().handler(async () => {
 });
 
 export const getHomeClubs = createServerFn().handler(async () => {
-  const [featured, [totals], groups, logos] = await Promise.all([
+  const [featured, [totals], logos, freeCourtCities] = await Promise.all([
     // Largest venues first until clubs can be featured editorially.
     db().select(summary).from(clubs).orderBy(sql`${clubs.courts} desc nulls last`, asc(clubs.name)).limit(6) as Promise<ClubSummary[]>,
     db()
       .select({ clubs: count(), courts: sum(clubs.courts).mapWith(Number), cities: sql<number>`count(distinct ${clubs.city})`.mapWith(Number) })
       .from(clubs),
-    cityGroups(),
     // Clubs with a logo, for the scrolling band.
     db().select({ slug: clubs.slug, name: clubs.name, logoUrl: clubs.logoUrl }).from(clubs).where(isNotNull(clubs.logoUrl)).orderBy(asc(clubs.name)),
+    // For the hero's free-court search.
+    availabilityCityGroups(),
   ]);
-  return { featured, stats: totals!, cityGroups: groups, logos: logos as { slug: string; name: string; logoUrl: string }[] };
+  return { featured, stats: totals!, logos: logos as { slug: string; name: string; logoUrl: string }[], freeCourtCities };
 });
+
+// Everything the club page shows; the planning widget URL carries the club's key and stays server-side.
+const { availabilityUrl, ...pageColumns } = getTableColumns(clubs);
 
 export const getClub = createServerFn()
   .validator(z.object({ slug: z.string() }))
   .handler(async ({ data }) => {
-    const [club] = await db().select().from(clubs).where(eq(clubs.slug, data.slug)).limit(1);
+    const [club] = await db()
+      .select({ ...pageColumns, hasAvailability: isNotNull(availabilityUrl).mapWith(Boolean) })
+      .from(clubs)
+      .where(eq(clubs.slug, data.slug))
+      .limit(1);
     if (!club) return null;
     const [others, clubEvents, clubNews] = await Promise.all([
       // Same city first, then the rest of the region.

@@ -1,11 +1,14 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowUpRight, CalendarCheck, ChevronDown, ChevronRight, Clock, Facebook, Globe, Instagram, LayoutGrid, MapPin, Navigation, Phone, Check } from "lucide-react";
-import type { Club } from "@/db/schema";
+import type { Club as ClubRow } from "@/db/schema";
 import { getClub } from "@/functions/clubs";
 import { citySlug, courtTypesLabel, hoursRows, openingHoursSpec } from "@/lib/clubs";
 import { absoluteUrl, pageTitle } from "@/lib/site";
 import { Reveal } from "@/components/motion";
 import { ClubCard, ClubLogo, EventCard, NewsCard } from "@/components/cards";
+
+// The page never receives the planning widget URL (see getClub).
+type Club = Omit<ClubRow, "availabilityUrl">;
 
 const plural = (n: number, word: string) => `${n} ${word}${n > 1 ? "s" : ""}`;
 const location = (c: Club) => (c.area ? `${c.area}, ${c.city}` : c.city);
@@ -167,6 +170,11 @@ function ClubPage() {
                 <a href={c.website} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center gap-2 rounded-full bg-lime px-5 text-sm font-bold text-navy transition-transform hover:-translate-y-0.5">
                   <CalendarCheck className="h-4 w-4" />Réserver
                 </a>
+              )}
+              {c.hasAvailability && (
+                <Link to="/terrains" search={{ city: c.city }} className="inline-flex h-11 items-center gap-2 rounded-full bg-white/15 px-5 text-sm font-bold backdrop-blur transition-colors hover:bg-white/25">
+                  <Clock className="h-4 w-4" />Créneaux libres
+                </Link>
               )}
               {c.phones[0] && (
                 <a href={tel(c.phones[0])} className="inline-flex h-11 items-center gap-2 rounded-full bg-white/15 px-5 text-sm font-bold backdrop-blur transition-colors hover:bg-white/25">

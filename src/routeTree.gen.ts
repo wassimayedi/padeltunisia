@@ -16,6 +16,7 @@ import { Route as GuideRouteImport } from './routes/guide'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TerrainsRouteImport } from './routes/terrains'
 import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as ClubsIndexRouteImport } from './routes/clubs.index'
@@ -58,6 +59,11 @@ const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TerrainsRoute = TerrainsRouteImport.update({
+  id: '/terrains',
+  path: '/terrains',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/mentions-legales': typeof MentionsLegalesRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terrains': typeof TerrainsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/mentions-legales': typeof MentionsLegalesRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terrains': typeof TerrainsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
@@ -144,6 +152,7 @@ export interface FileRoutesById {
   '/mentions-legales': typeof MentionsLegalesRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terrains': typeof TerrainsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/mentions-legales'
     | '/robots.txt'
     | '/sitemap.xml'
+    | '/terrains'
     | '/articles/$slug'
     | '/clubs/$slug'
     | '/evenements/$slug'
@@ -180,6 +190,7 @@ export interface FileRouteTypes {
     | '/mentions-legales'
     | '/robots.txt'
     | '/sitemap.xml'
+    | '/terrains'
     | '/articles/$slug'
     | '/clubs/$slug'
     | '/evenements/$slug'
@@ -197,6 +208,7 @@ export interface FileRouteTypes {
     | '/mentions-legales'
     | '/robots.txt'
     | '/sitemap.xml'
+    | '/terrains'
     | '/articles/$slug'
     | '/clubs/$slug'
     | '/evenements/$slug'
@@ -215,6 +227,7 @@ export interface RootRouteChildren {
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TerrainsRoute: typeof TerrainsRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   ClubsSlugRoute: typeof ClubsSlugRoute
   EvenementsSlugRoute: typeof EvenementsSlugRoute
@@ -274,6 +287,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terrains': {
+      id: '/terrains'
+      path: '/terrains'
+      fullPath: '/terrains'
+      preLoaderRoute: typeof TerrainsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/articles/': {
@@ -343,6 +363,7 @@ const rootRouteChildren: RootRouteChildren = {
   MentionsLegalesRoute: MentionsLegalesRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TerrainsRoute: TerrainsRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   ClubsSlugRoute: ClubsSlugRoute,
   EvenementsSlugRoute: EvenementsSlugRoute,

@@ -46,10 +46,10 @@ function SectionHead({ k, title, to, cta }: { k: string; title: string; to: "/cl
 }
 
 function Index() {
-  const { featured, stats, cityGroups, upcoming, news, articles, logos } = Route.useLoaderData();
+  const { featured, stats, freeCourtCities, upcoming, news, articles, logos } = Route.useLoaderData();
   return (
     <>
-      <Hero stats={stats} cityGroups={cityGroups} />
+      <Hero stats={stats} freeCourtCities={freeCourtCities} />
 
       <nav aria-label="Clubs de l'annuaire" className="group/marquee overflow-hidden border-y bg-navy py-4">
         {/* Two identical halves so the -50% scroll loops seamlessly; the copy is hidden from

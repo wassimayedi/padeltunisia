@@ -21,6 +21,8 @@ export const clubs = pgTable(
     facebook: text("facebook"),
     instagram: text("instagram"),
     openingHours: text("opening_hours"),
+    /** Planning read for free courts: a Balle Jaune widget (plannings-integrated URL with id and key) a PadUp club as `https://padup.net/?clubId=<id>`, or Padel Society's /api/agenda-slots (needs PADEL_SOCIETY_PHONE). */
+    availabilityUrl: text("availability_url"),
     logoUrl: text("logo_url"),
     /** Directory page the data was taken from. */
     sourceUrl: text("source_url"),
