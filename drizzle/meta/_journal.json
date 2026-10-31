@@ -71,6 +71,13 @@
       "when": 1793442966786,
       "tag": "0009_padel_society_planning",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1793450577737,
+      "tag": "0010_magazine_image_credit",
+      "breakpoints": true
     }
   ]
 }

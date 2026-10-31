@@ -29,6 +29,7 @@ export const Route = createFileRoute("/contact")({
 
 const reasons = [
   { title: "Votre club n'est pas listé ou une info est fausse ?", text: "Envoyez-nous le nom du club, l'adresse, les horaires, le nombre de terrains et un téléphone : on met la fiche à jour." },
+  { title: "Vos terrains libres sur PadelTunisia ?", text: "Votre club publie ses créneaux en ligne ? Envoyez-nous le lien de votre planning : vos terrains disponibles apparaîtront dans la recherche « Terrains libres »." },
   { title: "Vous organisez un tournoi ?", text: "Dates, lieu, tableaux, frais et lien d'inscription : on l'ajoute au calendrier." },
   { title: "Partenariat ou publicité", text: "Clubs, marques, organisateurs : parlons de visibilité auprès des joueurs de padel en Tunisie." },
 ];
@@ -46,7 +47,7 @@ function ContactPage() {
       <div className="mx-auto grid max-w-6xl gap-8 px-4 pt-12 lg:grid-cols-[1fr_380px]">
         <div className="grid gap-6">
           <ContactForm topic={sujet} organization={club} />
-          <section className="grid gap-4 sm:grid-cols-3">
+          <section className="grid gap-4 sm:grid-cols-2">
             {reasons.map((r) => (
               <div key={r.title} className="rounded-3xl border bg-card p-5">
                 <h2 className="font-bold leading-snug">{r.title}</h2>

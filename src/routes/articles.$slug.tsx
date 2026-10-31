@@ -102,7 +102,22 @@ function ArticlePage() {
         </header>
 
         {a.imageUrl && (
-          <img src={a.imageUrl} alt={a.imageAlt ?? ""} width={1200} height={630} className="mt-8 aspect-[1200/630] w-full rounded-3xl object-cover shadow-lift" />
+          <figure className="mt-8">
+            <img src={a.imageUrl} alt={a.imageAlt ?? ""} width={1200} height={630} className="aspect-[1200/630] w-full rounded-3xl object-cover shadow-lift" />
+            {/* Stock covers: Pixabay asks to show where the photo comes from. */}
+            {a.imageCredit && (
+              <figcaption className="mt-2 text-right text-xs text-muted-foreground">
+                Photo :{" "}
+                <a href={a.imageCredit.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
+                  {a.imageCredit.name}
+                </a>{" "}
+                sur{" "}
+                <a href="https://pixabay.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
+                  Pixabay
+                </a>
+              </figcaption>
+            )}
+          </figure>
         )}
 
         <p className="mt-8 text-xl font-medium leading-relaxed">{a.excerpt}</p>

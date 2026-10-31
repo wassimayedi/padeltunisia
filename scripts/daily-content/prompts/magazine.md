@@ -18,6 +18,7 @@ Readers are padel players and fans in Tunisia, from people who have never held a
    - `metaTitle` (at most 60 characters), `metaDescription` (at most 155 characters, answering the question in short), `keywords`: 5 or 6 search phrases people really type (include "padel Tunisie" or a city when relevant).
    - `slug`: the title in lowercase ASCII words joined by hyphens, short.
    - `sources`: at least 3 of the pages you used, as `{ label: publication name, url }`.
-   - `publishedOn`: the publication date given above. Leave `imageUrl` and `imageAlt` out: a cover with the title and category is generated automatically.
+   - `publishedOn`: the publication date given above.
+   - `coverQuery`: 2 to 4 English words describing a photo that fits the subject, as you would search a photo bank: what is seen, not the article's title (e.g. `padel racket ball` for gear, `padel court night` for evening play, `padel players doubles` for a match, `padel ball net` for rules). No player or brand names. Leave `imageUrl` and `imageAlt` out: a real photo is picked for the cover automatically.
 
-End with a short report: the title, category, slug, why this subject now, and the sources used.
+End with a short report: the title, category, slug, why this subject now, the sources used, and the `cover` line returned by `add_magazine_article` (a Pixabay photo, or the generated cover and why).

@@ -90,7 +90,7 @@ function TerrainsPage() {
   const navigate = useNavigate({ from: "/terrains" });
   return (
     <>
-      <PageHero eyebrow="Disponibilités" title="Trouver un terrain libre" intro="Choisissez un jour et une heure : on vérifie les plannings des clubs et on vous montre ceux qui ont au moins un terrain libre." />
+      <PageHero eyebrow="Disponibilités" title="Trouver un terrain libre" intro="Choisissez un jour et une heure : on vérifie les plannings publics des clubs et on vous montre ceux qui ont au moins un terrain libre." />
       <div className="relative z-10 mx-auto -mt-8 max-w-6xl px-4 pb-16">
         <FreeCourtSearch value={{ day, time, city }} cityGroups={cityGroups} onChange={(search) => navigate({ search, replace: true, resetScroll: false })} />
 
@@ -130,7 +130,9 @@ function TerrainsPage() {
 
         <section className="mt-16">
           <h2 className="text-2xl font-bold">Clubs dont les disponibilités sont vérifiées</h2>
-          <p className="mt-2 max-w-2xl text-muted-foreground">Ces clubs publient leur planning en ligne : leurs terrains libres apparaissent dans la recherche ci-dessus.</p>
+          <p className="mt-2 max-w-2xl text-muted-foreground">
+            La recherche ne couvre que les clubs qui rendent publics leurs créneaux disponibles en ligne. Leurs terrains libres apparaissent ci-dessus ; les autres clubs se réservent par téléphone.
+          </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[...byCity].map(([name, list]) => (
               <div key={name} className="rounded-3xl border bg-card p-5">
@@ -146,6 +148,16 @@ function TerrainsPage() {
             ))}
           </div>
         </section>
+
+        <aside className="mt-8 flex flex-col gap-4 rounded-3xl bg-navy p-6 text-primary-foreground sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div>
+            <h2 className="text-xl font-bold">Votre club n'apparaît pas ici ?</h2>
+            <p className="mt-1 max-w-xl text-primary-foreground/80">Si votre club publie ses créneaux en ligne (Balle Jaune, PadUp ou votre propre site), contactez-nous : on ajoute vos terrains libres à la recherche, gratuitement.</p>
+          </div>
+          <Link to="/contact" search={{ sujet: "club", club: "" }} className="inline-flex h-12 shrink-0 items-center justify-center rounded-2xl bg-lime px-6 font-bold text-navy transition-transform active:scale-95">
+            Nous contacter →
+          </Link>
+        </aside>
 
         <section className="mt-12 rounded-3xl border bg-card p-6 sm:p-8">
           <h2 className="text-2xl font-bold">Questions fréquentes</h2>

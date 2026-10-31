@@ -138,6 +138,8 @@ export const magazine = pgTable(
     content: text("content").notNull(),
     imageUrl: text("image_url"),
     imageAlt: text("image_alt"),
+    /** Photographer of a stock cover (Pixabay), credited under it; null for generated covers. */
+    imageCredit: jsonb("image_credit").$type<{ name: string; url: string }>(),
     metaTitle: text("meta_title"),
     metaDescription: text("meta_description"),
     keywords: text("keywords").array().notNull().default([]),

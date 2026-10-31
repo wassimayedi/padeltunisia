@@ -1,0 +1,1 @@
+ALTER TABLE "magazine" ADD COLUMN "image_credit" jsonb;
