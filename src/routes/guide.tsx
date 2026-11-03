@@ -119,7 +119,7 @@ export const Route = createFileRoute("/guide")({
 function GuidePage() {
   return (
     <>
-      <PageHero eyebrow="Guide" title="Le padel, simplement" intro="Règles, matériel et bons plans pour réussir votre premier match en Tunisie." />
+      <PageHero eyebrow="Guide" title="Guide du padel, simplement" intro="Règles, matériel et bons plans pour réussir votre premier match en Tunisie." />
       <div className="mx-auto max-w-3xl px-4 pt-12">
         <p className="text-lg leading-relaxed text-muted-foreground">
           Vous n'avez jamais tenu une raquette de padel ? Ce guide répond aux questions que se posent tous les débutants : comment on joue, avec quel matériel, et où

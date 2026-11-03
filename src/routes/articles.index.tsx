@@ -37,7 +37,7 @@ function NewsPage() {
 
   return (
     <>
-      <PageHero eyebrow="Actualités" title="Actualités du padel" intro="Nos articles sur le padel tunisien et international, et le fil de l'actu du circuit." />
+      <PageHero eyebrow="Actualités" title="Actualités du padel en Tunisie" intro="Nos articles sur le padel tunisien et international, et le fil de l'actu du circuit." />
 
       <section className="mx-auto mt-12 max-w-6xl px-4">
         <h2 className="mb-6 text-2xl font-bold sm:text-3xl">Le magazine</h2>

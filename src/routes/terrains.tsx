@@ -10,14 +10,17 @@ import { inAreaPhrase } from "@/lib/clubs";
 import { dayLabel, earliestTimeToday, MAX_DAY, SEARCH_TIMES, TIME_TOLERANCE_MIN, upcomingTime } from "@/lib/availability";
 import { absoluteUrl, pageTitle, SITE_NAME } from "@/lib/site";
 
-const schema = z
-  .object({
-    day: fallback(z.number().int().min(0).max(MAX_DAY), 0).default(0),
-    time: fallback(z.enum(SEARCH_TIMES as [string, ...string[]]), "19:00").default("19:00"),
-    city: fallback(z.string(), "").default(""),
-  })
-  // A time already past today moves to the next one, before any planning is fetched for it.
-  .transform((s) => ({ ...s, time: upcomingTime(s.day, s.time, earliestTimeToday()) }));
+// Day and time stay out of the URL until the visitor picks them: filling them in here would
+// redirect /terrains (the canonical URL in the sitemap) to /terrains?day=0&time=…, which Google
+// then refuses to index.
+const schema = z.object({
+  day: fallback(z.number().int().min(0).max(MAX_DAY).optional(), undefined),
+  time: fallback(z.enum(SEARCH_TIMES as [string, ...string[]]).optional(), undefined),
+  city: fallback(z.string(), "").default(""),
+});
+
+/** The slot searched: today at 19:00 by default; a time already past today moves to the next one. */
+const slot = ({ day = 0, time = "19:00", city }: z.infer<typeof schema>) => ({ day, time: upcomingTime(day, time, earliestTimeToday()), city });
 
 const faq = [
   {
@@ -41,14 +44,14 @@ const faq = [
 export const Route = createFileRoute("/terrains")({
   validateSearch: zodValidator(schema),
   search: { middlewares: [stripSearchParams({ city: "" })] },
-  loaderDeps: ({ search }) => search,
+  loaderDeps: ({ search }) => slot(search),
   loader: ({ deps }) => searchFreeCourts({ data: deps }),
   head: () => {
     const url = absoluteUrl("/terrains");
     const desc = "Trouvez un terrain de padel libre à Tunis, Sousse, Hammamet ou Monastir : choisissez un jour et une heure, voyez les clubs qui ont un terrain disponible.";
     return {
       meta: [
-        { title: pageTitle("Terrain de padel libre à Tunis, Sousse, Hammamet — Disponibilités") },
+        { title: pageTitle("Terrain de padel libre à Tunis, Sousse et Hammamet") },
         { name: "description", content: desc },
         { property: "og:title", content: "Trouver un terrain de padel libre en Tunisie" },
         { property: "og:description", content: desc },
@@ -83,7 +86,7 @@ export const Route = createFileRoute("/terrains")({
 });
 
 function TerrainsPage() {
-  const { day, time, city } = Route.useSearch();
+  const { day, time, city } = Route.useLoaderDeps();
   const { clubs, checked, cityGroups, readable } = Route.useLoaderData();
   // Clubs whose planning we read, by city, for the static list below the results.
   const byCity = new Map<string, typeof readable>();
@@ -91,7 +94,7 @@ function TerrainsPage() {
   const navigate = useNavigate({ from: "/terrains" });
   return (
     <>
-      <PageHero eyebrow="Disponibilités" title="Trouver un terrain libre" intro="Choisissez un jour et une heure : on vérifie les plannings publics des clubs et on vous montre ceux qui ont au moins un terrain libre." />
+      <PageHero eyebrow="Disponibilités" title="Trouver un terrain de padel libre" intro="Choisissez un jour et une heure : on vérifie les plannings publics des clubs et on vous montre ceux qui ont au moins un terrain libre." />
       <div className="relative z-10 mx-auto -mt-8 max-w-6xl px-4 pb-16">
         <FreeCourtSearch value={{ day, time, city }} cityGroups={cityGroups} onChange={(search) => navigate({ search, replace: true, resetScroll: false })} />
 

@@ -12,10 +12,10 @@ import { absoluteUrl, CONTACT_EMAIL, CONTACT_PHONE_TEL } from "@/lib/site";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PadelTunisia — Clubs de padel en Tunisie, tournois et actualités" },
-      { name: "description", content: "Trouvez un club de padel à Tunis, Sousse, Hammamet, Djerba… Actualités, tournois tunisiens et internationaux, guides pour progresser." },
+      { title: "PadelTunisia — Clubs, terrains libres et tournois de padel" },
+      { name: "description", content: "Clubs de padel en Tunisie, terrains libres, tournois FTT et partenaires de votre niveau à Tunis, La Marsa, Sousse, Hammamet et Djerba." },
       { property: "og:title", content: "PadelTunisia — Le padel en Tunisie" },
-      { property: "og:description", content: "Annuaire des clubs, événements et actualités du padel tunisien et international." },
+      { property: "og:description", content: "Clubs de padel, terrains libres, tournois et partenaires de jeu partout en Tunisie." },
       // Bing Webmaster Tools ownership check: keep it, removing it cancels the verification.
       { name: "msvalidate.01", content: "56A9CACFBC0FEE251ADCFFEDD628EE1D" },
     ],
@@ -53,14 +53,19 @@ function Index() {
 
       <nav aria-label="Clubs de l'annuaire" className="group/marquee overflow-hidden border-y bg-navy py-4">
         {/* Two identical halves so the -50% scroll loops seamlessly; the copy is hidden from
-            assistive tech and keyboard. Pauses on hover so a logo can be clicked. */}
-        <div className="marquee flex w-max group-hover/marquee:[animation-play-state:paused]" style={{ animationDuration: `${logos.length * 1.6}s` }}>
+            assistive tech and keyboard. Pauses on hover so a club can be clicked. The name and city
+            are the link text: what search engines read for each club page. */}
+        <div className="marquee flex w-max group-hover/marquee:[animation-play-state:paused]" style={{ animationDuration: `${logos.length * 4}s` }}>
           {[0, 1].map((copy) => (
-            <ul key={copy} aria-hidden={copy === 1 || undefined} className="flex shrink-0 items-center gap-6 pr-6">
+            <ul key={copy} aria-hidden={copy === 1 || undefined} className="flex shrink-0 items-center gap-3 pr-3">
               {logos.map((c) => (
                 <li key={c.slug}>
-                  <Link to="/clubs/$slug" params={{ slug: c.slug }} tabIndex={copy === 1 ? -1 : undefined} title={c.name} className="block rounded-xl transition-transform hover:scale-110">
-                    <img src={c.logoUrl} alt={copy === 0 ? c.name : ""} width={56} height={56} loading="lazy" decoding="async" className="h-14 w-14 rounded-xl bg-white object-cover" />
+                  <Link to="/clubs/$slug" params={{ slug: c.slug }} tabIndex={copy === 1 ? -1 : undefined} className="flex items-center gap-3 rounded-2xl py-1 pl-1 pr-4 text-white transition-colors hover:bg-white/10">
+                    <img src={c.logoUrl} alt="" width={48} height={48} loading="lazy" decoding="async" className="h-12 w-12 shrink-0 rounded-xl bg-white object-cover" />
+                    <span className="whitespace-nowrap leading-tight">
+                      <span className="block text-sm font-bold">{c.name}</span>
+                      <span className="block text-xs text-lime">Padel à {c.city}</span>
+                    </span>
                   </Link>
                 </li>
               ))}

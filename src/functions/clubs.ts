@@ -42,11 +42,11 @@ export const getHomeClubs = createServerFn().handler(async () => {
       .select({ clubs: count(), courts: sum(clubs.courts).mapWith(Number), cities: sql<number>`count(distinct ${clubs.city})`.mapWith(Number) })
       .from(clubs),
     // Clubs with a logo, for the scrolling band.
-    db().select({ slug: clubs.slug, name: clubs.name, logoUrl: clubs.logoUrl }).from(clubs).where(isNotNull(clubs.logoUrl)).orderBy(asc(clubs.name)),
+    db().select({ slug: clubs.slug, name: clubs.name, city: clubs.city, logoUrl: clubs.logoUrl }).from(clubs).where(isNotNull(clubs.logoUrl)).orderBy(asc(clubs.name)),
     // For the hero's free-court search.
     availabilityCityGroups(),
   ]);
-  return { featured, stats: totals!, logos: logos as { slug: string; name: string; logoUrl: string }[], freeCourtCities };
+  return { featured, stats: totals!, logos: logos as { slug: string; name: string; city: string; logoUrl: string }[], freeCourtCities };
 });
 
 // Everything the club page shows; the planning widget URL carries the club's key and stays server-side.

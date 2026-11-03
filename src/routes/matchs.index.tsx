@@ -48,10 +48,10 @@ export const Route = createFileRoute("/matchs/")({
   loader: ({ deps }) => getMatches({ data: deps }),
   head: () => {
     const url = absoluteUrl("/matchs");
-    const desc = "Trouvez un match de padel à votre niveau en Tunisie : des joueurs cherchent des partenaires à Tunis, Sousse, Hammamet ou Monastir. Rejoignez un match ou créez le vôtre.";
+    const desc = "Cherchez un partenaire de padel ou un match à votre niveau en Tunisie : des joueurs cherchent un 4e à Tunis, La Marsa, Sousse, Hammamet ou Monastir.";
     return {
       meta: [
-        { title: pageTitle("Trouver un match de padel à votre niveau en Tunisie") },
+        { title: pageTitle("Trouver un match ou un partenaire de padel en Tunisie") },
         { name: "description", content: desc },
         { property: "og:title", content: "Trouver un match de padel à votre niveau" },
         { property: "og:description", content: desc },
@@ -82,7 +82,7 @@ function MatchesPage() {
   const select = "h-12 w-full cursor-pointer appearance-none rounded-2xl bg-muted pl-4 pr-10 font-semibold text-foreground outline-none";
   return (
     <>
-      <PageHero eyebrow="Trouver un match" title="Des joueurs de votre niveau" intro="Rejoignez un match qui cherche des joueurs dans votre fourchette de niveau, ou créez le vôtre et laissez les joueurs venir à vous." />
+      <PageHero eyebrow="Trouver un match" title="Trouvez des partenaires de padel" intro="Rejoignez un match qui cherche des joueurs dans votre fourchette de niveau, ou créez le vôtre et laissez les joueurs venir à vous." />
       <div className="relative z-10 mx-auto -mt-8 max-w-6xl px-4 pb-16">
         <form role="search" onSubmit={(e) => e.preventDefault()} className="grid gap-2 rounded-3xl bg-card p-2 shadow-lift sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto]">
           <Field label="Ville">

@@ -31,7 +31,7 @@ export const Route = createFileRoute("/evenements/")({
   loader: () => getEvents(),
   head: ({ loaderData }) => ({
     meta: [
-      { title: pageTitle("Tournois de padel 2026 — Tunisie & international") },
+      { title: pageTitle(`Tournois de padel ${new Date().getFullYear()} — Tunisie & international`) },
       { name: "description", content: "Calendrier des tournois de padel : étapes FTT et P25 en Tunisie, circuit FIP, Premier Padel, Coupe du monde. Dates, lieux et niveaux." },
       { property: "og:title", content: "Calendrier des tournois de padel — PadelTunisia" },
       { property: "og:description", content: "Les tournois de padel en Tunisie et les grands rendez-vous internationaux." },
@@ -58,7 +58,7 @@ function EventsPage() {
 
   return (
     <>
-      <PageHero eyebrow="Agenda" title="Tournois de padel" intro="Étapes FTT en Tunisie, circuit FIP, Premier Padel et grands rendez-vous internationaux." />
+      <PageHero eyebrow="Agenda" title="Tournois de padel en Tunisie" intro="Étapes FTT en Tunisie, circuit FIP, Premier Padel et grands rendez-vous internationaux." />
       <div className="mx-auto max-w-6xl px-4 pt-10">
         <div className="mb-8 flex gap-2 overflow-x-auto" role="tablist">
           {tabs.map((t) => {
