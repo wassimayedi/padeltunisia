@@ -6,6 +6,7 @@ import { citySlug, courtTypesLabel, hoursRows, openingHoursSpec } from "@/lib/cl
 import { absoluteUrl, pageTitle } from "@/lib/site";
 import { Reveal } from "@/components/motion";
 import { ClubCard, ClubLogo, EventCard, NewsCard } from "@/components/cards";
+import { FindMatchCta } from "@/components/find-match-cta";
 
 // The page never receives the planning widget URL (see getClub).
 type Club = Omit<ClubRow, "availabilityUrl">;
@@ -307,6 +308,8 @@ function ClubPage() {
               </div>
             )}
           </section>
+
+          <FindMatchCta city={c.city} />
 
           <p className="px-2 text-xs text-muted-foreground">
             Fiche mise à jour le {updated}. Les informations peuvent changer : vérifiez auprès du club avant de vous déplacer.{" "}

@@ -1,4 +1,5 @@
-import { boolean, date, doublePrecision, index, integer, jsonb, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { boolean, check, date, doublePrecision, index, integer, jsonb, pgEnum, pgTable, serial, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 
 export const courtType = pgEnum("court_type", ["indoor", "outdoor", "covered"]);
 
@@ -183,3 +184,136 @@ export const contactMessages = pgTable(
 
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type ContactTopic = (typeof contactTopic.enumValues)[number];
+
+// Find match: players log in through Supabase (Google) but every row lives here.
+
+export const playerGender = pgEnum("player_gender", ["male", "female"]);
+export const matchGender = pgEnum("match_gender", ["male", "female", "mixed"]);
+export const matchStatus = pgEnum("match_status", ["open", "full", "cancelled", "played"]);
+export const matchPlayerStatus = pgEnum("match_player_status", ["pending", "accepted", "rejected", "left", "removed"]);
+
+/** One row per Supabase user; the profile is edited only through our server functions. */
+export const players = pgTable(
+  "players",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    /** Supabase auth user id (JWT `sub`). */
+    authUserId: uuid("auth_user_id").notNull().unique(),
+    email: text("email"),
+    name: text("name").notNull(),
+    avatarUrl: text("avatar_url"),
+    /** Local number without the country code. */
+    phone: text("phone"),
+    phoneCountryCode: text("phone_country_code").notNull().default("216"),
+    gender: playerGender("gender"),
+    /** Self-assessed level, 1 (beginner) to 8 (competition). */
+    level: integer("level"),
+    /** Default search filter. */
+    region: text("region"),
+    city: text("city"),
+    /** Null until onboarding (phone, gender, level) is done; required to create or join a match. */
+    profileCompletedAt: timestamp("profile_completed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+  },
+  (t) => [check("players_level_check", sql`${t.level} between 1 and 8`)],
+);
+
+export type Player = typeof players.$inferSelect;
+export type PlayerGender = (typeof playerGender.enumValues)[number];
+
+/** A match looking for players in a level range. The creator is not a row of match_players. */
+export const matches = pgTable(
+  "matches",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    creatorId: uuid("creator_id")
+      .notNull()
+      .references(() => players.id, { onDelete: "cascade" }),
+    /** City and region come from the club. */
+    clubId: integer("club_id")
+      .notNull()
+      .references(() => clubs.id, { onDelete: "restrict" }),
+    startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+    endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+    gender: matchGender("gender").notNull(),
+    levelMin: integer("level_min").notNull(),
+    levelMax: integer("level_max").notNull(),
+    /** Players wanted besides the creator. */
+    spots: integer("spots").notNull(),
+    status: matchStatus("status").notNull().default("open"),
+    /** The creator already booked the court. */
+    courtBooked: boolean("court_booked").notNull().default(false),
+    /** Visitors who aren't logged in don't see who plays (names, photos); members do. */
+    membersOnly: boolean("members_only").notNull().default(true),
+    note: text("note"),
+    cancelledAt: timestamp("cancelled_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+  },
+  (t) => [
+    index("matches_status_starts_at_idx").on(t.status, t.startsAt),
+    index("matches_club_id_idx").on(t.clubId, t.startsAt),
+    index("matches_creator_id_idx").on(t.creatorId, t.startsAt),
+    check("matches_time_check", sql`${t.endsAt} > ${t.startsAt}`),
+    check("matches_level_check", sql`${t.levelMin} between 1 and 8 and ${t.levelMax} between 1 and 8 and ${t.levelMin} <= ${t.levelMax}`),
+    check("matches_spots_check", sql`${t.spots} between 1 and 3`),
+  ],
+);
+
+export type Match = typeof matches.$inferSelect;
+export type MatchGender = (typeof matchGender.enumValues)[number];
+export type MatchStatus = (typeof matchStatus.enumValues)[number];
+
+/** Join requests and accepted players of a match. */
+export const matchPlayers = pgTable(
+  "match_players",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    matchId: uuid("match_id")
+      .notNull()
+      .references(() => matches.id, { onDelete: "cascade" }),
+    playerId: uuid("player_id")
+      .notNull()
+      .references(() => players.id, { onDelete: "cascade" }),
+    status: matchPlayerStatus("status").notNull().default("pending"),
+    /** Player level when the request was sent. */
+    levelAtJoin: integer("level_at_join").notNull(),
+    requestedAt: timestamp("requested_at", { withTimezone: true }).notNull().defaultNow(),
+    respondedAt: timestamp("responded_at", { withTimezone: true }),
+  },
+  (t) => [uniqueIndex("match_players_match_player_idx").on(t.matchId, t.playerId), index("match_players_player_idx").on(t.playerId, t.status)],
+);
+
+export type MatchPlayer = typeof matchPlayers.$inferSelect;
+export type MatchPlayerStatus = (typeof matchPlayerStatus.enumValues)[number];
+
+/** Outbox and log of WhatsApp/email messages sent about matches. */
+export const notifications = pgTable(
+  "notifications",
+  {
+    id: serial("id").primaryKey(),
+    playerId: uuid("player_id")
+      .notNull()
+      .references(() => players.id, { onDelete: "cascade" }),
+    matchId: uuid("match_id").references(() => matches.id, { onDelete: "set null" }),
+    /** join_request, request_accepted, request_rejected, request_cancelled, player_left, match_cancelled. */
+    type: text("type").notNull(),
+    /** email or whatsapp. */
+    channel: text("channel").notNull(),
+    /** pending, sent or failed. */
+    status: text("status").notNull().default("pending"),
+    error: text("error"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    sentAt: timestamp("sent_at", { withTimezone: true }),
+  },
+  (t) => [index("notifications_status_idx").on(t.status, t.createdAt), index("notifications_player_idx").on(t.playerId, t.createdAt)],
+);
+
+export type Notification = typeof notifications.$inferSelect;

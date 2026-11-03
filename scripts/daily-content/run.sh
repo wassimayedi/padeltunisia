@@ -1,6 +1,6 @@
 #!/bin/sh
 # Daily content job: headless Claude Code adds new events and news, and writes one magazine
-# article scheduled for the next day (hidden until then, so it can be reviewed). Each task has its
+# article published the same day (it goes live as soon as it is added). Each task has its
 # prompt in prompts/ and runs in its own session, through the MCP server (scripts/mcp), which writes
 # to DATABASE_URL from .env. Run from cron on the production server, where the database is
 # reachable on 127.0.0.1. Needs Node >= 22.18, `bun install` done in the repo, Claude Code installed
@@ -25,7 +25,6 @@ mkdir -p logs
 exec >>"logs/daily-content-$(date +%F).log" 2>&1
 
 today=$(date +%F)
-tomorrow=$(date -d tomorrow +%F 2>/dev/null || date -v+1d +%F)
 
 # Runs one task with only the tools it needs; anything else is denied in headless mode.
 # A failed task is logged and the next one still runs.
@@ -33,7 +32,7 @@ task() {
   name=$1
   tools=$2
   echo "--- $(date '+%F %T') $name"
-  claude -p "Today is $today. Publication date for a new article: $tomorrow.
+  claude -p "Today is $today. Publication date for a new article: $today.
 
 $(cat "scripts/daily-content/prompts/$name.md")" \
     --mcp-config .mcp.json --strict-mcp-config \

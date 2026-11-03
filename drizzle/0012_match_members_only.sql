@@ -1,0 +1,1 @@
+ALTER TABLE "matches" ADD COLUMN "members_only" boolean DEFAULT true NOT NULL;

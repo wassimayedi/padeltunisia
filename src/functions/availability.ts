@@ -1,11 +1,12 @@
 // Server function for the free-court search. Handlers run only on the server.
 import { createServerFn } from "@tanstack/react-start";
-import { and, asc, eq, isNotNull } from "drizzle-orm";
+import { and, asc, isNotNull } from "drizzle-orm";
 import { z } from "zod";
 
 import { clubs } from "@/db/schema";
 import { freeCourtsAt, MAX_DAY, toMinutes, type ClubAvailability } from "@/lib/availability";
 import type { ClubSummary } from "@/lib/clubs";
+import { clubInArea } from "@/server/areas";
 import { availabilityCityGroups, availabilityClubs, courtPlannings } from "@/server/availability";
 import { db } from "@/server/db";
 
@@ -30,7 +31,7 @@ export const searchFreeCourts = createServerFn()
         availabilityUrl: clubs.availabilityUrl,
       })
       .from(clubs)
-      .where(and(isNotNull(clubs.availabilityUrl), data.city ? eq(clubs.city, data.city) : undefined))
+      .where(and(isNotNull(clubs.availabilityUrl), clubInArea(data.city)))
       .orderBy(asc(clubs.name)),
       availabilityClubs(),
     ]);

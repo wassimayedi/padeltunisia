@@ -78,6 +78,20 @@
       "when": 1793450577737,
       "tag": "0010_magazine_image_credit",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1793602724437,
+      "tag": "0011_find_match",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1793624493201,
+      "tag": "0012_match_members_only",
+      "breakpoints": true
     }
   ]
 }

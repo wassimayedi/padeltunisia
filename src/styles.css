@@ -75,7 +75,10 @@
 
 @layer base {
   * { border-color: var(--color-border); }
-  html { -webkit-tap-highlight-color: transparent; }
+  /* Nothing may widen the page on phones (a long word, a select's option, the logo marquee): a
+     sideways scroll makes mobile browsers zoom out and the hero no longer fills the screen.
+     `clip`, unlike `hidden`, keeps position: sticky working. */
+  html, body { -webkit-tap-highlight-color: transparent; overflow-x: clip; }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);

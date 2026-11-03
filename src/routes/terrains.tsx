@@ -6,6 +6,7 @@ import { PageHero } from "@/components/site-chrome";
 import { ClubLogo } from "@/components/cards";
 import { FreeCourtSearch } from "@/components/free-court-search";
 import { searchFreeCourts } from "@/functions/availability";
+import { inAreaPhrase } from "@/lib/clubs";
 import { dayLabel, earliestTimeToday, MAX_DAY, SEARCH_TIMES, TIME_TOLERANCE_MIN, upcomingTime } from "@/lib/availability";
 import { absoluteUrl, pageTitle, SITE_NAME } from "@/lib/site";
 
@@ -95,7 +96,7 @@ function TerrainsPage() {
         <FreeCourtSearch value={{ day, time, city }} cityGroups={cityGroups} onChange={(search) => navigate({ search, replace: true, resetScroll: false })} />
 
         <p className="mt-6 text-sm font-semibold text-muted-foreground" aria-live="polite">
-          {clubs.length} club{clubs.length > 1 ? "s" : ""} avec un terrain libre{city && ` à ${city}`} · {dayLabel(day).toLowerCase()} vers {time} (± {TIME_TOLERANCE_MIN} min)
+          {clubs.length} club{clubs.length > 1 ? "s" : ""} avec un terrain libre{city && ` ${inAreaPhrase(city)}`} · {dayLabel(day).toLowerCase()} vers {time} (± {TIME_TOLERANCE_MIN} min)
         </p>
 
         <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -123,8 +124,13 @@ function TerrainsPage() {
         </ul>
         {clubs.length === 0 && <p className="py-16 text-center text-muted-foreground">Aucun terrain libre à cette heure. Essayez un autre créneau.</p>}
 
+        <p className="mt-6 text-sm font-semibold">
+          Un terrain mais pas assez de joueurs ?{" "}
+          <Link to="/matchs/creer" search={{ city }} className="text-court underline">Créez un match, les joueurs de votre niveau vous rejoignent</Link>.
+        </p>
+
         <p className="mt-10 text-xs text-muted-foreground">
-          Plannings en ligne lus pour {checked} club{checked > 1 ? "s" : ""}{city && ` à ${city}`}, mis à jour toutes les 5 minutes : un terrain peut partir entre-temps. Les autres clubs se réservent par téléphone,{" "}
+          Plannings en ligne lus pour {checked} club{checked > 1 ? "s" : ""}{city && ` ${inAreaPhrase(city)}`}, mis à jour toutes les 5 minutes : un terrain peut partir entre-temps. Les autres clubs se réservent par téléphone,{" "}
           <Link to="/clubs" search={{ q: "", city: "" }} className="font-semibold text-court underline">voir l'annuaire</Link>.
         </p>
 

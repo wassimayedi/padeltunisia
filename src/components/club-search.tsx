@@ -1,4 +1,5 @@
 import { ChevronDown, Search } from "lucide-react";
+import { CityOptions } from "@/components/city-options";
 import type { CityGroup } from "@/lib/clubs";
 
 export function ClubSearch({ q, city, cityGroups, onChange }: { q: string; city: string; cityGroups: CityGroup[]; onChange: (v: { q: string; city: string }) => void }) {
@@ -13,11 +14,7 @@ export function ClubSearch({ q, city, cityGroups, onChange }: { q: string; city:
         <span className="sr-only">Ville</span>
         <select value={city} onChange={(e) => onChange({ q, city: e.target.value })} className="h-12 w-full cursor-pointer appearance-none rounded-2xl bg-muted pl-4 pr-11 font-semibold text-foreground outline-none">
           <option value="">Toutes les villes</option>
-          {cityGroups.map((g) => (
-            <optgroup key={g.region} label={g.region}>
-              {g.cities.map((c) => <option key={c} value={c}>{c}</option>)}
-            </optgroup>
-          ))}
+          <CityOptions groups={cityGroups} />
         </select>
         <ChevronDown aria-hidden className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
       </label>

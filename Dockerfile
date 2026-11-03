@@ -13,9 +13,11 @@ RUN bun run build
 # --- Runtime: .output is self-contained, so only Node is needed ---
 FROM node:22-alpine
 WORKDIR /app
+# The Supabase login cookies (session with the Google profile) can pass Node's 16 KB header limit.
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
-    PORT=3000
+    PORT=3000 \
+    NODE_OPTIONS=--max-http-header-size=32768
 COPY --from=build --chown=node:node /app/.output ./
 USER node
 EXPOSE 3000

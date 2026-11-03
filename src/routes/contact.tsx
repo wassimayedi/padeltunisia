@@ -44,8 +44,8 @@ function ContactPage() {
   return (
     <>
       <PageHero eyebrow="Contact" title="Nous contacter" intro="Une question, une correction ou un tournoi à annoncer ? Écrivez-nous, on répond rapidement." />
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 pt-12 lg:grid-cols-[1fr_380px]">
-        <div className="grid gap-6">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 pt-12 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="grid min-w-0 gap-6">
           <ContactForm topic={sujet} organization={club} />
           <section className="grid gap-4 sm:grid-cols-2">
             {reasons.map((r) => (

@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronDown, ChevronRight, LayoutGrid, MapPin, Sun, Warehouse } from "lucide-react";
 import { ClubCard, EventCard } from "@/components/cards";
+import { FindMatchCta } from "@/components/find-match-cta";
 import { Reveal } from "@/components/motion";
 import { getCity } from "@/functions/clubs";
 import { citySlug, MIN_CLUBS_FOR_CITY_PAGE } from "@/lib/clubs";
@@ -152,6 +153,10 @@ function CityPage() {
           {d.clubs.map((c) => <ClubCard key={c.slug} club={c} />)}
         </Reveal>
       </section>
+
+      <div className="mx-auto mt-12 max-w-6xl px-4">
+        <FindMatchCta city={d.city} />
+      </div>
 
       {d.events.length > 0 && (
         <section className="mx-auto mt-16 max-w-6xl px-4">

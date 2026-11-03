@@ -3,9 +3,12 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Mail, Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { AccountButton } from "@/components/login-button";
+
 const nav = [
   { to: "/clubs", label: "Clubs" },
   { to: "/terrains", label: "Terrains libres" },
+  { to: "/matchs", label: "Trouver un match" },
   { to: "/articles", label: "Actualités" },
   { to: "/evenements", label: "Événements" },
   { to: "/guide", label: "Guide du padel" },
@@ -50,9 +53,12 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <button className={`grid h-10 w-10 place-items-center rounded-full md:hidden ${overHero ? "bg-white/15 text-white" : "bg-secondary"}`} onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2">
+          <AccountButton light={overHero} />
+          <button className={`grid h-10 w-10 place-items-center rounded-full md:hidden ${overHero ? "bg-white/15 text-white" : "bg-secondary"}`} onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
       {open && (
         <nav className="animate-in slide-in-from-top-2 fade-in border-t px-4 pb-4 md:hidden" aria-label="Navigation mobile">

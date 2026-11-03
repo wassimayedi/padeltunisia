@@ -1,6 +1,7 @@
 import { CalendarDays, ChevronDown, Clock, MapPin } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { dayLabel, earliestTimeToday, MAX_DAY, SEARCH_TIMES, toMinutes, upcomingTime } from "@/lib/availability";
+import { CityOptions } from "@/components/city-options";
 import type { CityGroup } from "@/lib/clubs";
 
 export type FreeCourtQuery = { day: number; time: string; city: string };
@@ -34,11 +35,7 @@ export function FreeCourtSearch({ value, cityGroups, onChange }: { value: FreeCo
        <Field label="Ville" icon={<MapPin aria-hidden className={icon} />}>
         <select value={value.city} onChange={(e) => change({ ...value, city: e.target.value })} className={select}>
           <option value="">Toutes les villes</option>
-          {cityGroups.map((g) => (
-            <optgroup key={g.region} label={g.region}>
-              {g.cities.map((c) => <option key={c} value={c}>{c}</option>)}
-            </optgroup>
-          ))}
+          <CityOptions groups={cityGroups} />
         </select>
       </Field>
     </form>

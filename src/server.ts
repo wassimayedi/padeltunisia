@@ -48,11 +48,17 @@ function isH3SwallowedErrorBody(body: string): boolean {
 // for up to a day while it refetches in the background. Browsers always revalidate.
 const PAGE_CACHE_CONTROL = "public, max-age=0, s-maxage=300, stale-while-revalidate=86400";
 
+// Pages that depend on who is viewing (player names and contacts are for members only), and any
+// page requested with a Supabase session cookie, must never be stored by the CDN.
+const PERSONAL_PATHS = /^\/(matchs|mes-matchs|profil|connexion)(\/|$)/;
+const SESSION_COOKIE = /(^|;\s*)sb-[^=]*-auth-token/;
+
 function withCacheHeaders(request: Request, response: Response): Response {
   const isPage = (response.headers.get("content-type") ?? "").includes("text/html");
   if (request.method !== "GET" || response.status !== 200 || !isPage || response.headers.has("cache-control")) return response;
+  const personal = PERSONAL_PATHS.test(new URL(request.url).pathname) || SESSION_COOKIE.test(request.headers.get("cookie") ?? "");
   const cached = new Response(response.body, response);
-  cached.headers.set("cache-control", PAGE_CACHE_CONTROL);
+  cached.headers.set("cache-control", personal ? "private, no-store" : PAGE_CACHE_CONTROL);
   return cached;
 }
 

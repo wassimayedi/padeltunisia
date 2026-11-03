@@ -11,18 +11,25 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
+import { Route as ConnexionRouteImport } from './routes/connexion'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GuideRouteImport } from './routes/guide'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
+import { Route as MesMatchsRouteImport } from './routes/mes-matchs'
+import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TerrainsRouteImport } from './routes/terrains'
 import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as ClubsIndexRouteImport } from './routes/clubs.index'
 import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
 import { Route as EvenementsIndexRouteImport } from './routes/evenements.index'
 import { Route as EvenementsSlugRouteImport } from './routes/evenements.$slug'
+import { Route as MatchsIndexRouteImport } from './routes/matchs.index'
+import { Route as MatchsIdRouteImport } from './routes/matchs.$id'
+import { Route as MatchsCreerRouteImport } from './routes/matchs.creer'
 import { Route as UploadsSplatRouteImport } from './routes/uploads.$'
 import { Route as ClubsVilleCityRouteImport } from './routes/clubs.ville.$city'
 
@@ -34,6 +41,11 @@ const IndexRoute = IndexRouteImport.update({
 const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
   id: '/confidentialite',
   path: '/confidentialite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConnexionRoute = ConnexionRouteImport.update({
+  id: '/connexion',
+  path: '/connexion',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -49,6 +61,16 @@ const GuideRoute = GuideRouteImport.update({
 const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
   id: '/mentions-legales',
   path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MesMatchsRoute = MesMatchsRouteImport.update({
+  id: '/mes-matchs',
+  path: '/mes-matchs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -76,6 +98,11 @@ const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
   path: '/articles/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClubsIndexRoute = ClubsIndexRouteImport.update({
   id: '/clubs/',
   path: '/clubs/',
@@ -96,6 +123,21 @@ const EvenementsSlugRoute = EvenementsSlugRouteImport.update({
   path: '/evenements/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MatchsIndexRoute = MatchsIndexRouteImport.update({
+  id: '/matchs/',
+  path: '/matchs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MatchsIdRoute = MatchsIdRouteImport.update({
+  id: '/matchs/$id',
+  path: '/matchs/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MatchsCreerRoute = MatchsCreerRouteImport.update({
+  id: '/matchs/creer',
+  path: '/matchs/creer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UploadsSplatRoute = UploadsSplatRouteImport.update({
   id: '/uploads/$',
   path: '/uploads/$',
@@ -110,56 +152,77 @@ const ClubsVilleCityRoute = ClubsVilleCityRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/confidentialite': typeof ConfidentialiteRoute
+  '/connexion': typeof ConnexionRoute
   '/contact': typeof ContactRoute
   '/guide': typeof GuideRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/mes-matchs': typeof MesMatchsRoute
+  '/profil': typeof ProfilRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terrains': typeof TerrainsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
+  '/matchs/$id': typeof MatchsIdRoute
+  '/matchs/creer': typeof MatchsCreerRoute
   '/uploads/$': typeof UploadsSplatRoute
   '/articles/': typeof ArticlesIndexRoute
   '/clubs/': typeof ClubsIndexRoute
   '/evenements/': typeof EvenementsIndexRoute
+  '/matchs/': typeof MatchsIndexRoute
   '/clubs/ville/$city': typeof ClubsVilleCityRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/confidentialite': typeof ConfidentialiteRoute
+  '/connexion': typeof ConnexionRoute
   '/contact': typeof ContactRoute
   '/guide': typeof GuideRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/mes-matchs': typeof MesMatchsRoute
+  '/profil': typeof ProfilRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terrains': typeof TerrainsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
+  '/matchs/$id': typeof MatchsIdRoute
+  '/matchs/creer': typeof MatchsCreerRoute
   '/uploads/$': typeof UploadsSplatRoute
   '/articles': typeof ArticlesIndexRoute
   '/clubs': typeof ClubsIndexRoute
   '/evenements': typeof EvenementsIndexRoute
+  '/matchs': typeof MatchsIndexRoute
   '/clubs/ville/$city': typeof ClubsVilleCityRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/confidentialite': typeof ConfidentialiteRoute
+  '/connexion': typeof ConnexionRoute
   '/contact': typeof ContactRoute
   '/guide': typeof GuideRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/mes-matchs': typeof MesMatchsRoute
+  '/profil': typeof ProfilRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terrains': typeof TerrainsRoute
   '/articles/$slug': typeof ArticlesSlugRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
+  '/matchs/$id': typeof MatchsIdRoute
+  '/matchs/creer': typeof MatchsCreerRoute
   '/uploads/$': typeof UploadsSplatRoute
   '/articles/': typeof ArticlesIndexRoute
   '/clubs/': typeof ClubsIndexRoute
   '/evenements/': typeof EvenementsIndexRoute
+  '/matchs/': typeof MatchsIndexRoute
   '/clubs/ville/$city': typeof ClubsVilleCityRoute
 }
 export interface FileRouteTypes {
@@ -167,74 +230,102 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/confidentialite'
+    | '/connexion'
     | '/contact'
     | '/guide'
     | '/mentions-legales'
+    | '/mes-matchs'
+    | '/profil'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terrains'
     | '/articles/$slug'
+    | '/auth/callback'
     | '/clubs/$slug'
     | '/evenements/$slug'
+    | '/matchs/$id'
+    | '/matchs/creer'
     | '/uploads/$'
     | '/articles/'
     | '/clubs/'
     | '/evenements/'
+    | '/matchs/'
     | '/clubs/ville/$city'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/confidentialite'
+    | '/connexion'
     | '/contact'
     | '/guide'
     | '/mentions-legales'
+    | '/mes-matchs'
+    | '/profil'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terrains'
     | '/articles/$slug'
+    | '/auth/callback'
     | '/clubs/$slug'
     | '/evenements/$slug'
+    | '/matchs/$id'
+    | '/matchs/creer'
     | '/uploads/$'
     | '/articles'
     | '/clubs'
     | '/evenements'
+    | '/matchs'
     | '/clubs/ville/$city'
   id:
     | '__root__'
     | '/'
     | '/confidentialite'
+    | '/connexion'
     | '/contact'
     | '/guide'
     | '/mentions-legales'
+    | '/mes-matchs'
+    | '/profil'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terrains'
     | '/articles/$slug'
+    | '/auth/callback'
     | '/clubs/$slug'
     | '/evenements/$slug'
+    | '/matchs/$id'
+    | '/matchs/creer'
     | '/uploads/$'
     | '/articles/'
     | '/clubs/'
     | '/evenements/'
+    | '/matchs/'
     | '/clubs/ville/$city'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ConfidentialiteRoute: typeof ConfidentialiteRoute
+  ConnexionRoute: typeof ConnexionRoute
   ContactRoute: typeof ContactRoute
   GuideRoute: typeof GuideRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
+  MesMatchsRoute: typeof MesMatchsRoute
+  ProfilRoute: typeof ProfilRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TerrainsRoute: typeof TerrainsRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   ClubsSlugRoute: typeof ClubsSlugRoute
   EvenementsSlugRoute: typeof EvenementsSlugRoute
+  MatchsIdRoute: typeof MatchsIdRoute
+  MatchsCreerRoute: typeof MatchsCreerRoute
   UploadsSplatRoute: typeof UploadsSplatRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
   ClubsIndexRoute: typeof ClubsIndexRoute
   EvenementsIndexRoute: typeof EvenementsIndexRoute
+  MatchsIndexRoute: typeof MatchsIndexRoute
   ClubsVilleCityRoute: typeof ClubsVilleCityRoute
 }
 
@@ -252,6 +343,13 @@ declare module '@tanstack/react-router' {
       path: '/confidentialite'
       fullPath: '/confidentialite'
       preLoaderRoute: typeof ConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/connexion': {
+      id: '/connexion'
+      path: '/connexion'
+      fullPath: '/connexion'
+      preLoaderRoute: typeof ConnexionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -273,6 +371,20 @@ declare module '@tanstack/react-router' {
       path: '/mentions-legales'
       fullPath: '/mentions-legales'
       preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mes-matchs': {
+      id: '/mes-matchs'
+      path: '/mes-matchs'
+      fullPath: '/mes-matchs'
+      preLoaderRoute: typeof MesMatchsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -310,6 +422,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticlesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/clubs/': {
       id: '/clubs/'
       path: '/clubs'
@@ -338,6 +457,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EvenementsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/matchs/': {
+      id: '/matchs/'
+      path: '/matchs'
+      fullPath: '/matchs/'
+      preLoaderRoute: typeof MatchsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/matchs/$id': {
+      id: '/matchs/$id'
+      path: '/matchs/$id'
+      fullPath: '/matchs/$id'
+      preLoaderRoute: typeof MatchsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/matchs/creer': {
+      id: '/matchs/creer'
+      path: '/matchs/creer'
+      fullPath: '/matchs/creer'
+      preLoaderRoute: typeof MatchsCreerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/uploads/$': {
       id: '/uploads/$'
       path: '/uploads/$'
@@ -358,19 +498,26 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ConfidentialiteRoute: ConfidentialiteRoute,
+  ConnexionRoute: ConnexionRoute,
   ContactRoute: ContactRoute,
   GuideRoute: GuideRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
+  MesMatchsRoute: MesMatchsRoute,
+  ProfilRoute: ProfilRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TerrainsRoute: TerrainsRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   ClubsSlugRoute: ClubsSlugRoute,
   EvenementsSlugRoute: EvenementsSlugRoute,
+  MatchsIdRoute: MatchsIdRoute,
+  MatchsCreerRoute: MatchsCreerRoute,
   UploadsSplatRoute: UploadsSplatRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
   ClubsIndexRoute: ClubsIndexRoute,
   EvenementsIndexRoute: EvenementsIndexRoute,
+  MatchsIndexRoute: MatchsIndexRoute,
   ClubsVilleCityRoute: ClubsVilleCityRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { Users } from "lucide-react";
 import court from "@/assets/padel-court.webp";
 import courtSmall from "@/assets/padel-court-828.webp";
 import { FreeCourtSearch } from "./free-court-search";
@@ -74,6 +75,10 @@ export function Hero({ stats, freeCourtCities }: { stats: { clubs: number; court
             </button>
             <Link to="/clubs" search={{ q: "", city: "" }} className="inline-flex h-12 items-center justify-center rounded-2xl bg-background/15 px-6 font-bold backdrop-blur transition-colors hover:bg-background/25">
               Voir tous les clubs
+            </Link>
+            {/* No city chosen: leave it out so /matchs falls back to the player's profile city. */}
+            <Link to="/matchs" search={slot.city ? { city: slot.city } : {}} className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-background/15 px-6 font-bold backdrop-blur transition-colors hover:bg-background/25">
+              <Users className="h-5 w-5" />Trouver un match
             </Link>
           </div>
         </div>

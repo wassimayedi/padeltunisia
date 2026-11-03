@@ -5,7 +5,7 @@ import { and, asc, count, desc, eq, getTableColumns, isNotNull, ne, sql, sum } f
 import { z } from "zod";
 
 import { clubs } from "@/db/schema";
-import { citySlug, type CityGroup, type ClubSummary } from "@/lib/clubs";
+import { cityGroups, citySlug, type CityGroup, type ClubSummary } from "@/lib/clubs";
 import { db } from "@/server/db";
 import { availabilityCityGroups } from "@/server/availability";
 import { upcomingEvents } from "@/server/events";
@@ -22,20 +22,14 @@ const summary = {
   logoUrl: clubs.logoUrl,
 };
 
-async function cityGroups(): Promise<CityGroup[]> {
-  const rows = await db()
-    .selectDistinct({ region: clubs.region, city: clubs.city })
-    .from(clubs)
-    .orderBy(asc(clubs.region), asc(clubs.city));
-  const groups = new Map<string, string[]>();
-  for (const r of rows) groups.set(r.region, [...(groups.get(r.region) ?? []), r.city]);
-  return [...groups].map(([region, cities]) => ({ region, cities }));
+async function directoryCityGroups(): Promise<CityGroup[]> {
+  return cityGroups(await db().selectDistinct({ region: clubs.region, city: clubs.city }).from(clubs));
 }
 
 export const getClubDirectory = createServerFn().handler(async () => {
   const [list, groups] = await Promise.all([
     db().select(summary).from(clubs).orderBy(asc(clubs.name)) as Promise<ClubSummary[]>,
-    cityGroups(),
+    directoryCityGroups(),
   ]);
   return { clubs: list, cityGroups: groups };
 });

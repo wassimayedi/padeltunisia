@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { submitContact } from "@/functions/contact";
+import { SelectField } from "@/components/select-field";
 import { CONTACT_TOPICS, contactSchema, type ContactInput } from "@/lib/contact";
 
 type Fields = Omit<ContactInput, "openedAt">;
@@ -59,9 +60,9 @@ export function ContactForm({ topic = "autre", organization = "" }: { topic?: Fi
 
       <div>
         <label htmlFor="topic" className={label}>Sujet</label>
-        <select id="topic" value={values.topic} onChange={(e) => set("topic", e.target.value as Fields["topic"])} className={`${field} cursor-pointer`}>
+        <SelectField id="topic" value={values.topic} onChange={(e) => set("topic", e.target.value as Fields["topic"])} className={field}>
           {CONTACT_TOPICS.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
-        </select>
+        </SelectField>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">

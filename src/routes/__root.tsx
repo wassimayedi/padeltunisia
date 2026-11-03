@@ -18,6 +18,7 @@ import { absoluteUrl, CONTACT_EMAIL, CONTACT_PHONE_TEL, SITE_NAME } from "@/lib/
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { SmoothScroll } from "@/components/motion";
 import { getPublicConfig } from "@/functions/config";
+import { Toaster } from "@/components/ui/sonner";
 
 // Runs before first paint: animated elements start hidden (see styles.css) instead of
 // flashing visible → hidden → animated. If GSAP still hasn't started 3s after the page has
@@ -164,6 +165,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <SiteFooter />
+      <Toaster position="top-center" richColors />
       {Devtools && (
         <ClientOnly>
           <Suspense fallback={null}>

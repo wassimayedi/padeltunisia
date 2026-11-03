@@ -5,6 +5,37 @@ export type ClubSummary = Pick<Club, "slug" | "name" | "region" | "city" | "area
 
 export type CityGroup = { region: string; cities: string[] };
 
+// --- Areas: every city filter also takes Grand Tunis or one of its governorates. ---
+export const GRAND_TUNIS = "Grand Tunis";
+
+/** Grand Tunis governorates and their cities: picking "Tunis" also finds La Marsa, La Goulette… */
+export const GOVERNORATES: Record<string, string[]> = {
+  Tunis: ["Tunis", "La Marsa", "La Goulette", "Gammarth", "Carthage", "Sidi Bou Saïd", "Le Kram", "Le Bardo", "Les Berges du Lac"],
+  Ariana: ["Ariana", "La Soukra", "Ennasr", "Raoued", "Mnihla", "Borj Louzir", "Sidi Thabet", "Kalâat el-Andalous"],
+  "Ben Arous": ["Ben Arous", "Mégrine", "El Mourouj", "Ezzahra", "Radès", "Hammam Lif", "Hammam Chott", "Bou Mhel", "Fouchana", "Mohamedia", "Mornag"],
+  Manouba: ["Manouba", "Den Den", "Oued Ellil", "Douar Hicher", "Mornaguia", "Tebourba", "Jedaida"],
+};
+
+/** The cities an area covers: a governorate's cities, or the city itself. */
+export const areaCities = (area: string) => (Object.hasOwn(GOVERNORATES, area) ? GOVERNORATES[area]! : [area]);
+
+/** Whether a club is in the area picked in the city filter ("" is everywhere). */
+export const inArea = (area: string, club: { city: string; region: string }) =>
+  !area || (area === GRAND_TUNIS ? club.region === GRAND_TUNIS : areaCities(area).includes(club.city));
+
+/** Cities by region, Grand Tunis first, for the city filters. */
+export function cityGroups(list: { region: string; city: string }[]): CityGroup[] {
+  const groups = new Map<string, Set<string>>();
+  for (const c of list) groups.set(c.region, (groups.get(c.region) ?? new Set()).add(c.city));
+  const byName = (a: string, b: string) => a.localeCompare(b, "fr");
+  return [...groups]
+    .sort(([a], [b]) => (a === GRAND_TUNIS ? -1 : b === GRAND_TUNIS ? 1 : byName(a, b)))
+    .map(([region, cities]) => ({ region, cities: [...cities].sort(byName) }));
+}
+
+/** "à La Marsa", "dans le Grand Tunis": for sentences about the picked area. */
+export const inAreaPhrase = (area: string) => (area === GRAND_TUNIS ? "dans le Grand Tunis" : `à ${area}`);
+
 const COURT_TYPE_LABELS: Record<CourtType, string> = {
   indoor: "intérieur",
   outdoor: "extérieur",
@@ -45,7 +76,7 @@ export function filterClubs<T extends ClubSummary>(list: T[], q: string, city: s
   const s = fold(q.trim());
   return list.filter(
     (c) =>
-      (!city || c.city === city) &&
+      inArea(city, c) &&
       (!s || [c.name, c.city, c.area ?? "", c.region].some((field) => fold(field).includes(s))),
   );
 }

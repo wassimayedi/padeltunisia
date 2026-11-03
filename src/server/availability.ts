@@ -4,7 +4,7 @@ import { asc, isNotNull } from "drizzle-orm";
 
 import { clubs } from "@/db/schema";
 import type { CourtPlanning } from "@/lib/availability";
-import type { CityGroup } from "@/lib/clubs";
+import { cityGroups, type CityGroup } from "@/lib/clubs";
 import { db } from "@/server/db";
 
 /** The widget itself refreshes every minute; a few minutes is fresh enough and spares Balle Jaune. */
@@ -176,7 +176,5 @@ export async function availabilityClubs() {
 
 /** Their cities, by region, for the city filter. */
 export async function availabilityCityGroups(list?: { region: string; city: string }[]): Promise<CityGroup[]> {
-  const groups = new Map<string, Set<string>>();
-  for (const c of list ?? (await availabilityClubs())) groups.set(c.region, (groups.get(c.region) ?? new Set()).add(c.city));
-  return [...groups].map(([region, cities]) => ({ region, cities: [...cities] }));
+  return cityGroups(list ?? (await availabilityClubs()));
 }
