@@ -4,7 +4,7 @@
 import { alias } from "drizzle-orm/pg-core";
 import { and, asc, count, desc, eq, gt, gte, inArray, lt, ne, or, sql, type SQL } from "drizzle-orm";
 
-import { clubs, matches, matchPlayers, notifications, players, type Match, type Player } from "@/db/schema";
+import { clubs, matches, matchPlayers, notifications, players, type Match, type MatchPlayerStatus, type Player } from "@/db/schema";
 import {
   dateWindow,
   genderAllowed,
@@ -37,11 +37,22 @@ type Tx = Parameters<Parameters<ReturnType<typeof db>["transaction"]>[0]>[0];
 const creator = alias(players, "creator");
 
 /**
- * A match created "members only" hides its players from visitors who aren't logged in: the
- * creator becomes a blank stand-in and `playersHidden` tells the page to leave players out.
+ * An anonymous match ("members only" in the schema) shows who plays only to its participants: the
+ * creator and the accepted players. For anyone else the creator becomes a blank stand-in and
+ * `playersHidden` tells the page to leave players out.
  */
-const forViewer = <T extends MatchSummary>(m: T, viewer: Player | null): T =>
-  !viewer && m.membersOnly ? { ...m, creator: { id: "", name: "", avatarUrl: null, level: null }, playersHidden: true } : m;
+const forViewer = <T extends MatchSummary>(m: T, participant: boolean): T =>
+  m.membersOnly && !participant ? { ...m, creator: { id: "", name: "", avatarUrl: null, level: null }, playersHidden: true } : m;
+
+/** `viewer`'s request status in each of `matchIds` they asked to join. */
+async function statusesIn(viewer: Player | null, matchIds: string[]) {
+  if (!viewer || matchIds.length === 0) return new Map<string, MatchPlayerStatus>();
+  const rows = await db()
+    .select({ id: matchPlayers.matchId, status: matchPlayers.status })
+    .from(matchPlayers)
+    .where(and(eq(matchPlayers.playerId, viewer.id), inArray(matchPlayers.matchId, matchIds)));
+  return new Map(rows.map((r) => [r.id, r.status]));
+}
 
 const acceptedCounts = () =>
   db()
@@ -86,7 +97,8 @@ export async function searchMatches(s: MatchSearch, viewer: Player | null) {
   const now = new Date();
   const rows = await summaries(
     and(
-      eq(matches.status, "open"),
+      // Full matches stay listed, shown as complete: players see the activity, not an empty page.
+      inArray(matches.status, ["open", "full"]),
       gt(matches.startsAt, window && window.from > now ? window.from : now),
       window ? lt(matches.startsAt, window.to) : undefined,
       clubInArea(s.city),
@@ -98,7 +110,15 @@ export async function searchMatches(s: MatchSearch, viewer: Player | null) {
     (s.page - 1) * PAGE_SIZE,
   );
   const page = rows.slice(0, PAGE_SIZE);
-  return { matches: page.map((m) => forViewer(m, viewer)), hasMore: rows.length > PAGE_SIZE };
+  const statuses = await statusesIn(viewer, page.map((m) => m.id));
+  return {
+    matches: page.map((m) => {
+      // Worked out before forViewer, which blanks the creator's id on anonymous matches.
+      const myStatus = viewer && m.creator.id === viewer.id ? ("creator" as const) : (statuses.get(m.id) ?? null);
+      return { ...forViewer(m, myStatus === "creator" || myStatus === "accepted"), myStatus };
+    }),
+    hasMore: rows.length > PAGE_SIZE,
+  };
 }
 
 /** Cities that have clubs, and the clubs to pick from when creating a match. */
@@ -161,7 +181,7 @@ export async function matchDetail(id: string, viewer: Player | null): Promise<Ma
     };
   }
 
-  const shown = forViewer(summary, viewer);
+  const shown = forViewer(summary, inside);
   return { ...shown, note: m!.note, creatorContact: inside ? contactOf(owner!) : null, players: shown.playersHidden ? [] : list, viewer: viewerInfo };
 }
 
@@ -173,7 +193,10 @@ export async function myMatches(player: Player) {
     db().select({ matchId: matchPlayers.matchId, status: matchPlayers.status }).from(matchPlayers).where(eq(matchPlayers.playerId, player.id)),
   ]);
   const mine = new Map(statuses.map((s) => [s.matchId, s.status]));
-  return rows.map((m) => ({ ...m, myStatus: m.creator.id === player.id ? ("creator" as const) : (mine.get(m.id) ?? null) }));
+  return rows.map((m) => {
+    const myStatus = m.creator.id === player.id ? ("creator" as const) : (mine.get(m.id) ?? null);
+    return { ...forViewer(m, myStatus === "creator" || myStatus === "accepted"), myStatus };
+  });
 }
 
 /** Matches `playerId` will be on court for (created or accepted) that overlap [startsAt, endsAt). */

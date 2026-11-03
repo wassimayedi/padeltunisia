@@ -205,7 +205,7 @@ export function CreateMatchForm({ clubs, viewer, defaults }: { clubs: ClubChoice
               onChange={(v) => set("gender", v)}
             />
           </Labelled>
-          <Toggle checked={values.membersOnly} onChange={(v) => set("membersOnly", v)} label="Joueurs visibles par les membres uniquement" hint="Les visiteurs non connectés voient le match, mais pas qui y joue." />
+          <Toggle checked={values.membersOnly} onChange={(v) => set("membersOnly", v)} label="Match anonyme" hint="Tout le monde voit le match, mais seuls vous et les joueurs acceptés voient qui y joue." />
           <Labelled label="Note pour les joueurs (facultatif)">
             <textarea aria-label="Note pour les joueurs" rows={3} maxLength={300} value={values.note} onChange={(e) => set("note", e.target.value)} placeholder="Ex. : partage du terrain 15 DT par joueur, balles fournies…" className={`${field} h-auto py-3 font-normal`} />
           </Labelled>

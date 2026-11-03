@@ -136,10 +136,14 @@ function MatchPage() {
             {m.playersHidden ? (
               <p className="mt-4 flex items-start gap-3 rounded-2xl bg-muted px-4 py-3 text-sm">
                 <Lock className="mt-0.5 h-4 w-4 shrink-0 text-court" />
-                <span>
-                  Les participants de ce match sont visibles uniquement par les membres connectés.{" "}
-                  <Link to="/connexion" search={{ next: here, erreur: 0 }} className="font-semibold text-court underline">Connectez-vous</Link> pour les découvrir.
-                </span>
+                {m.viewer ? (
+                  <span>Match anonyme : l'organisateur et les joueurs vous seront dévoilés une fois votre demande acceptée.</span>
+                ) : (
+                  <span>
+                    Match anonyme : les joueurs sont dévoilés aux participants.{" "}
+                    <Link to="/connexion" search={{ next: here, erreur: 0 }} className="font-semibold text-court underline">Connectez-vous</Link> pour demander à rejoindre.
+                  </span>
+                )}
               </p>
             ) : (
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">

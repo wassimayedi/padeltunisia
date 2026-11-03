@@ -124,7 +124,7 @@ function MatchesPage() {
         )}
 
         <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {matches.map((m) => <li key={m.id}><MatchCard match={m} /></li>)}
+          {matches.map((m) => <li key={m.id}><MatchCard match={m} myStatus={m.myStatus} /></li>)}
         </ul>
         {matches.length === 0 && (
           <div className="mt-6 flex flex-col items-center rounded-3xl border-2 border-dashed px-6 py-14 text-center">
