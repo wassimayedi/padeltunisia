@@ -46,6 +46,10 @@ services:
       RESEND_API_KEY: ${RESEND_API_KEY:-}
       WHATSAPP_SERVER: ${WHATSAPP_SERVER:-}
       WHATSAPP_API_KEY: ${WHATSAPP_API_KEY:-}
+    # Lets the app reach services published on the host (whatsapp-api-server on :3007): inside the
+    # container localhost is the container itself, so use WHATSAPP_SERVER=http://host.docker.internal:3007.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     # Images added by the MCP tools on the host (scripts/mcp), served at /uploads/….
     volumes:
       - ./uploads:/app/uploads:ro
