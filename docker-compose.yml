@@ -35,6 +35,17 @@ services:
       # Google Analytics 4 measurement ID (G-…); read at runtime, leave empty to disable.
       GA_ID: ${GA_ID:-}
       UPLOADS_DIR: /app/uploads
+      PADEL_SOCIETY_PHONE: ${PADEL_SOCIETY_PHONE:-}
+      # "Trouver un match" login (Supabase Auth); the app fails on login pages without these.
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-}
+      # Match notifications (e-mail, WhatsApp).
+      GMAIL_USER: ${GMAIL_USER:-}
+      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      WHATSAPP_SERVER: ${WHATSAPP_SERVER:-}
+      WHATSAPP_API_KEY: ${WHATSAPP_API_KEY:-}
     # Images added by the MCP tools on the host (scripts/mcp), served at /uploads/….
     volumes:
       - ./uploads:/app/uploads:ro
