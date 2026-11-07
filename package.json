@@ -17,7 +17,8 @@
     "db:seed": "node --env-file-if-exists=.env scripts/seed.ts",
     "db:studio": "drizzle-kit studio",
     "mcp": "node --env-file-if-exists=.env scripts/mcp/index.ts",
-    "matches:close": "node --env-file-if-exists=.env scripts/close-matches.ts"
+    "matches:close": "node --env-file-if-exists=.env scripts/close-matches.ts",
+    "social:push": "node --env-file-if-exists=.env scripts/social/push.ts"
   },
   "overrides": {
     "rolldown": "1.2.1"

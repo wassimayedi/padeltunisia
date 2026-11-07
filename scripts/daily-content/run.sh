@@ -45,3 +45,7 @@ mcp=mcp__padeltunisia
 task events "${mcp}__find_events,${mcp}__find_clubs,${mcp}__save_image,${mcp}__add_event"
 task news "${mcp}__recent_news,${mcp}__find_events,${mcp}__find_clubs,${mcp}__save_image,${mcp}__add_news"
 task magazine "${mcp}__recent_articles,${mcp}__recent_news,${mcp}__find_events,${mcp}__find_clubs,${mcp}__add_magazine_article"
+
+# Posts the new article to the Facebook Page and Instagram (META_* in .env.local, see env.example).
+echo "--- $(date '+%F %T') social"
+npm run social:push || echo "social failed"

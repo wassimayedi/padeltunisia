@@ -7,15 +7,19 @@ export const Route = createFileRoute("/uploads/$")({
     handlers: {
       GET: async ({ params }) => {
         const path = params._splat ?? "";
-        if (!/^(events|news|magazine)\/[a-z0-9-]+\.webp$/.test(path))
+        // Social post images (scripts/social) are JPEG, which Instagram requires.
+        const allowed =
+          /^((events|news|magazine)\/[a-z0-9-]+\.webp|social\/[a-z0-9-]+\.jpg)$/;
+        if (!allowed.test(path))
           return new Response("Not found", { status: 404 });
+        const contentType = path.endsWith(".jpg") ? "image/jpeg" : "image/webp";
         const { readFile } = await import("node:fs/promises");
         const { join } = await import("node:path");
         try {
           const file = await readFile(join(process.env["UPLOADS_DIR"] ?? "uploads", path));
           return new Response(file, {
             headers: {
-              "content-type": "image/webp",
+              "content-type": contentType,
               "cache-control": "public, max-age=31536000, immutable",
             },
           });

@@ -147,6 +147,9 @@ export const magazine = pgTable(
     sources: jsonb("sources").$type<{ label: string; url: string }[]>().notNull().default([]),
     /** Articles stay hidden until this date, so publication can be scheduled. */
     publishedOn: date("published_on").notNull(),
+    /** Meta post ids set by scripts/social/push.ts; null until the article is posted there. */
+    facebookPostId: text("facebook_post_id"),
+    instagramPostId: text("instagram_post_id"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .notNull()
