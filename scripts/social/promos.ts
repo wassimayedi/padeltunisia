@@ -48,6 +48,8 @@ export type Promo = {
   key: string;
   /** Pill shown above the title. */
   category: string;
+  /** Pixabay search for the background photo, in English: what is seen, 2 to 4 words. */
+  photoQuery: string;
   build: (s: PromoStats) => PromoContent | null;
 };
 
@@ -103,6 +105,7 @@ export const promos: Promo[] = [
   {
     key: "clubs-near-you",
     category: "Clubs",
+    photoQuery: "padel court",
     build: (s) =>
       s.clubs < 5
         ? null
@@ -116,6 +119,7 @@ export const promos: Promo[] = [
   {
     key: "clubs-compare",
     category: "Clubs",
+    photoQuery: "indoor padel court",
     build: () => ({
       title: "Indoor, outdoor ou couvert : quel club choisir ?",
       text: "Compare les clubs de padel en Tunisie : nombre de terrains, type de court, équipements et horaires.",
@@ -128,6 +132,7 @@ export const promos: Promo[] = [
   {
     key: "free-courts-tonight",
     category: "Terrains libres",
+    photoQuery: "padel court night",
     build: (s) =>
       s.liveClubs < 2
         ? null
@@ -141,6 +146,7 @@ export const promos: Promo[] = [
   {
     key: "free-courts-weekend",
     category: "Terrains libres",
+    photoQuery: "padel court sunny",
     build: (s) =>
       s.liveClubs < 1
         ? null
@@ -156,6 +162,7 @@ export const promos: Promo[] = [
   {
     key: "find-fourth-player",
     category: "Trouver un match",
+    photoQuery: "padel players doubles",
     build: () => ({
       title: "Il vous manque un 4e joueur ?",
       text: "Crée ton match sur Connect : choisis ton club, ton créneau et le niveau, les joueurs te rejoignent.",
@@ -166,6 +173,7 @@ export const promos: Promo[] = [
   {
     key: "players-your-level",
     category: "Trouver un match",
+    photoQuery: "padel player racket",
     build: () => ({
       title: "Trouver des joueurs de ton niveau ?",
       text: "Filtre les matchs par niveau, par ville et par genre, et rejoins une partie équilibrée.",
@@ -176,6 +184,7 @@ export const promos: Promo[] = [
   {
     key: "open-matches",
     category: "Trouver un match",
+    photoQuery: "padel match",
     build: (s) =>
       s.openMatches < 2
         ? null
@@ -189,6 +198,7 @@ export const promos: Promo[] = [
   {
     key: "new-in-town",
     category: "Trouver un match",
+    photoQuery: "friends padel",
     build: () => ({
       title: "Pas de partenaire de padel sous la main ?",
       text: "Rejoins des matchs ouverts près de chez toi et rencontre des joueurs de ton niveau.",
@@ -201,6 +211,7 @@ export const promos: Promo[] = [
   {
     key: "next-tournament",
     category: "Tournois",
+    photoQuery: "padel tournament",
     build: (s) =>
       !s.nextEvent
         ? null
@@ -214,6 +225,7 @@ export const promos: Promo[] = [
   {
     key: "tournaments-calendar",
     category: "Tournois",
+    photoQuery: "padel competition",
     build: (s) =>
       s.upcomingEvents < 2
         ? null
@@ -229,6 +241,7 @@ export const promos: Promo[] = [
   {
     key: "guide-start",
     category: "Guide du padel",
+    photoQuery: "padel racket ball",
     build: () => ({
       title: "Débuter le padel : par où commencer ?",
       text: "Règles, raquette, chaussures, prix d'une partie en Tunisie : notre guide pour te lancer du bon pied.",
@@ -239,6 +252,7 @@ export const promos: Promo[] = [
   {
     key: "guide-rules",
     category: "Guide du padel",
+    photoQuery: "padel ball net",
     build: () => ({
       title: "Tu connais vraiment les règles du padel ?",
       text: "Service, vitres, grillage, comptage des points : les règles expliquées simplement, pour ne plus douter en match.",
@@ -251,6 +265,7 @@ export const promos: Promo[] = [
   {
     key: "padel-news",
     category: "Actualités",
+    photoQuery: "padel game",
     build: (s) =>
       s.articles < 5
         ? null
@@ -264,6 +279,7 @@ export const promos: Promo[] = [
   {
     key: "padel-questions",
     category: "Actualités",
+    photoQuery: "padel racket",
     build: () => ({
       title: "Une question sur le padel ?",
       text: "Prix d'une heure de jeu, choix de raquette, blessures, matériel : nos articles répondent à tes questions.",
@@ -276,6 +292,7 @@ export const promos: Promo[] = [
   {
     key: "all-in-one",
     category: "Connect",
+    photoQuery: "padel",
     build: (s) => ({
       title: "Clubs, terrains, matchs, tournois : tout le padel en Tunisie",
       text: `${s.clubs >= 5 ? `${s.clubs} clubs, des` : "Des"} matchs ouverts et le calendrier des tournois : une seule adresse pour savoir où, quand et avec qui jouer.`,

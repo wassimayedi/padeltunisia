@@ -7,15 +7,20 @@ import { download } from "./images.ts";
 
 type PixabayHit = { pageURL: string; user: string; largeImageURL: string };
 
-async function search(key: string, query: string) {
+async function search(
+  key: string,
+  query: string,
+  orientation: "horizontal" | "vertical" = "horizontal",
+  minWidth = 1200,
+) {
   const url = new URL("https://pixabay.com/api/");
   url.search = new URLSearchParams({
     key,
     q: query.slice(0, 100),
     image_type: "photo",
-    orientation: "horizontal",
+    orientation,
     safesearch: "true",
-    min_width: "1200",
+    min_width: String(minWidth),
     per_page: "50",
   }).toString();
   const response = await fetch(url, { signal: AbortSignal.timeout(20_000) });
@@ -45,6 +50,25 @@ export async function stockCover(query: string | undefined, used: Set<string>) {
           .toBuffer(),
         credit: { name: photo.user, url: photo.pageURL },
       };
+    }
+  }
+  return null;
+}
+
+/**
+ * A portrait photo for `query` (then "padel"), for social posts and stories: picked at random among
+ * the 20 best results so repeated promos don't always show the same one. Returns the original image
+ * and its credit; null without a key or when nothing is found.
+ */
+export async function stockPhoto(query: string) {
+  const key = process.env["PIXABAY_API_KEY"];
+  if (!key) return null;
+  for (const q of new Set([query, "padel"])) {
+    const hits = (await search(key, q, "vertical", 1080)).slice(0, 20);
+    const photo = hits[Math.floor(Math.random() * hits.length)];
+    if (photo) {
+      const { data } = await download(photo.largeImageURL);
+      return { data, credit: { name: photo.user, url: photo.pageURL } };
     }
   }
   return null;

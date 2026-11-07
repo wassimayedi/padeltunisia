@@ -56,20 +56,31 @@ const img = (
 const dataUri = (mime: string, data: Buffer) =>
   `data:${mime};base64,${data.toString("base64")}`;
 
-/** Cover photo cropped to the format as JPEG (satori doesn't read WebP), or null when it can't be loaded. */
-async function background(imageUrl: string | null | undefined, height: number) {
-  if (!imageUrl) return null;
+/**
+ * Photo (given as bytes, or loaded from a URL) cropped to the format as JPEG (satori doesn't read
+ * WebP), or null when there is none or it can't be loaded.
+ */
+async function background(
+  source: { data: Buffer | null | undefined; url: string | null | undefined },
+  height: number,
+) {
+  const imageUrl = source.url;
+  if (!source.data && !imageUrl) return null;
   try {
-    const res = await fetch(new URL(imageUrl, siteUrl));
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const photo = await sharp(Buffer.from(await res.arrayBuffer()))
+    let input = source.data;
+    if (!input) {
+      const res = await fetch(new URL(imageUrl!, siteUrl));
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      input = Buffer.from(await res.arrayBuffer());
+    }
+    const photo = await sharp(input)
       .resize(width, height, { fit: "cover", position: "attention" })
       .jpeg({ quality: 85 })
       .toBuffer();
     return dataUri("image/jpeg", photo);
   } catch (error) {
     console.warn(
-      `social image: cover ${imageUrl} not loaded (${String(error)}), using the plain background`,
+      `social image: photo ${imageUrl ?? "(bytes)"} not usable (${String(error)}), using the plain background`,
     );
     return null;
   }
@@ -145,6 +156,7 @@ export async function renderSocialImage({
   category,
   excerpt,
   imageUrl,
+  imageData,
   format = "post",
   cta = "Lire l'article · lien en bio",
 }: {
@@ -152,6 +164,8 @@ export async function renderSocialImage({
   category: string;
   excerpt: string;
   imageUrl?: string | null;
+  /** The photo itself (e.g. from Pixabay); used instead of imageUrl when given. */
+  imageData?: Buffer | null;
   format?: SocialFormat;
   /** Story button text; the font has no arrows or emoji, keep it to plain text. */
   cta?: string;
@@ -159,7 +173,7 @@ export async function renderSocialImage({
   const height = heights[format];
   const story = format === "story";
   const [photo, logo, semibold, extrabold] = await Promise.all([
-    background(imageUrl, height),
+    background({ data: imageData, url: imageUrl }, height),
     // White Connect wordmark (400×64), as on the site footer.
     asset("public/connect-white.webp").then((data) =>
       sharp(data).png().toBuffer(),

@@ -22,6 +22,7 @@ import {
   type Promo,
   type PromoContent,
 } from "./promos.ts";
+import { stockPhoto } from "../mcp/stock.ts";
 import { saveSocialImage } from "./upload.ts";
 
 const dryRun = process.argv.includes("--dry-run");
@@ -42,13 +43,34 @@ const hashtags = (promo: Promo) =>
       .replace(/[^a-z0-9]/g, "")}`,
   ].join(" ");
 
-function captions(promo: Promo, content: PromoContent) {
+function captions(
+  promo: Promo,
+  content: PromoContent,
+  credit: { name: string } | undefined,
+) {
   const intro = `${content.title}\n\n${content.text}`;
+  // Pixabay asks to say where its photos come from.
+  const photo = credit ? `\n\n📷 ${credit.name} / Pixabay` : "";
   return {
-    facebook: `${intro}\n\n👉 https://${brandHost}${content.path}\n\n${hashtags(promo)}`,
+    facebook: `${intro}\n\n👉 https://${brandHost}${content.path}\n\n${hashtags(promo)}${photo}`,
     // Links in Instagram captions aren't clickable.
-    instagram: `${intro}\n\n🔗 ${brandHost}${content.path} (lien en bio)\n\n${hashtags(promo)}`,
+    instagram: `${intro}\n\n🔗 ${brandHost}${content.path} (lien en bio)\n\n${hashtags(promo)}${photo}`,
   };
+}
+
+/** Background photo for the promo, or undefined (plain court background) when none can be had. */
+async function promoPhoto(query: string) {
+  try {
+    const photo = await stockPhoto(query);
+    if (!photo)
+      console.warn(
+        "promo photo: no PIXABAY_API_KEY or no result, using the plain background",
+      );
+    return photo ?? undefined;
+  } catch (error) {
+    console.warn(`promo photo: ${String(error)}, using the plain background`);
+    return undefined;
+  }
 }
 
 /** The promo to post today: least recently posted first, never-posted ones before all others. */
@@ -108,14 +130,18 @@ if (!chosen?.content) {
 }
 
 const { promo, content } = chosen;
-const text = captions(promo, content);
 console.log(`promo ${today}: ${promo.key}${dryRun ? " (dry run)" : ""}`);
+// One photo for the post and the story, so they look alike.
+const photo = await promoPhoto(promo.photoQuery);
+if (photo) console.log(`photo: ${photo.credit.url}`);
+const text = captions(promo, content, photo?.credit);
 const render = (format: SocialFormat) =>
   renderSocialImage({
     title: content.title,
     category: promo.category,
     excerpt: content.text,
     cta: content.cta,
+    imageData: photo?.data ?? null,
     format,
   });
 
