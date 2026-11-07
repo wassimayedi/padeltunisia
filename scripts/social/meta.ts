@@ -17,9 +17,10 @@ async function graph<T>(
   params: Record<string, string>,
   method: "GET" | "POST" = "POST",
 ) {
+  // A token passed in params (the Page token) takes precedence over META_TOKEN.
   const body = new URLSearchParams({
-    ...params,
     access_token: env("META_TOKEN"),
+    ...params,
   });
   const url = `https://graph.facebook.com/${version}/${path}`;
   const signal = AbortSignal.timeout(60_000);
@@ -38,13 +39,33 @@ async function graph<T>(
   return json;
 }
 
-/** Photo post on the Page; links in the caption are clickable there. Returns the post id. */
+/**
+ * Page access token derived from META_TOKEN: posting with the system user token itself counts as a
+ * person posting (Meta answers "publish_actions … deprecated"). Never expires when META_TOKEN doesn't.
+ */
+async function pageToken(pageId: string) {
+  const { access_token } = await graph<{ access_token?: string }>(
+    pageId,
+    { fields: "access_token" },
+    "GET",
+  );
+  if (!access_token) {
+    throw new Error(
+      `No Page token for ${pageId}: assign the Page to the system user and generate META_TOKEN again`,
+    );
+  }
+  return access_token;
+}
+
+/** Photo post on the Page, as the Page; links in the caption are clickable there. Returns the post id. */
 export async function postToFacebook(imageUrl: string, caption: string) {
+  const pageId = env("META_PAGE_ID");
   const res = await graph<{ id: string; post_id?: string }>(
-    `${env("META_PAGE_ID")}/photos`,
+    `${pageId}/photos`,
     {
       url: imageUrl,
       message: caption,
+      access_token: await pageToken(pageId),
     },
   );
   return res.post_id ?? res.id;
