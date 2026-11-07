@@ -9,7 +9,7 @@ import { and, desc, eq, gte, isNull, lte, or } from "drizzle-orm";
 
 import { magazine, type MagazineArticle } from "../../src/db/schema.ts";
 import { db, siteUrl } from "../mcp/config.ts";
-import { renderSocialImage, type SocialFormat } from "./image.ts";
+import { brandHost, renderSocialImage, type SocialFormat } from "./image.ts";
 import {
   postToFacebook,
   postToInstagram,
@@ -58,7 +58,7 @@ function captions(article: MagazineArticle) {
   return {
     facebook: `${intro}\n\n👉 Lire l'article : ${url}\n\n${hashtags(article)}`,
     // Links in Instagram captions aren't clickable.
-    instagram: `${intro}\n\n🔗 Article complet sur padeltunisia.tn (lien en bio)\n\n${hashtags(article)}`,
+    instagram: `${intro}\n\n🔗 Article complet sur ${brandHost} (lien en bio)\n\n${hashtags(article)}`,
   };
 }
 

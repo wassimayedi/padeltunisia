@@ -18,7 +18,8 @@
     "db:studio": "drizzle-kit studio",
     "mcp": "node --env-file-if-exists=.env scripts/mcp/index.ts",
     "matches:close": "node --env-file-if-exists=.env scripts/close-matches.ts",
-    "social:push": "node --env-file-if-exists=.env --env-file-if-exists=scripts/daily-content/.env.local scripts/social/push.ts"
+    "social:push": "node --env-file-if-exists=.env --env-file-if-exists=scripts/daily-content/.env.local scripts/social/push.ts",
+    "social:promo": "node --env-file-if-exists=.env --env-file-if-exists=scripts/daily-content/.env.local scripts/social/promo.ts"
   },
   "overrides": {
     "rolldown": "1.2.1"

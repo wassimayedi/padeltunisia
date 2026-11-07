@@ -12,6 +12,9 @@ import { siteUrl } from "../mcp/config.ts";
 
 export type SocialFormat = "post" | "story";
 
+/** Address shown on images and in captions; redirects to the site, keeping the path. */
+export const brandHost = "connect.padeltunisia.tn";
+
 const width = 1080;
 const heights: Record<SocialFormat, number> = { post: 1350, story: 1920 };
 // Stories: profile bar on top, reply box at the bottom.
@@ -143,18 +146,24 @@ export async function renderSocialImage({
   excerpt,
   imageUrl,
   format = "post",
+  cta = "Lire l'article · lien en bio",
 }: {
   title: string;
   category: string;
   excerpt: string;
   imageUrl?: string | null;
   format?: SocialFormat;
+  /** Story button text; the font has no arrows or emoji, keep it to plain text. */
+  cta?: string;
 }) {
   const height = heights[format];
   const story = format === "story";
   const [photo, logo, semibold, extrabold] = await Promise.all([
     background(imageUrl, height),
-    asset("public/logo.webp").then((data) => sharp(data).png().toBuffer()),
+    // White Connect wordmark (400×64), as on the site footer.
+    asset("public/connect-white.webp").then((data) =>
+      sharp(data).png().toBuffer(),
+    ),
     font(600),
     font(800),
   ]);
@@ -248,7 +257,7 @@ export async function renderSocialImage({
                     padding: "20px 44px",
                     borderRadius: 999,
                   },
-                  "Lire l'article · lien en bio",
+                  cta,
                 ),
               ),
             ]
@@ -265,17 +274,11 @@ export async function renderSocialImage({
             fontSize: 34,
             fontWeight: 800,
           },
-          el(
-            "div",
-            { display: "flex", alignItems: "center" },
-            img(dataUri("image/png", logo), 56, 56, { marginRight: 16 }),
-            "Padel",
-            el("span", { color: lime }, "Tunisia"),
-          ),
+          img(dataUri("image/png", logo), 250, 40),
           el(
             "div",
             { display: "flex", fontSize: 30, fontWeight: 600, color: lime },
-            new URL(siteUrl).host,
+            brandHost,
           ),
         ),
       ),

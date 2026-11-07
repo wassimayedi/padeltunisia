@@ -165,6 +165,26 @@ export const magazine = pgTable(
 export type MagazineArticle = typeof magazine.$inferSelect;
 export type NewMagazineArticle = typeof magazine.$inferInsert;
 
+/** Daily promotional post and story about a site feature (scripts/social/promo.ts), one per day. */
+export const socialPromos = pgTable(
+  "social_promos",
+  {
+    id: serial("id").primaryKey(),
+    /** Tunis date of the promo; unique, so a day is never promoted twice. */
+    day: date("day").notNull().unique(),
+    /** Key of the message in scripts/social/promos.ts, used to rotate through them. */
+    promoKey: text("promo_key").notNull(),
+    facebookPostId: text("facebook_post_id"),
+    instagramPostId: text("instagram_post_id"),
+    facebookStoryId: text("facebook_story_id"),
+    instagramStoryId: text("instagram_story_id"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("social_promos_promo_key_idx").on(t.promoKey, t.day)],
+);
+
+export type SocialPromo = typeof socialPromos.$inferSelect;
+
 export const contactTopic = pgEnum("contact_topic", ["club", "tournoi", "partenariat", "autre"]);
 export const contactStatus = pgEnum("contact_status", ["new", "read", "done"]);
 
