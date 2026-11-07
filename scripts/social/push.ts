@@ -1,15 +1,21 @@
 // Posts newly published magazine articles to the Facebook Page and Instagram, with a branded 4:5
-// image (image.ts). Each network's post id is saved on the article, so nothing is posted twice and
-// a failed network is retried on the next run. Only articles from the last 3 days are considered.
-// Usage: npm run social:push [-- --dry-run]   (dry run writes image and captions to logs/social/)
+// image (image.ts), and shares the day's article as a 9:16 story on both. Each post and story id is
+// saved on the article, so nothing is published twice and a failed one is retried on the next run.
+// Posts consider articles from the last 3 days; stories (gone after 24 h) only today's.
+// Usage: npm run social:push [-- --dry-run]   (dry run writes images and captions to logs/social/)
 import { mkdir, writeFile } from "node:fs/promises";
 
 import { and, desc, eq, gte, isNull, lte, or } from "drizzle-orm";
 
 import { magazine, type MagazineArticle } from "../../src/db/schema.ts";
 import { db, siteUrl } from "../mcp/config.ts";
-import { renderSocialImage } from "./image.ts";
-import { postToFacebook, postToInstagram } from "./meta.ts";
+import { renderSocialImage, type SocialFormat } from "./image.ts";
+import {
+  postToFacebook,
+  postToInstagram,
+  storyToFacebook,
+  storyToInstagram,
+} from "./meta.ts";
 import { saveSocialImage } from "./upload.ts";
 
 const dryRun = process.argv.includes("--dry-run");
@@ -56,14 +62,25 @@ function captions(article: MagazineArticle) {
   };
 }
 
+const today = tunisDate();
 const articles = await db
   .select()
   .from(magazine)
   .where(
     and(
-      lte(magazine.publishedOn, tunisDate()),
+      lte(magazine.publishedOn, today),
       gte(magazine.publishedOn, tunisDate(lookbackDays)),
-      or(isNull(magazine.facebookPostId), isNull(magazine.instagramPostId)),
+      or(
+        isNull(magazine.facebookPostId),
+        isNull(magazine.instagramPostId),
+        and(
+          eq(magazine.publishedOn, today),
+          or(
+            isNull(magazine.facebookStoryId),
+            isNull(magazine.instagramStoryId),
+          ),
+        ),
+      ),
     ),
   )
   .orderBy(desc(magazine.publishedOn));
@@ -76,41 +93,77 @@ let failed = false;
 for (const article of articles) {
   console.log(`--- ${article.slug}`);
   const text = captions(article);
-  const jpeg = await renderSocialImage({
-    title: article.title,
-    category: article.category,
-    excerpt: article.excerpt,
-    imageUrl: article.imageUrl,
-  });
+  const withStories = article.publishedOn === today;
+  const render = (format: SocialFormat) =>
+    renderSocialImage({
+      title: article.title,
+      category: article.category,
+      excerpt: article.excerpt,
+      imageUrl: article.imageUrl,
+      format,
+    });
 
   if (dryRun) {
     await mkdir("logs/social", { recursive: true });
-    await writeFile(`logs/social/${article.slug}.jpg`, jpeg);
+    await writeFile(`logs/social/${article.slug}.jpg`, await render("post"));
     await writeFile(
       `logs/social/${article.slug}.txt`,
       `FACEBOOK\n${text.facebook}\n\nINSTAGRAM\n${text.instagram}\n`,
     );
-    console.log(`written to logs/social/${article.slug}.jpg and .txt`);
+    if (withStories) {
+      await writeFile(
+        `logs/social/${article.slug}-story.jpg`,
+        await render("story"),
+      );
+    }
+    console.log(
+      `written to logs/social/${article.slug}.jpg, .txt${withStories ? " and -story.jpg" : ""}`,
+    );
     continue;
   }
 
-  const imageUrl = await saveSocialImage(jpeg, article.slug);
+  // Each image is rendered and saved once, and only if a target still needs it.
+  const saved = new Map<SocialFormat, Promise<string>>();
+  const imageUrl = (format: SocialFormat) => {
+    if (!saved.has(format)) {
+      const name = format === "story" ? `${article.slug}-story` : article.slug;
+      saved.set(
+        format,
+        render(format).then((jpeg) => saveSocialImage(jpeg, name)),
+      );
+    }
+    return saved.get(format)!;
+  };
+
   const networks = [
     {
       name: "facebook",
       done: article.facebookPostId,
       column: "facebookPostId",
-      post: () => postToFacebook(imageUrl, text.facebook),
+      post: async () => postToFacebook(await imageUrl("post"), text.facebook),
     },
     {
       name: "instagram",
       done: article.instagramPostId,
       column: "instagramPostId",
-      post: () => postToInstagram(imageUrl, text.instagram),
+      post: async () => postToInstagram(await imageUrl("post"), text.instagram),
+    },
+    {
+      name: "facebook story",
+      done: withStories ? article.facebookStoryId : "skipped",
+      column: "facebookStoryId",
+      post: async () => storyToFacebook(await imageUrl("story")),
+    },
+    {
+      name: "instagram story",
+      done: withStories ? article.instagramStoryId : "skipped",
+      column: "instagramStoryId",
+      post: async () => storyToInstagram(await imageUrl("story")),
     },
   ] as const;
 
   for (const network of networks) {
+    // Already published, or a story for an article that isn't today's.
     if (network.done) continue;
     try {
       const id = await network.post();

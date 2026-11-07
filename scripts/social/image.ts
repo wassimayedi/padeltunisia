@@ -1,5 +1,7 @@
-// 1080×1350 (4:5) JPEG for Instagram and Facebook posts of a magazine article: the cover photo
-// under a navy gradient, with the category, title, a line of the excerpt and the logo on top.
+// JPEG for Instagram and Facebook of a magazine article: 1080×1350 (4:5) for feed posts, 1080×1920
+// (9:16) for stories. The cover photo under a navy gradient, with the category, title, a line of the
+// excerpt and the logo on top; stories add a "Lien en bio" button and keep clear of the top and
+// bottom bars the apps draw over them.
 // Drawn with satori like scripts/mcp/cover.ts (text as SVG paths, so no system fonts are needed).
 import { readFile } from "node:fs/promises";
 
@@ -8,8 +10,15 @@ import sharp from "sharp";
 
 import { siteUrl } from "../mcp/config.ts";
 
+export type SocialFormat = "post" | "story";
+
 const width = 1080;
-const height = 1350;
+const heights: Record<SocialFormat, number> = { post: 1350, story: 1920 };
+// Stories: profile bar on top, reply box at the bottom.
+const paddings: Record<SocialFormat, string> = {
+  post: "80px 72px",
+  story: "260px 72px 300px",
+};
 
 const navy = "#0f2352";
 const lime = "#c6ed47";
@@ -44,8 +53,8 @@ const img = (
 const dataUri = (mime: string, data: Buffer) =>
   `data:${mime};base64,${data.toString("base64")}`;
 
-/** Cover photo cropped to 4:5 as JPEG (satori doesn't read WebP), or null when it can't be loaded. */
-async function background(imageUrl: string | null | undefined) {
+/** Cover photo cropped to the format as JPEG (satori doesn't read WebP), or null when it can't be loaded. */
+async function background(imageUrl: string | null | undefined, height: number) {
   if (!imageUrl) return null;
   try {
     const res = await fetch(new URL(imageUrl, siteUrl));
@@ -70,76 +79,81 @@ const clip = (text: string, max: number) =>
     : `${text.slice(0, text.lastIndexOf(" ", max - 1)).replace(/[,;:.\s]+$/, "")}…`;
 
 // Court seen from above in thin lines, shown when the article has no photo.
-const courtLines = el(
-  "div",
-  {
-    position: "absolute",
-    top: 90,
-    left: 320,
-    width: 440,
-    height: 560,
-    display: "flex",
-    border: `3px solid ${court}`,
-    borderRadius: 8,
-    opacity: 0.5,
-  },
-  el("div", {
-    position: "absolute",
-    left: 0,
-    top: 277,
-    width: 434,
-    height: 0,
-    borderTop: `3px solid ${court}`,
-  }),
-  el("div", {
-    position: "absolute",
-    left: 0,
-    top: 92,
-    width: 434,
-    height: 0,
-    borderTop: `3px solid ${court}`,
-  }),
-  el("div", {
-    position: "absolute",
-    left: 0,
-    top: 462,
-    width: 434,
-    height: 0,
-    borderTop: `3px solid ${court}`,
-  }),
-  el("div", {
-    position: "absolute",
-    left: 217,
-    top: 92,
-    width: 0,
-    height: 370,
-    borderLeft: `3px solid ${court}`,
-  }),
-  el("div", {
-    position: "absolute",
-    left: 160,
-    top: 230,
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    backgroundColor: lime,
-    opacity: 0.9,
-  }),
-);
+const courtLines = (top: number) =>
+  el(
+    "div",
+    {
+      position: "absolute",
+      top,
+      left: 320,
+      width: 440,
+      height: 560,
+      display: "flex",
+      border: `3px solid ${court}`,
+      borderRadius: 8,
+      opacity: 0.5,
+    },
+    el("div", {
+      position: "absolute",
+      left: 0,
+      top: 277,
+      width: 434,
+      height: 0,
+      borderTop: `3px solid ${court}`,
+    }),
+    el("div", {
+      position: "absolute",
+      left: 0,
+      top: 92,
+      width: 434,
+      height: 0,
+      borderTop: `3px solid ${court}`,
+    }),
+    el("div", {
+      position: "absolute",
+      left: 0,
+      top: 462,
+      width: 434,
+      height: 0,
+      borderTop: `3px solid ${court}`,
+    }),
+    el("div", {
+      position: "absolute",
+      left: 217,
+      top: 92,
+      width: 0,
+      height: 370,
+      borderLeft: `3px solid ${court}`,
+    }),
+    el("div", {
+      position: "absolute",
+      left: 160,
+      top: 230,
+      width: 110,
+      height: 110,
+      borderRadius: 55,
+      backgroundColor: lime,
+      opacity: 0.9,
+    }),
+  );
 
 export async function renderSocialImage({
   title,
   category,
   excerpt,
   imageUrl,
+  format = "post",
 }: {
   title: string;
   category: string;
   excerpt: string;
   imageUrl?: string | null;
+  format?: SocialFormat;
 }) {
+  const height = heights[format];
+  const story = format === "story";
   const [photo, logo, semibold, extrabold] = await Promise.all([
-    background(imageUrl),
+    background(imageUrl, height),
     asset("public/logo.webp").then((data) => sharp(data).png().toBuffer()),
     font(600),
     font(800),
@@ -160,7 +174,7 @@ export async function renderSocialImage({
       },
       photo
         ? img(photo, width, height, { position: "absolute", top: 0, left: 0 })
-        : courtLines,
+        : courtLines(story ? 300 : 90),
       // Darkens the lower half so the text stays readable on any photo.
       el("div", {
         position: "absolute",
@@ -177,7 +191,7 @@ export async function renderSocialImage({
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",
-          padding: "80px 72px",
+          padding: paddings[format],
         },
         el(
           "div",
@@ -218,6 +232,27 @@ export async function renderSocialImage({
           },
           clip(excerpt, 140),
         ),
+        // Stories can't carry a clickable link through the API: point to the profile link instead.
+        ...(story
+          ? [
+              el(
+                "div",
+                { display: "flex", marginTop: 44 },
+                el(
+                  "div",
+                  {
+                    backgroundColor: lime,
+                    color: navy,
+                    fontSize: 40,
+                    fontWeight: 800,
+                    padding: "20px 44px",
+                    borderRadius: 999,
+                  },
+                  "Lire l'article · lien en bio",
+                ),
+              ),
+            ]
+          : []),
         el(
           "div",
           {

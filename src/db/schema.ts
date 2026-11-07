@@ -150,6 +150,9 @@ export const magazine = pgTable(
     /** Meta post ids set by scripts/social/push.ts; null until the article is posted there. */
     facebookPostId: text("facebook_post_id"),
     instagramPostId: text("instagram_post_id"),
+    /** Story ids, same idea; stories are only published on the article's publication day. */
+    facebookStoryId: text("facebook_story_id"),
+    instagramStoryId: text("instagram_story_id"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .notNull()

@@ -71,13 +71,37 @@ export async function postToFacebook(imageUrl: string, caption: string) {
   return res.post_id ?? res.id;
 }
 
-/** Feed post on Instagram: creates the media container, waits until Meta has fetched the image, then publishes it. Returns the media id. */
-export async function postToInstagram(imageUrl: string, caption: string) {
-  const igUser = env("META_IG_USER_ID");
-  const { id: container } = await graph<{ id: string }>(`${igUser}/media`, {
-    image_url: imageUrl,
-    caption,
+/** Page story (24 h): the photo is uploaded unpublished, then shared as a story. Returns the post id. */
+export async function storyToFacebook(imageUrl: string) {
+  const pageId = env("META_PAGE_ID");
+  const access_token = await pageToken(pageId);
+  const photo = await graph<{ id: string }>(`${pageId}/photos`, {
+    url: imageUrl,
+    published: "false",
+    access_token,
   });
+  const res = await graph<{ post_id?: string; success?: boolean }>(
+    `${pageId}/photo_stories`,
+    { photo_id: photo.id, access_token },
+  );
+  return res.post_id ?? photo.id;
+}
+
+/** Feed post on Instagram. Returns the media id. */
+export const postToInstagram = (imageUrl: string, caption: string) =>
+  publishToInstagram({ image_url: imageUrl, caption });
+
+/** Instagram story (24 h); stories take no caption. Returns the media id. */
+export const storyToInstagram = (imageUrl: string) =>
+  publishToInstagram({ image_url: imageUrl, media_type: "STORIES" });
+
+/** Creates the media container, waits until Meta has fetched the image, then publishes it. */
+async function publishToInstagram(params: Record<string, string>) {
+  const igUser = env("META_IG_USER_ID");
+  const { id: container } = await graph<{ id: string }>(
+    `${igUser}/media`,
+    params,
+  );
 
   for (let attempt = 0; ; attempt++) {
     const { status_code } = await graph<{ status_code: string }>(
