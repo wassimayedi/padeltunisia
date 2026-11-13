@@ -15,7 +15,8 @@ export function SmoothScroll() {
       // StrictMode runs effects twice; bail if cleanup already ran during the import.
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
-      const lenis = new Lenis({ lerp: 0.1 });
+      // allowNestedScroll: elements with their own scroll (dialogs, menus) keep it instead of Lenis taking it.
+      const lenis = new Lenis({ lerp: 0.1, allowNestedScroll: true });
       lenis.on("scroll", ScrollTrigger.update);
       const tick = (t: number) => lenis.raf(t * 1000);
       gsap.ticker.add(tick);
