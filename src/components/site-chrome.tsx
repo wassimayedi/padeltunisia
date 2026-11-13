@@ -21,7 +21,7 @@ const nav = [
  */
 export function Logo({ light = false }: { light?: boolean }) {
   return (
-    <Link to="/" className="group relative flex items-center">
+    <Link to="/" className="group relative flex shrink-0 items-center">
       <img src={light ? "/connect-letters-white.webp" : "/connect-letters.webp"} alt="Connect" width={150} height={24} className="logo-letters h-6 w-auto" />
       <img src="/connect-ball.webp" alt="" aria-hidden="true" width={150} height={24} className="logo-ball absolute left-0 h-6 w-auto" />
     </Link>
@@ -47,7 +47,8 @@ export function SiteHeader() {
     <header className={`sticky top-0 z-50 transition-colors duration-300 ${isHome ? "-mb-16" : ""} ${overHero ? "border-b border-transparent bg-transparent" : "border-b bg-background/80 backdrop-blur-lg"}`}>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Logo light={overHero} />
-        <nav className="hidden gap-1 md:flex" aria-label="Navigation principale">
+        {/* xl: the 7 links only fit on one line from about 1150px; below, the menu button. */}
+        <nav className="hidden gap-1 xl:flex" aria-label="Navigation principale">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${overHero ? "text-white/85 hover:text-white" : "text-muted-foreground hover:text-foreground"}`} activeProps={{ className: overHero ? "bg-white/15 text-white" : "bg-secondary text-foreground" }}>
               {n.label}
@@ -56,13 +57,13 @@ export function SiteHeader() {
         </nav>
         <div className="flex items-center gap-2">
           <AccountButton light={overHero} />
-          <button className={`grid h-10 w-10 place-items-center rounded-full md:hidden ${overHero ? "bg-white/15 text-white" : "bg-secondary"}`} onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
+          <button className={`grid h-10 w-10 place-items-center rounded-full xl:hidden ${overHero ? "bg-white/15 text-white" : "bg-secondary"}`} onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
       {open && (
-        <nav className="animate-in slide-in-from-top-2 fade-in border-t px-4 pb-4 md:hidden" aria-label="Navigation mobile">
+        <nav className="animate-in slide-in-from-top-2 fade-in border-t px-4 pb-4 xl:hidden" aria-label="Navigation mobile">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="block border-b py-4 font-display text-2xl font-bold">
               {n.label}
