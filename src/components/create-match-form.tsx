@@ -262,7 +262,7 @@ export function CreateMatchForm({ clubs, viewer, defaults }: { clubs: ClubChoice
   );
 }
 
-function Step({ n, title, hint, children }: { n: number; title: string; hint: string; children: ReactNode }) {
+export function Step({ n, title, hint, children }: { n: number; title: string; hint: string; children: ReactNode }) {
   return (
     <section className="grid gap-5 p-6 sm:p-8">
       <header className="flex items-start gap-4">
@@ -277,7 +277,7 @@ function Step({ n, title, hint, children }: { n: number; title: string; hint: st
   );
 }
 
-function Labelled({ label, children }: { label: string; children: ReactNode }) {
+export function Labelled({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="grid gap-1.5">
       <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{label}</span>
@@ -286,7 +286,7 @@ function Labelled({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-function Segmented<T extends string | number>({ label, options, value, onChange }: { label: string; options: readonly { value: T; label: string }[]; value: T; onChange: (v: T) => void }) {
+export function Segmented<T extends string | number>({ label, options, value, onChange }: { label: string; options: readonly { value: T; label: string }[]; value: T; onChange: (v: T) => void }) {
   return (
     <div role="radiogroup" aria-label={label} className="flex h-12 rounded-xl bg-muted p-1">
       {options.map((o) => (
@@ -298,7 +298,7 @@ function Segmented<T extends string | number>({ label, options, value, onChange 
   );
 }
 
-function Toggle({ checked, onChange, label, hint }: { checked: boolean; onChange: (v: boolean) => void; label: string; hint: string }) {
+export function Toggle({ checked, onChange, label, hint }: { checked: boolean; onChange: (v: boolean) => void; label: string; hint: string }) {
   return (
     <button type="button" role="switch" aria-checked={checked} onClick={() => onChange(!checked)} className={`flex items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-left transition-colors ${checked ? "border-court bg-court/5" : "hover:bg-muted"}`}>
       <span>

@@ -9,6 +9,7 @@ const nav = [
   { to: "/clubs", label: "Clubs" },
   { to: "/terrains", label: "Terrains libres" },
   { to: "/matchs", label: "Trouver un match" },
+  { to: "/joueurs", label: "Joueurs dispo" },
   { to: "/articles", label: "Actualités" },
   { to: "/evenements", label: "Événements" },
   { to: "/guide", label: "Guide du padel" },

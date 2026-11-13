@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { boolean, check, date, doublePrecision, index, integer, jsonb, pgEnum, pgTable, serial, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { boolean, check, date, doublePrecision, index, integer, jsonb, pgEnum, pgTable, primaryKey, serial, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 
 export const courtType = pgEnum("court_type", ["indoor", "outdoor", "covered"]);
 
@@ -239,17 +239,37 @@ export const players = pgTable(
     city: text("city"),
     /** Null until onboarding (phone, gender, level) is done; required to create or join a match. */
     profileCompletedAt: timestamp("profile_completed_at", { withTimezone: true }),
+    /** Listed on /joueurs ("disponible pour jouer") until this time; null when not available. */
+    availableUntil: timestamp("available_until", { withTimezone: true }),
+    /** Listed without name or photo; the player can still be contacted on WhatsApp by members. */
+    availableAnonymous: boolean("available_anonymous").notNull().default(false),
+    /** When they can play, in their words ("Que les week-ends"), shown on their card; at most MAX_NOTE_LENGTH. */
+    availableNote: text("available_note"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .notNull()
       .defaultNow()
       .$onUpdate(() => new Date()),
   },
-  (t) => [check("players_level_check", sql`${t.level} between 1 and 8`)],
+  (t) => [check("players_level_check", sql`${t.level} between 1 and 8`), index("players_available_until_idx").on(t.availableUntil)],
 );
 
 export type Player = typeof players.$inferSelect;
 export type PlayerGender = (typeof playerGender.enumValues)[number];
+
+/** Clubs where an available player would like to play (/joueurs), at most MAX_AVAILABLE_CLUBS. */
+export const playerAvailableClubs = pgTable(
+  "player_available_clubs",
+  {
+    playerId: uuid("player_id")
+      .notNull()
+      .references(() => players.id, { onDelete: "cascade" }),
+    clubId: integer("club_id")
+      .notNull()
+      .references(() => clubs.id, { onDelete: "cascade" }),
+  },
+  (t) => [primaryKey({ columns: [t.playerId, t.clubId] }), index("player_available_clubs_club_idx").on(t.clubId)],
+);
 
 /** A match looking for players in a level range. The creator is not a row of match_players. */
 export const matches = pgTable(

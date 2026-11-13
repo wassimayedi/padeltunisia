@@ -50,7 +50,7 @@ const PAGE_CACHE_CONTROL = "public, max-age=0, s-maxage=300, stale-while-revalid
 
 // Pages that depend on who is viewing (player names and contacts are for members only), and any
 // page requested with a Supabase session cookie, must never be stored by the CDN.
-const PERSONAL_PATHS = /^\/(matchs|mes-matchs|profil|connexion)(\/|$)/;
+const PERSONAL_PATHS = /^\/(matchs|mes-matchs|joueurs|profil|connexion)(\/|$)/;
 const SESSION_COOKIE = /(^|;\s*)sb-[^=]*-auth-token/;
 
 function withCacheHeaders(request: Request, response: Response): Response {

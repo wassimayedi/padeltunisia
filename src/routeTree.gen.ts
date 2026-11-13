@@ -27,6 +27,8 @@ import { Route as ClubsIndexRouteImport } from './routes/clubs.index'
 import { Route as ClubsSlugRouteImport } from './routes/clubs.$slug'
 import { Route as EvenementsIndexRouteImport } from './routes/evenements.index'
 import { Route as EvenementsSlugRouteImport } from './routes/evenements.$slug'
+import { Route as JoueursIndexRouteImport } from './routes/joueurs.index'
+import { Route as JoueursDisponibleRouteImport } from './routes/joueurs.disponible'
 import { Route as MatchsIndexRouteImport } from './routes/matchs.index'
 import { Route as MatchsIdRouteImport } from './routes/matchs.$id'
 import { Route as MatchsCreerRouteImport } from './routes/matchs.creer'
@@ -123,6 +125,16 @@ const EvenementsSlugRoute = EvenementsSlugRouteImport.update({
   path: '/evenements/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JoueursIndexRoute = JoueursIndexRouteImport.update({
+  id: '/joueurs/',
+  path: '/joueurs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoueursDisponibleRoute = JoueursDisponibleRouteImport.update({
+  id: '/joueurs/disponible',
+  path: '/joueurs/disponible',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MatchsIndexRoute = MatchsIndexRouteImport.update({
   id: '/matchs/',
   path: '/matchs/',
@@ -165,12 +177,14 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
+  '/joueurs/disponible': typeof JoueursDisponibleRoute
   '/matchs/$id': typeof MatchsIdRoute
   '/matchs/creer': typeof MatchsCreerRoute
   '/uploads/$': typeof UploadsSplatRoute
   '/articles/': typeof ArticlesIndexRoute
   '/clubs/': typeof ClubsIndexRoute
   '/evenements/': typeof EvenementsIndexRoute
+  '/joueurs/': typeof JoueursIndexRoute
   '/matchs/': typeof MatchsIndexRoute
   '/clubs/ville/$city': typeof ClubsVilleCityRoute
 }
@@ -190,12 +204,14 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof AuthCallbackRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
+  '/joueurs/disponible': typeof JoueursDisponibleRoute
   '/matchs/$id': typeof MatchsIdRoute
   '/matchs/creer': typeof MatchsCreerRoute
   '/uploads/$': typeof UploadsSplatRoute
   '/articles': typeof ArticlesIndexRoute
   '/clubs': typeof ClubsIndexRoute
   '/evenements': typeof EvenementsIndexRoute
+  '/joueurs': typeof JoueursIndexRoute
   '/matchs': typeof MatchsIndexRoute
   '/clubs/ville/$city': typeof ClubsVilleCityRoute
 }
@@ -216,12 +232,14 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/clubs/$slug': typeof ClubsSlugRoute
   '/evenements/$slug': typeof EvenementsSlugRoute
+  '/joueurs/disponible': typeof JoueursDisponibleRoute
   '/matchs/$id': typeof MatchsIdRoute
   '/matchs/creer': typeof MatchsCreerRoute
   '/uploads/$': typeof UploadsSplatRoute
   '/articles/': typeof ArticlesIndexRoute
   '/clubs/': typeof ClubsIndexRoute
   '/evenements/': typeof EvenementsIndexRoute
+  '/joueurs/': typeof JoueursIndexRoute
   '/matchs/': typeof MatchsIndexRoute
   '/clubs/ville/$city': typeof ClubsVilleCityRoute
 }
@@ -243,12 +261,14 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/clubs/$slug'
     | '/evenements/$slug'
+    | '/joueurs/disponible'
     | '/matchs/$id'
     | '/matchs/creer'
     | '/uploads/$'
     | '/articles/'
     | '/clubs/'
     | '/evenements/'
+    | '/joueurs/'
     | '/matchs/'
     | '/clubs/ville/$city'
   fileRoutesByTo: FileRoutesByTo
@@ -268,12 +288,14 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/clubs/$slug'
     | '/evenements/$slug'
+    | '/joueurs/disponible'
     | '/matchs/$id'
     | '/matchs/creer'
     | '/uploads/$'
     | '/articles'
     | '/clubs'
     | '/evenements'
+    | '/joueurs'
     | '/matchs'
     | '/clubs/ville/$city'
   id:
@@ -293,12 +315,14 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/clubs/$slug'
     | '/evenements/$slug'
+    | '/joueurs/disponible'
     | '/matchs/$id'
     | '/matchs/creer'
     | '/uploads/$'
     | '/articles/'
     | '/clubs/'
     | '/evenements/'
+    | '/joueurs/'
     | '/matchs/'
     | '/clubs/ville/$city'
   fileRoutesById: FileRoutesById
@@ -319,12 +343,14 @@ export interface RootRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
   ClubsSlugRoute: typeof ClubsSlugRoute
   EvenementsSlugRoute: typeof EvenementsSlugRoute
+  JoueursDisponibleRoute: typeof JoueursDisponibleRoute
   MatchsIdRoute: typeof MatchsIdRoute
   MatchsCreerRoute: typeof MatchsCreerRoute
   UploadsSplatRoute: typeof UploadsSplatRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
   ClubsIndexRoute: typeof ClubsIndexRoute
   EvenementsIndexRoute: typeof EvenementsIndexRoute
+  JoueursIndexRoute: typeof JoueursIndexRoute
   MatchsIndexRoute: typeof MatchsIndexRoute
   ClubsVilleCityRoute: typeof ClubsVilleCityRoute
 }
@@ -457,6 +483,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EvenementsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/joueurs/': {
+      id: '/joueurs/'
+      path: '/joueurs'
+      fullPath: '/joueurs/'
+      preLoaderRoute: typeof JoueursIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/joueurs/disponible': {
+      id: '/joueurs/disponible'
+      path: '/joueurs/disponible'
+      fullPath: '/joueurs/disponible'
+      preLoaderRoute: typeof JoueursDisponibleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/matchs/': {
       id: '/matchs/'
       path: '/matchs'
@@ -511,12 +551,14 @@ const rootRouteChildren: RootRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
   ClubsSlugRoute: ClubsSlugRoute,
   EvenementsSlugRoute: EvenementsSlugRoute,
+  JoueursDisponibleRoute: JoueursDisponibleRoute,
   MatchsIdRoute: MatchsIdRoute,
   MatchsCreerRoute: MatchsCreerRoute,
   UploadsSplatRoute: UploadsSplatRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
   ClubsIndexRoute: ClubsIndexRoute,
   EvenementsIndexRoute: EvenementsIndexRoute,
+  JoueursIndexRoute: JoueursIndexRoute,
   MatchsIndexRoute: MatchsIndexRoute,
   ClubsVilleCityRoute: ClubsVilleCityRoute,
 }

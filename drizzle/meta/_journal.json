@@ -113,6 +113,27 @@
       "when": 1794040584515,
       "tag": "0015_sparkling_forge",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1794603151210,
+      "tag": "0016_futuristic_fabian_cortez",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1794603943442,
+      "tag": "0017_slimy_charles_xavier",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1794604433770,
+      "tag": "0018_round_krista_starr",
+      "breakpoints": true
     }
   ]
 }
