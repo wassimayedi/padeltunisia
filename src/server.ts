@@ -64,6 +64,14 @@ function withCacheHeaders(request: Request, response: Response): Response {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    // The router drops trailing slashes with a temporary 307; answer with a permanent 301 instead
+    // so search engines consolidate on the canonical URL. Relative Location keeps the visitor's scheme and
+    // host; leading slashes are collapsed so "//x.com/" cannot become a redirect to another site.
+    const url = new URL(request.url);
+    if ((request.method === "GET" || request.method === "HEAD") && url.pathname.length > 1 && url.pathname.endsWith("/")) {
+      const path = url.pathname.replace(/\/+$/, "").replace(/^\/+/, "/") || "/";
+      return new Response(null, { status: 301, headers: { location: `${path}${url.search}`, "cache-control": "public, max-age=86400" } });
+    }
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
