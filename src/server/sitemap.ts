@@ -1,9 +1,8 @@
 // Builds /sitemap.xml from the database. Server-only.
-import { count, eq, gte, lte, max, or, sql } from "drizzle-orm";
+import { count, eq, lte, max, sql } from "drizzle-orm";
 
 import { clubs, events, magazine, news } from "@/db/schema";
 import { citySlug, MIN_CLUBS_FOR_CITY_PAGE } from "@/lib/clubs";
-import { INTL_EVENT_INDEX_DAYS } from "@/lib/events";
 import { absoluteUrl } from "@/lib/site";
 import { db } from "@/server/db";
 
@@ -17,7 +16,7 @@ export async function sitemapXml() {
     db().select({ slug: clubs.slug, updatedAt: clubs.updatedAt }).from(clubs),
     db().select({ city: clubs.city, clubs: count(), updatedAt: max(clubs.updatedAt) }).from(clubs).groupBy(clubs.city),
     // Same rule as isEventIndexable (event pages get noindex otherwise).
-    db().select({ slug: events.slug, updatedAt: events.updatedAt }).from(events).where(or(eq(events.scope, "tn"), gte(events.endDate, sql`current_date - ${INTL_EVENT_INDEX_DAYS}::int`))),
+    db().select({ slug: events.slug, updatedAt: events.updatedAt }).from(events).where(eq(events.scope, "tn")),
     db().select({ slug: magazine.slug, updatedAt: magazine.updatedAt, publishedOn: magazine.publishedOn }).from(magazine).where(lte(magazine.publishedOn, sql`current_date`)),
     db().select({ updatedAt: max(news.updatedAt) }).from(news),
   ]);

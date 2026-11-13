@@ -44,15 +44,8 @@ export function dateRangeLong(start: string, end: string) {
 /** Number of days, both ends included. */
 export const durationDays = (start: string, end: string) => Math.round((day(end).getTime() - day(start).getTime()) / 86_400_000) + 1;
 
-/** International events stay indexable (sitemap, no noindex) until this many days after they end. */
-export const INTL_EVENT_INDEX_DAYS = 30;
-
-/** Tunisian events are always indexed; international ones only around their dates. */
-export function isEventIndexable(scope: EventSummary["scope"], endDate: string, today = new Date().toISOString().slice(0, 10)) {
-  if (scope === "tn") return true;
-  const cutoff = new Date(day(today).getTime() - INTL_EVENT_INDEX_DAYS * 86_400_000).toISOString().slice(0, 10);
-  return endDate >= cutoff;
-}
+/** Only Tunisian events are indexed (and listed in the sitemap); international ones get noindex, follow. */
+export const isEventIndexable = (scope: EventSummary["scope"]) => scope === "tn";
 
 /** The circuit an event belongs to, from its level label. */
 export function circuitName(level: string) {

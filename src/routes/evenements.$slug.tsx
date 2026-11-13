@@ -46,7 +46,7 @@ export const Route = createFileRoute("/evenements/$slug")({
         { property: "og:url", content: url },
         ...(image ? [{ property: "og:image", content: image }] : []),
         { name: "twitter:card", content: e.posterUrl ? "summary_large_image" : "summary" },
-        ...(isEventIndexable(e.scope, e.endDate) ? [] : [{ name: "robots", content: "noindex, follow" }]),
+        ...(isEventIndexable(e.scope) ? [] : [{ name: "robots", content: "noindex, follow" }]),
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
