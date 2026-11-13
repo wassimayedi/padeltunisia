@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowUpRight, CalendarCheck, CalendarDays, ChevronRight, Clock, ExternalLink, Flag, MapPin, Trophy } from "lucide-react";
 import { ClubLogo, EventCard, NewsCard } from "@/components/cards";
 import { getEvent } from "@/functions/events";
-import { circuitName, dateRange, dateRangeLong, durationDays, eventPlace } from "@/lib/events";
+import { circuitName, dateRange, dateRangeLong, durationDays, eventPlace, isEventIndexable } from "@/lib/events";
 import { absoluteUrl, pageTitle } from "@/lib/site";
 
 type EventData = NonNullable<Awaited<ReturnType<typeof getEvent>>>["event"];
@@ -46,6 +46,7 @@ export const Route = createFileRoute("/evenements/$slug")({
         { property: "og:url", content: url },
         ...(image ? [{ property: "og:image", content: image }] : []),
         { name: "twitter:card", content: e.posterUrl ? "summary_large_image" : "summary" },
+        ...(isEventIndexable(e.scope, e.endDate) ? [] : [{ name: "robots", content: "noindex, follow" }]),
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
