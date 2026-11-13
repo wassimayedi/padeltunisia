@@ -1,27 +1,17 @@
-// Daily promotional post and story about a site feature, on the Facebook Page and Instagram.
-// Picks the message from promos.ts that was posted longest ago (or never), renders the post and
-// story images, publishes them and records the ids in social_promos: one promo per Tunis day,
+// Daily promotional story about a site feature, on the Facebook Page and Instagram (stories only,
+// no feed post). Picks the message from promos.ts that was posted longest ago (or never), renders
+// the story image, publishes it and records the ids in social_promos: one promo per Tunis day,
 // nothing published twice, and a failed target is retried by a later run the same day.
-// Usage: npm run social:promo [-- --dry-run]   (dry run writes images and captions to logs/social/)
+// Usage: npm run social:promo [-- --dry-run]   (dry run writes the story image to logs/social/)
 import { mkdir, writeFile } from "node:fs/promises";
 
 import { eq, max } from "drizzle-orm";
 
 import { socialPromos, type SocialPromo } from "../../src/db/schema.ts";
 import { db } from "../mcp/config.ts";
-import { brandHost, renderSocialImage, type SocialFormat } from "./image.ts";
-import {
-  postToFacebook,
-  postToInstagram,
-  storyToFacebook,
-  storyToInstagram,
-} from "./meta.ts";
-import {
-  loadPromoStats,
-  promos,
-  type Promo,
-  type PromoContent,
-} from "./promos.ts";
+import { renderSocialImage, type SocialFormat } from "./image.ts";
+import { storyToFacebook, storyToInstagram } from "./meta.ts";
+import { loadPromoStats, promos } from "./promos.ts";
 import { stockPhoto } from "../mcp/stock.ts";
 import { saveSocialImage } from "./upload.ts";
 
@@ -29,34 +19,6 @@ const dryRun = process.argv.includes("--dry-run");
 const today = new Date().toLocaleDateString("en-CA", {
   timeZone: "Africa/Tunis",
 });
-
-const hashtags = (promo: Promo) =>
-  [
-    "#padel",
-    "#padeltunisie",
-    "#tunisie",
-    "#connect",
-    `#${promo.category
-      .normalize("NFD")
-      .replace(/\p{M}/gu, "")
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, "")}`,
-  ].join(" ");
-
-function captions(
-  promo: Promo,
-  content: PromoContent,
-  credit: { name: string } | undefined,
-) {
-  const intro = `${content.title}\n\n${content.text}`;
-  // Pixabay asks to say where its photos come from.
-  const photo = credit ? `\n\n📷 ${credit.name} / Pixabay` : "";
-  return {
-    facebook: `${intro}\n\n👉 https://${brandHost}${content.path}\n\n${hashtags(promo)}${photo}`,
-    // Links in Instagram captions aren't clickable.
-    instagram: `${intro}\n\n🔗 ${brandHost}${content.path} (lien en bio)\n\n${hashtags(promo)}${photo}`,
-  };
-}
 
 /** Background photo for the promo, or undefined (plain court background) when none can be had. */
 async function promoPhoto(query: string) {
@@ -98,9 +60,8 @@ const [existing] = await db
   .select()
   .from(socialPromos)
   .where(eq(socialPromos.day, today));
+// Stories only: the post id columns stay in social_promos but are no longer filled.
 const targets = [
-  "facebookPostId",
-  "instagramPostId",
   "facebookStoryId",
   "instagramStoryId",
 ] as const satisfies readonly (keyof SocialPromo)[];
@@ -131,10 +92,8 @@ if (!chosen?.content) {
 
 const { promo, content } = chosen;
 console.log(`promo ${today}: ${promo.key}${dryRun ? " (dry run)" : ""}`);
-// One photo for the post and the story, so they look alike.
 const photo = await promoPhoto(promo.photoQuery);
 if (photo) console.log(`photo: ${photo.credit.url}`);
-const text = captions(promo, content, photo?.credit);
 const render = (format: SocialFormat) =>
   renderSocialImage({
     title: content.title,
@@ -146,15 +105,10 @@ const render = (format: SocialFormat) =>
   });
 
 if (dryRun) {
-  const base = `logs/social/promo-${today}-${promo.key}`;
+  const file = `logs/social/promo-${today}-${promo.key}-story.jpg`;
   await mkdir("logs/social", { recursive: true });
-  await writeFile(`${base}.jpg`, await render("post"));
-  await writeFile(`${base}-story.jpg`, await render("story"));
-  await writeFile(
-    `${base}.txt`,
-    `FACEBOOK\n${text.facebook}\n\nINSTAGRAM\n${text.instagram}\n`,
-  );
-  console.log(`written to ${base}.jpg, -story.jpg and .txt`);
+  await writeFile(file, await render("story"));
+  console.log(`written to ${file}`);
   await db.$client.end();
   process.exit(0);
 }
@@ -179,10 +133,6 @@ const imageUrl = (format: SocialFormat) => {
 };
 
 const publishers: Record<(typeof targets)[number], () => Promise<string>> = {
-  facebookPostId: async () =>
-    postToFacebook(await imageUrl("post"), text.facebook),
-  instagramPostId: async () =>
-    postToInstagram(await imageUrl("post"), text.instagram),
   facebookStoryId: async () => storyToFacebook(await imageUrl("story")),
   instagramStoryId: async () => storyToInstagram(await imageUrl("story")),
 };
