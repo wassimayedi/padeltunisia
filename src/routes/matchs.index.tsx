@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, stripSearchParams, useNavigate } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
-import { ChevronDown, Plus, RotateCcw, SearchX, UserRound } from "lucide-react";
-import { useRef, type ReactNode } from "react";
+import { ChevronDown, Plus, RotateCcw, SearchX, SlidersHorizontal, UserRound } from "lucide-react";
+import { useRef, useState, type ReactNode } from "react";
 import { z } from "zod";
 
 import { viewerQuery } from "@/components/login-button";
@@ -80,11 +80,22 @@ function MatchesPage() {
   const { data: viewer } = useQuery(viewerQuery);
   const filter = (patch: Partial<typeof search>) => navigate({ search: (s) => ({ ...s, ...patch, page: 1 }), replace: true, resetScroll: false });
   const select = "h-12 w-full cursor-pointer appearance-none rounded-2xl bg-muted pl-4 pr-10 font-semibold text-foreground outline-none";
+  // Phones and tablets: "Créer un match" on its own row, then the four selects folded behind a
+  // "Filtres" button so the matches stay on screen (same as /joueurs).
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const active = [filters.city, search.date, filters.level, filters.gender].filter(Boolean).length;
   return (
     <>
       <PageHero eyebrow="Trouver un match" title="Trouvez des partenaires de padel" intro="Rejoignez un match qui cherche des joueurs dans votre fourchette de niveau, ou créez le vôtre et laissez les joueurs venir à vous." />
       <div className="relative z-10 mx-auto -mt-8 max-w-6xl px-4 pb-16">
-        <form role="search" onSubmit={(e) => e.preventDefault()} className="grid gap-2 rounded-3xl bg-card p-2 shadow-lift sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto]">
+        <form role="search" onSubmit={(e) => e.preventDefault()} className="grid gap-2 rounded-3xl bg-card p-2 shadow-lift lg:grid-cols-[1fr_1fr_1fr_1fr_auto]">
+          <button type="button" onClick={() => setFiltersOpen((o) => !o)} aria-expanded={filtersOpen} aria-controls="match-filters" className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-muted px-4 font-semibold lg:hidden">
+            <SlidersHorizontal className="h-5 w-5" />Filtres
+            {active > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-court px-1.5 text-xs font-bold text-court-foreground">{active}</span>}
+            <ChevronDown className={`h-4 w-4 transition-transform ${filtersOpen ? "rotate-180" : ""}`} />
+          </button>
+          {/* lg:contents: on large screens the selects sit directly in the 5-column grid. */}
+          <div id="match-filters" className={`${filtersOpen ? "grid" : "hidden"} gap-2 sm:grid-cols-2 lg:contents`}>
           <Field label="Ville">
             <select value={filters.city} onChange={(e) => filter({ city: e.target.value })} className={select}>
               <CityOptions groups={cityGroups(clubs)} />
@@ -103,7 +114,8 @@ function MatchesPage() {
               {GENDERS.map((g) => <option key={g.value} value={g.value}>{g.label}</option>)}
             </select>
           </Field>
-          <Link to="/matchs/creer" search={{ city: filters.city }} className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-court px-5 font-bold text-court-foreground sm:col-span-2 lg:col-span-1">
+          </div>
+          <Link to="/matchs/creer" search={{ city: filters.city }} className="order-first flex h-12 items-center justify-center gap-2 rounded-2xl bg-court px-5 font-bold text-court-foreground lg:order-last">
             <Plus className="h-5 w-5" />Créer un match
           </Link>
         </form>
