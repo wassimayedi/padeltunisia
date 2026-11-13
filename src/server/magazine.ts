@@ -38,6 +38,20 @@ export async function publishedArticles({ limit, excludeSlug }: { limit?: number
   return (await (limit ? query.limit(limit) : query)).map(toSummary);
 }
 
+/**
+ * "À lire aussi" for one article: same category first, then the closest publication dates.
+ * Unlike "latest 3", this spreads internal links over every article instead of the newest ones.
+ */
+export async function relatedArticles({ slug, category, publishedOn, limit = 3 }: { slug: string; category: string; publishedOn: string; limit?: number }) {
+  const day = (iso: string) => new Date(`${iso}T00:00:00Z`).getTime();
+  const others = await publishedArticles({ excludeSlug: slug });
+  return others
+    .map((a) => ({ a, sameCategory: a.category === category, distance: Math.abs(day(a.publishedOn) - day(publishedOn)) }))
+    .sort((x, y) => Number(y.sameCategory) - Number(x.sameCategory) || x.distance - y.distance)
+    .slice(0, limit)
+    .map(({ a }) => a);
+}
+
 /** Markdown → HTML. Content is written by the site's editors, so it is trusted. */
 function render(markdown: string) {
   return (marked.parse(markdown, { async: false, gfm: true }) as string)

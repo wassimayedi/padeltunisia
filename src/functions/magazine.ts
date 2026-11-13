@@ -2,7 +2,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { publishedArticle, publishedArticles } from "@/server/magazine";
+import { publishedArticle, publishedArticles, relatedArticles } from "@/server/magazine";
 
 export const getArticles = createServerFn()
   .validator(z.object({ limit: z.number().int().positive().optional() }).optional())
@@ -13,5 +13,5 @@ export const getArticle = createServerFn()
   .handler(async ({ data }) => {
     const article = await publishedArticle(data.slug);
     if (!article) return null;
-    return { article, more: await publishedArticles({ limit: 3, excludeSlug: data.slug }) };
+    return { article, more: await relatedArticles({ slug: article.slug, category: article.category, publishedOn: article.publishedOn }) };
   });
